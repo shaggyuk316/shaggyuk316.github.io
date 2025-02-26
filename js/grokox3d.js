@@ -1,4 +1,4 @@
-// Simplified Three.js OrbitControls (minimal version for this project)
+// Simplified OrbitControls (embedded)
 const OrbitControls = (function() {
     function OrbitControls(object, domElement) {
         this.object = object;
@@ -97,13 +97,13 @@ const OrbitControls = (function() {
         function onMouseDown(event) {
             if (!scope.enabled) return;
             event.preventDefault();
-            if (event.button === 0) { // Left-click rotate
+            if (event.button === 0) {
                 state = 0;
                 rotateStart.set(event.clientX, event.clientY);
-            } else if (event.button === 1) { // Middle-click dolly
+            } else if (event.button === 1) {
                 state = 1;
                 dollyStart.set(event.clientX, event.clientY);
-            } else if (event.button === 2) { // Right-click pan
+            } else if (event.button === 2) {
                 state = 2;
                 panStart.set(event.clientX, event.clientY);
             }
@@ -116,20 +116,20 @@ const OrbitControls = (function() {
         function onMouseMove(event) {
             if (!scope.enabled) return;
             event.preventDefault();
-            if (state === 0) { // Rotate
+            if (state === 0) {
                 rotateEnd.set(event.clientX, event.clientY);
                 rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
                 const element = scope.domElement;
                 rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
                 rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
                 rotateStart.copy(rotateEnd);
-            } else if (state === 1) { // Dolly
+            } else if (state === 1) {
                 dollyEnd.set(event.clientX, event.clientY);
                 dollyDelta.subVectors(dollyEnd, dollyStart);
                 if (dollyDelta.y > 0) dollyOut(getZoomScale());
                 else if (dollyDelta.y < 0) dollyIn(getZoomScale());
                 dollyStart.copy(dollyEnd);
-            } else if (state === 2) { // Pan
+            } else if (state === 2) {
                 panEnd.set(event.clientX, event.clientY);
                 panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
                 pan(panDelta.x, panDelta.y);
@@ -176,13 +176,14 @@ function initScene(canvasId, sceneColor) {
     return { scene, camera, renderer, controls };
 }
 
-// Binary: Lattice to Flare
+// Binary Phase
 const binaryScene = initScene('binaryCanvas', 0x000033);
 let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
     const size = parseInt(document.getElementById('binarySize').value) || 5;
     const color = document.getElementById('binaryColor').value || '#0000FF';
+    const soundAmplitude = parseFloat(document.getElementById('binarySound').value) || 0.5;
     binaryScene.scene.clear();
     binaryLattice = [];
     const geometry = new THREE.SphereGeometry(0.1, 16, 16);
@@ -192,22 +193,24 @@ function updateBinary() {
             for (let z = -size / 2; z <= size / 2; z += 0.5) {
                 const sphere = new THREE.Mesh(geometry, material.clone());
                 sphere.position.set(x, y, z);
+                sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z)); // Sound influence
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
         }
     }
+    binaryLattice.soundAmplitude = soundAmplitude;
 }
 if (binaryScene) {
     updateBinary();
     let flipTime = 0;
     function animateBinary() {
         requestAnimationFrame(animateBinary);
-        flipTime += 0.05;
+        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude); // Sound adjusts energy/speed
         if (flipTime > 5) {
             binaryLattice.forEach(sphere => {
                 sphere.material.color.set(0xffff00);
-                sphere.scale.set(2, 2, 2);
+                sphere.scale.set(2 + sphere.soundOffset * binaryLattice.soundAmplitude, 2, 2); // Sound forms lattice
             });
         }
         binaryScene.controls.update();
@@ -216,7 +219,7 @@ if (binaryScene) {
     animateBinary();
 }
 
-// QuantSpark: Chaotic Flares
+// QuantSpark Phase
 const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
@@ -224,6 +227,8 @@ function updateQuantspark() {
     const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
     const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
     const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
+    const magneticStrength = parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1;
+    const soundAmplitude = parseFloat(document.getElementById('quantsparkSound').value) || 0.5;
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const geometry = new THREE.SphereGeometry(0.2, 16, 16);
@@ -234,15 +239,29 @@ function updateQuantspark() {
         const gas = new THREE.Mesh(geometry, gasMaterial);
         solid.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
         gas.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+        solid.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
+        gas.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
         quantsparkFlares.push({ solid, gas });
         quantsparkScene.scene.add(solid, gas);
     }
+    quantsparkFlares.magneticStrength = magneticStrength;
+    quantsparkFlares.soundAmplitude = soundAmplitude;
 }
 if (quantsparkScene) {
     updateQuantspark();
     function animateQuantspark() {
         requestAnimationFrame(animateQuantspark);
+        const magneticField = new THREE.Vector3(0, 0, quantsparkFlares.magneticStrength);
         quantsparkFlares.forEach(flare => {
+            const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001); // Sound adjusts energy
+            const solidForce = flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
+            const gasForce = flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
+            flare.solid.velocity.add(solidForce);
+            flare.gas.velocity.add(gasForce);
+            flare.solid.position.add(flare.solid.velocity);
+            flare.gas.position.add(flare.gas.velocity);
+            flare.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
+            flare.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
             flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005), 1 + Math.sin(Date.now() * 0.005), 1);
             flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007), 1 + Math.sin(Date.now() * 0.007), 1);
         });
@@ -252,7 +271,7 @@ if (quantsparkScene) {
     animateQuantspark();
 }
 
-// ChaosBloom: Fractal Web
+// ChaosBloom Phase
 const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
@@ -260,10 +279,13 @@ function updateChaosbloom() {
     const points = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
     const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
     const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
+    const gravityStrength = parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01;
+    const soundAmplitude = parseFloat(document.getElementById('chaosbloomSound').value) || 0.5;
     chaosbloomScene.scene.clear();
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
     const colors = [];
+    const positions = [];
     for (let i = 0; i < points; i++) {
         const x = (Math.random() - 0.5) * 10;
         const y = (Math.random() - 0.5) * 10;
@@ -271,11 +293,15 @@ function updateChaosbloom() {
         vertices.push(x, y, z);
         const color = Math.random() < 0.5 ? new THREE.Color(color1) : new THREE.Color(color2);
         colors.push(color.r, color.g, color.b);
+        positions.push(new THREE.Vector3(x, y, z));
     }
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     const material = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
     chaosbloomWeb = new THREE.Points(geometry, material);
+    chaosbloomWeb.positions = positions;
+    chaosbloomWeb.gravityStrength = gravityStrength;
+    chaosbloomWeb.soundAmplitude = soundAmplitude;
     chaosbloomScene.scene.add(chaosbloomWeb);
 }
 if (chaosbloomScene) {
@@ -283,6 +309,28 @@ if (chaosbloomScene) {
     function animateChaosbloom() {
         requestAnimationFrame(animateChaosbloom);
         if (chaosbloomWeb) {
+            const positions = chaosbloomWeb.positions;
+            const posArray = chaosbloomWeb.geometry.attributes.position.array;
+            const soundEnergy = chaosbloomWeb.soundAmplitude * Math.sin(Date.now() * 0.001); // Sound adjusts energy
+            for (let i = 0; i < positions.length; i++) {
+                const p1 = positions[i];
+                let force = new THREE.Vector3();
+                for (let j = 0; j < positions.length; j++) {
+                    if (i === j) continue;
+                    const p2 = positions[j];
+                    const distance = p1.distanceTo(p2);
+                    if (distance < 0.1) continue;
+                    const direction = p2.clone().sub(p1).normalize();
+                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) + soundEnergy * 0.01;
+                    force.add(direction.multiplyScalar(gravity));
+                }
+                p1.add(force.multiplyScalar(0.01));
+                p1.clamp(new THREE.Vector3(-10, -10, -10), new THREE.Vector3(10, 10, 10));
+                posArray[i * 3] = p1.x;
+                posArray[i * 3 + 1] = p1.y;
+                posArray[i * 3 + 2] = p1.z;
+            }
+            chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
             chaosbloomWeb.rotation.x += 0.01;
             chaosbloomWeb.rotation.y += 0.01;
         }
