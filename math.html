@@ -12,15 +12,15 @@
     <main>
         <section>
             <h2>Binary</h2>
-            <p>\( S(t, \mathbf{r}, f) = H(t - t_0) \cdot R(t, \mathbf{r}) + \sum_f P(f, t, \sqrt{|\mathbf{r}|}) \cdot \pi \)</p>
+            <p>\( S(t, \mathbf{r}, f) = H(t - t_0) \cdot R_0 e^{i \mathbf{k_s} \cdot \mathbf{r}} + \sum_f \left[ \left( \frac{1}{2} \rho v^2 A_s^2 \right) \sin(2\pi f_s t) \cdot \sqrt{|\mathbf{r}|} \right] \cdot \pi \)</p>
         </section>
         <section>
             <h2>QuantSpark</h2>
-            <p>\( Q_n(t, \mathbf{r}, f) = n \cdot \sqrt{10^{-93} \cdot R_n(t, \mathbf{r})} \cdot S(f) \cdot \pi \cdot e^{-(\sqrt{|\mathbf{r}|})^2/\sigma^2} \)</p>
+            <p>\( Q_n(t, \mathbf{r}, f) = n \cdot \sqrt{10^{-93} \cdot R_n(t, \mathbf{r})} \cdot (h f_e + \frac{1}{2} \rho v^2 A_s^2) \cdot \pi \cdot e^{-(\sqrt{|\mathbf{r}|})^2/\sigma^2} + (\mathbf{v} + \nabla [A_s \sin(2\pi f_s t)]) \times \mathbf{B} \)</p>
         </section>
         <section>
             <h2>ChaosBloom</h2>
-            <p>\( N(t, \mathbf{r}, f) = N_s + N_g \), with 3D \( \sqrt{} \) and \( \pi \)</p>
+            <p>\( N(t, \mathbf{r}, f) = N_s + N_g + \sum_{f_c} \left( \frac{c}{f_c} \cdot (|\psi_c(t, f_c)|^2 + \frac{1}{2} \rho v^2 A_s^2) \right) + \left( G \frac{m_1 m_2}{|\mathbf{r}|^2} + A_s \sin(2\pi f_s t) \right) \)</p>
         </section>
         <a href="index.html">Back to Home</a>
     </main>
