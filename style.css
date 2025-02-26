@@ -1,46 +1,28 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f0f0;
-}
-header {
     text-align: center;
-    color: #333;
+    padding: 20px;
 }
-main {
-    max-width: 800px;
-    margin: 0 auto;
+
+.animation-container {
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
 }
-section {
-    margin: 20px 0;
-    padding: 10px;
-    background: #fff;
-    border-radius: 5px;
-}
-img, canvas {
-    display: block;
-    margin: 10px auto;
-}
-nav {
-    text-align: center;
-}
-a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #007bff;
-}
-a:hover {
-    text-decoration: underline;
-}
-table {
+
+.animated-box {
     width: 100%;
-    border-collapse: collapse;
+    height: 100%;
+    background-color: #3498db;
+    animation: spin 2s infinite linear; /* Default speed: 2 seconds */
 }
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
-th {
-    background-color: #f2f2f2;
+
+.controls {
+    margin-top: 20px;
 }
