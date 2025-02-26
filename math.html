@@ -12,18 +12,18 @@
     <main>
         <section>
             <h2>Binary</h2>
-            <p>\( S(t, \mathbf{r}, f) = H(t - t_0) \cdot R_0 e^{i \mathbf{k_s} \cdot \mathbf{r}} + \sum_f \left[ \left( V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 \right) \sin(2\pi f_s t) \cdot \sqrt{|\mathbf{r}|} \right] \cdot \pi + k_e \sum_{i,j} \frac{q_i q_j}{|\mathbf{r}_{ij}|^2} \)</p>
-            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot e^{-|\mathbf{r}|^2 / \sigma_\rho^2} \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \)</p>
+            <p>\( S(t, \mathbf{r}, f) = H(t - t_0) \cdot R_0 e^{i \mathbf{k_s} \cdot \mathbf{r}} + \sum_f \left[ \left( V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q \right) \sin(2\pi f_s t) \cdot \sqrt{|\mathbf{r}|} \right] \cdot \pi \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot e^{-|\mathbf{r}|^2 / \sigma_\rho^2} \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
         </section>
         <section>
             <h2>QuantSpark</h2>
-            <p>\( Q_n(t, \mathbf{r}, f) = n \cdot \sqrt{10^{-93} \cdot R_n(t, \mathbf{r})} \cdot (h f_e + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2) \cdot \pi \cdot e^{-(\sqrt{|\mathbf{r}|})^2/\sigma^2} + (\mathbf{v} + \nabla [A_s \sin(2\pi f_s t)]) \times \mathbf{B} + k_e \sum_{i,j} \frac{q_i q_j}{|\mathbf{r}_{ij}|^2} \)</p>
-            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot \sin(\mathbf{k_d} \cdot \mathbf{r}) \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \)</p>
+            <p>\( Q_n(t, \mathbf{r}, f) = n \cdot \sqrt{10^{-93} \cdot R_n(t, \mathbf{r})} \cdot (h f_e + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q) \cdot \pi \cdot e^{-(\sqrt{|\mathbf{r}|})^2/\sigma^2} + (\mathbf{v} + \nabla [A_s \sin(2\pi f_s t)]) \times \mathbf{B} \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot \sin(\mathbf{k_d} \cdot \mathbf{r}) \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
         </section>
         <section>
             <h2>ChaosBloom</h2>
-            <p>\( N(t, \mathbf{r}, f) = N_s + N_g + \sum_{f_c} \left( \frac{c}{f_c} \cdot (|\psi_c(t, f_c)|^2 + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2) \right) + \left( G \frac{m_1 m_2}{|\mathbf{r}|^2} + V_s \cdot A_s \sin(2\pi f_s t) \cdot \rho(\mathbf{r}) + k_e \sum_{i,j} \frac{q_i q_j}{|\mathbf{r}_{ij}|^2} \right) \)</p>
-            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot |\mathbf{r}| \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \)</p>
+            <p>\( N(t, \mathbf{r}, f) = N_s + N_g + \sum_{f_c} \left( \frac{c}{f_c} \cdot (|\psi_c(t, f_c)|^2 + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q) \right) + \left( G \frac{m_1 m_2}{|\mathbf{r}|^2} + V_s \cdot A_s \sin(2\pi f_s t) \cdot \rho(\mathbf{r}) + k_q Q_s q \right) \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot |\mathbf{r}| \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
         </section>
         <a href="index.html">Back to Home</a>
     </main>
