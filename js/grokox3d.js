@@ -1,4 +1,4 @@
-// Scene Setup with OrbitControls and Error Handling
+// Scene Setup with OrbitControls
 function initScene(canvasId, sceneColor) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {
@@ -32,10 +32,11 @@ let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
     const size = parseInt(document.getElementById('binarySize').value) || 5;
+    const color = document.getElementById('binaryColor').value || '#0000FF';
     binaryScene.scene.clear();
     binaryLattice = [];
     const latticeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-    const latticeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+    const latticeMaterial = new THREE.MeshBasicMaterial({ color: color });
     for (let x = -size/2; x <= size/2; x += 0.5) {
         for (let y = -size/2; y <= size/2; y += 0.5) {
             for (let z = -size/2; z <= size/2; z += 0.5) {
@@ -55,7 +56,7 @@ if (binaryScene) {
         flipTime += 0.05;
         if (flipTime > 5) {
             binaryLattice.forEach(sphere => {
-                sphere.material.color.set(0xffff00);
+                sphere.material.color.set(0xffff00); // Flip to yellow
                 sphere.scale.set(2, 2, 2);
             });
         }
@@ -71,12 +72,14 @@ let quantsparkFlares = [];
 function updateQuantspark() {
     if (!quantsparkScene) return;
     const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
+    const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
+    const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const flareGeometry = new THREE.SphereGeometry(0.2, 16, 16);
     for (let i = 0; i < count; i++) {
-        const solidMaterial = new THREE.MeshBasicMaterial({ color: 0x4b0082 });
-        const gasMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const solidMaterial = new THREE.MeshBasicMaterial({ color: solidColor });
+        const gasMaterial = new THREE.MeshBasicMaterial({ color: gasColor });
         const solidFlare = new THREE.Mesh(flareGeometry, solidMaterial);
         const gasFlare = new THREE.Mesh(flareGeometry, gasMaterial);
         solidFlare.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
@@ -105,6 +108,8 @@ let chaosbloomWeb = null;
 function updateChaosbloom() {
     if (!chaosbloomScene) return;
     const points = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
+    const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
+    const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
     chaosbloomScene.scene.clear();
     const webGeometry = new THREE.BufferGeometry();
     const vertices = [];
@@ -114,8 +119,8 @@ function updateChaosbloom() {
         const y = (Math.random() - 0.5) * 10;
         const z = (Math.random() - 0.5) * 10;
         vertices.push(x, y, z);
-        const color = Math.random() < 0.5 ? [0, 0, 1] : [1, 0, 0];
-        colors.push(...color);
+        const color = Math.random() < 0.5 ? new THREE.Color(color1) : new THREE.Color(color2);
+        colors.push(color.r, color.g, color.b);
     }
     webGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     webGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
