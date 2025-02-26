@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Grokox 3D Visuals</title>
     <link rel="stylesheet" href="styles.css">
-    <style>canvas { width: 100%; height: 400px; } .controls { margin: 10px 0; }</style>
+    <style>
+        canvas { width: 100%; height: 400px; }
+        .controls { margin: 10px 0; }
+        .controls label { margin-right: 10px; }
+    </style>
 </head>
 <body>
     <header><h1>Grokox 3D Visuals</h1></header>
@@ -13,6 +17,7 @@
             <h2>Binary Phase</h2>
             <div class="controls">
                 <label>Lattice Size: <input type="number" id="binarySize" value="5" min="1" max="10"></label>
+                <label>Color: <input type="color" id="binaryColor" value="#0000FF"></label>
                 <button onclick="updateBinary()">Update</button>
             </div>
             <canvas id="binaryCanvas"></canvas>
@@ -22,6 +27,8 @@
             <h2>QuantSpark Phase</h2>
             <div class="controls">
                 <label>Flare Count: <input type="number" id="quantsparkCount" value="10" min="1" max="20"></label>
+                <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></label>
+                <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></label>
                 <button onclick="updateQuantspark()">Update</button>
             </div>
             <canvas id="quantsparkCanvas"></canvas>
@@ -31,6 +38,8 @@
             <h2>ChaosBloom Phase</h2>
             <div class="controls">
                 <label>Web Points: <input type="number" id="chaosbloomPoints" value="300" min="100" max="1000" step="100"></label>
+                <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></label>
+                <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></label>
                 <button onclick="updateChaosbloom()">Update</button>
             </div>
             <canvas id="chaosbloomCanvas"></canvas>
