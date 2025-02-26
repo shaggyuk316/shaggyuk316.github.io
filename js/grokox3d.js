@@ -97,12 +97,16 @@ const OrbitControls = (function() {
         function onMouseDown(event) {
             if (!scope.enabled) return;
             event.preventDefault();
-            if (event.button === 0) state = 0;
-            else if (event.button === 1) state = 1;
-            else if (event.button === 2) state = 2;
-            if (state === 0) rotateStart.set(event.clientX, event.clientY);
-            else if (state === 1) dollyStart.set(event.clientX, event.clientY);
-            else if (state === 2) panStart.set(event.clientX, event.clientY);
+            if (event.button === 0) {
+                state = 0;
+                rotateStart.set(event.clientX, event.clientY);
+            } else if (event.button === 1) {
+                state = 1;
+                dollyStart.set(event.clientX, event.clientY);
+            } else if (event.button === 2) {
+                state = 2;
+                panStart.set(event.clientX, event.clientY);
+            }
             if (state !== -1) {
                 document.addEventListener('mousemove', onMouseMove, false);
                 document.addEventListener('mouseup', onMouseUp, false);
@@ -110,7 +114,7 @@ const OrbitControls = (function() {
         }
 
         function onMouseMove(event) {
-            if (!scope.enabled || state === -1) return;
+            if (!scope.enabled) return;
             event.preventDefault();
             if (state === 0) {
                 rotateEnd.set(event.clientX, event.clientY);
@@ -182,13 +186,16 @@ function updateBinary() {
     const soundAmplitude = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
     const densityVariation = document.getElementById('binaryDensityToggle').checked ? parseFloat(document.getElementById('binaryDensity').value) || 0.2 : 0;
     const vibrationScale = document.getElementById('binaryVibrationToggle').checked ? parseFloat(document.getElementById('binaryVibration').value) || 0.5 : 0;
-    const chargeToggle = document.getElementById('binaryChargeToggle').checked;
+    const positiveCharge = document.getElementById('binaryPositiveChargeToggle').checked ? parseFloat(document.getElementById('binaryPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('binaryNegativeChargeToggle').checked ? parseFloat(document.getElementById('binaryNegativeCharge').value) || 0.5 : 0;
     binaryScene.scene.clear();
     binaryLattice = [];
     const geometry = new THREE.SphereGeometry(0.1, 16, 16);
     const baseDensity = 0.1;
     const k_v = 1e-50;
+    const k_q = 1e-50;
     const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge; // Net charge from toggles
     for (let x = -size / 2; x <= size / 2; x += 0.5) {
         for (let y = -size / 2; y <= size / 2; y += 0.5) {
             for (let z = -size / 2; z <= size / 2; z += 0.5) {
@@ -200,7 +207,7 @@ function updateBinary() {
                 sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z));
                 sphere.density = density;
                 sphere.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
-                sphere.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0;
+                sphere.charge = k_q * netCharge; // Apply net charge effect
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
@@ -208,37 +215,19 @@ function updateBinary() {
     }
     binaryLattice.soundAmplitude = soundAmplitude;
     binaryLattice.vibrationScale = vibrationScale;
-    binaryLattice.chargeToggle = chargeToggle;
+    binaryLattice.netCharge = netCharge;
 }
 if (binaryScene) {
     updateBinary();
     let flipTime = 0;
     function animateBinary() {
         requestAnimationFrame(animateBinary);
-        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude * binaryLattice[0].density * binaryLattice.vibrationScale);
+        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude * binaryLattice[0].density * binaryLattice.vibrationScale + binaryLattice.netCharge);
         if (flipTime > 5) {
             binaryLattice.forEach(sphere => {
                 sphere.material.color.set(0xffff00);
-                sphere.scale.set(2 + sphere.soundOffset * sphere.vibration, 2, 2);
+                sphere.scale.set(2 + sphere.soundOffset * sphere.vibration + sphere.charge, 2, 2);
             });
-        }
-        if (binaryLattice.chargeToggle) {
-            for (let i = 0; i < binaryLattice.length; i++) {
-                const s1 = binaryLattice[i];
-                let chargeForce = new THREE.Vector3();
-                for (let j = 0; j < binaryLattice.length; j++) {
-                    if (i === j) continue;
-                    const s2 = binaryLattice[j];
-                    const distance = s1.position.distanceTo(s2.position);
-                    if (distance < 0.1) continue;
-                    const direction = s2.position.clone().sub(s1.position).normalize();
-                    const force = 1e-10 * s1.charge * s2.charge / (distance * distance);
-                    chargeForce.add(direction.multiplyScalar(force));
-                }
-                s1.position.add(chargeForce.multiplyScalar(0.01));
-                const halfSize = parseInt(document.getElementById('binarySize').value) / 2 || 2.5;
-                s1.position.clamp(new THREE.Vector3(-halfSize, -halfSize, -halfSize), new THREE.Vector3(halfSize, halfSize, halfSize));
-            }
         }
         binaryScene.controls.update();
         binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
@@ -258,13 +247,16 @@ function updateQuantspark() {
     const soundAmplitude = document.getElementById('quantsparkSoundToggle').checked ? parseFloat(document.getElementById('quantsparkSound').value) || 0.5 : 0;
     const densityVariation = document.getElementById('quantsparkDensityToggle').checked ? parseFloat(document.getElementById('quantsparkDensity').value) || 0.2 : 0;
     const vibrationScale = document.getElementById('quantsparkVibrationToggle').checked ? parseFloat(document.getElementById('quantsparkVibration').value) || 0.5 : 0;
-    const chargeToggle = document.getElementById('quantsparkChargeToggle').checked;
+    const positiveCharge = document.getElementById('quantsparkPositiveChargeToggle').checked ? parseFloat(document.getElementById('quantsparkPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('quantsparkNegativeChargeToggle').checked ? parseFloat(document.getElementById('quantsparkNegativeCharge').value) || 0.5 : 0;
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const geometry = new THREE.SphereGeometry(0.2, 16, 16);
     const baseDensity = 0.1;
     const k_v = 1e-50;
+    const k_q = 1e-50;
     const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge;
     for (let i = 0; i < count; i++) {
         const solidMaterial = new THREE.MeshBasicMaterial({ color: solidColor });
         const gasMaterial = new THREE.MeshBasicMaterial({ color: gasColor });
@@ -280,15 +272,15 @@ function updateQuantspark() {
         gas.density = density;
         solid.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
         gas.vibration = solid.vibration;
-        solid.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0;
-        gas.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0;
+        solid.charge = k_q * netCharge;
+        gas.charge = k_q * netCharge;
         quantsparkFlares.push({ solid, gas });
         quantsparkScene.scene.add(solid, gas);
     }
     quantsparkFlares.magneticStrength = magneticStrength;
     quantsparkFlares.soundAmplitude = soundAmplitude;
     quantsparkFlares.vibrationScale = vibrationScale;
-    quantsparkFlares.chargeToggle = chargeToggle;
+    quantsparkFlares.netCharge = netCharge;
 }
 if (quantsparkScene) {
     updateQuantspark();
@@ -297,25 +289,17 @@ if (quantsparkScene) {
         const magneticField = new THREE.Vector3(0, 0, quantsparkFlares.magneticStrength);
         quantsparkFlares.forEach(flare => {
             const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001) * flare.solid.density * flare.solid.vibration;
-            const solidForce = flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
-            const gasForce = flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
-            if (quantsparkFlares.chargeToggle) {
-                const r = flare.solid.position.distanceTo(flare.gas.position);
-                if (r > 0.1) {
-                    const direction = flare.gas.position.clone().sub(flare.solid.position).normalize();
-                    const chargeForce = 1e-10 * flare.solid.charge * flare.gas.charge / (r * r);
-                    solidForce.add(direction.multiplyScalar(-chargeForce * 0.01));
-                    gasForce.add(direction.multiplyScalar(chargeForce * 0.01));
-                }
-            }
+            const chargeForce = flare.solid.charge * 0.1; // Simplified charge effect on velocity
+            const solidForce = flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce);
+            const gasForce = flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce);
             flare.solid.velocity.add(solidForce);
             flare.gas.velocity.add(gasForce);
             flare.solid.position.add(flare.solid.velocity);
             flare.gas.position.add(flare.gas.velocity);
             flare.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
             flare.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
-            flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005 + flare.solid.vibration), 1 + Math.sin(Date.now() * 0.005), 1);
-            flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007 + flare.gas.vibration), 1 + Math.sin(Date.now() * 0.007), 1);
+            flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005 + flare.solid.vibration + flare.solid.charge), 1 + Math.sin(Date.now() * 0.005), 1);
+            flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007 + flare.gas.vibration + flare.gas.charge), 1 + Math.sin(Date.now() * 0.007), 1);
         });
         quantsparkScene.controls.update();
         quantsparkScene.renderer.render(quantsparkScene.scene, quantsparkScene.camera);
@@ -335,7 +319,8 @@ function updateChaosbloom() {
     const soundAmplitude = document.getElementById('chaosbloomSoundToggle').checked ? parseFloat(document.getElementById('chaosbloomSound').value) || 0.5 : 0;
     const densityVariation = document.getElementById('chaosbloomDensityToggle').checked ? parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2 : 0;
     const vibrationScale = document.getElementById('chaosbloomVibrationToggle').checked ? parseFloat(document.getElementById('chaosbloomVibration').value) || 0.5 : 0;
-    const chargeToggle = document.getElementById('chaosbloomChargeToggle').checked;
+    const positiveCharge = document.getElementById('chaosbloomPositiveChargeToggle').checked ? parseFloat(document.getElementById('chaosbloomPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('chaosbloomNegativeChargeToggle').checked ? parseFloat(document.getElementById('chaosbloomNegativeCharge').value) || 0.5 : 0;
     chaosbloomScene.scene.clear();
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
@@ -343,7 +328,9 @@ function updateChaosbloom() {
     const positions = [];
     const baseDensity = 0.1;
     const k_v = 1e-50;
+    const k_q = 1e-50;
     const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge;
     for (let i = 0; i < points; i++) {
         const x = (Math.random() - 0.5) * 10;
         const y = (Math.random() - 0.5) * 10;
@@ -356,7 +343,7 @@ function updateChaosbloom() {
         const pos = new THREE.Vector3(x, y, z);
         pos.density = density;
         pos.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
-        pos.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0;
+        pos.charge = k_q * netCharge;
         positions.push(pos);
     }
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
@@ -367,7 +354,7 @@ function updateChaosbloom() {
     chaosbloomWeb.gravityStrength = gravityStrength;
     chaosbloomWeb.soundAmplitude = soundAmplitude;
     chaosbloomWeb.vibrationScale = vibrationScale;
-    chaosbloomWeb.chargeToggle = chargeToggle;
+    chaosbloomWeb.netCharge = netCharge;
     chaosbloomScene.scene.add(chaosbloomWeb);
 }
 if (chaosbloomScene) {
@@ -387,11 +374,7 @@ if (chaosbloomScene) {
                     const distance = p1.distanceTo(p2);
                     if (distance < 0.1) continue;
                     const direction = p2.clone().sub(p1).normalize();
-                    let gravity = chaosbloomWeb.gravityStrength / (distance * distance) * p1.density * p2.density + soundEnergy * p1.vibration * 0.01;
-                    if (chaosbloomWeb.chargeToggle) {
-                        const chargeForce = 1e-10 * p1.charge * p2.charge / (distance * distance);
-                        gravity += chargeForce;
-                    }
+                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) * p1.density * p2.density + soundEnergy * p1.vibration * 0.01 + p1.charge * p2.charge * 0.01;
                     force.add(direction.multiplyScalar(gravity));
                 }
                 p1.add(force.multiplyScalar(0.01));
