@@ -1,7 +1,18 @@
-// Scene Setup with OrbitControls
+// Scene Setup with OrbitControls and Error Handling
 function initScene(canvasId, sceneColor) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) { console.error(`${canvasId} not found`); return null; }
+    if (!canvas) {
+        console.error(`Canvas '${canvasId}' not found`);
+        return null;
+    }
+    if (typeof THREE === 'undefined') {
+        console.error('Three.js not loaded');
+        return null;
+    }
+    if (typeof THREE.OrbitControls === 'undefined') {
+        console.error('OrbitControls not loaded');
+        return null;
+    }
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(sceneColor);
     const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
@@ -20,7 +31,7 @@ let binaryScene = initScene('binaryCanvas', 0x000033);
 let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
-    const size = parseInt(document.getElementById('binarySize').value);
+    const size = parseInt(document.getElementById('binarySize').value) || 5;
     binaryScene.scene.clear();
     binaryLattice = [];
     const latticeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
@@ -36,8 +47,8 @@ function updateBinary() {
         }
     }
 }
-updateBinary();
 if (binaryScene) {
+    updateBinary();
     let flipTime = 0;
     function animateBinary() {
         requestAnimationFrame(animateBinary);
@@ -59,7 +70,7 @@ let quantsparkScene = initScene('quantsparkCanvas', 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
     if (!quantsparkScene) return;
-    const count = parseInt(document.getElementById('quantsparkCount').value);
+    const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const flareGeometry = new THREE.SphereGeometry(0.2, 16, 16);
@@ -74,8 +85,8 @@ function updateQuantspark() {
         quantsparkScene.scene.add(solidFlare, gasFlare);
     }
 }
-updateQuantspark();
 if (quantsparkScene) {
+    updateQuantspark();
     function animateQuantspark() {
         requestAnimationFrame(animateQuantspark);
         quantsparkFlares.forEach(flare => {
@@ -93,7 +104,7 @@ let chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
     if (!chaosbloomScene) return;
-    const points = parseInt(document.getElementById('chaosbloomPoints').value);
+    const points = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
     chaosbloomScene.scene.clear();
     const webGeometry = new THREE.BufferGeometry();
     const vertices = [];
@@ -112,8 +123,8 @@ function updateChaosbloom() {
     chaosbloomWeb = new THREE.Points(webGeometry, webMaterial);
     chaosbloomScene.scene.add(chaosbloomWeb);
 }
-updateChaosbloom();
 if (chaosbloomScene) {
+    updateChaosbloom();
     function animateChaosbloom() {
         requestAnimationFrame(animateChaosbloom);
         if (chaosbloomWeb) {
