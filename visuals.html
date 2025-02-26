@@ -4,29 +4,42 @@
     <meta charset="UTF-8">
     <title>Grokox 3D Visuals</title>
     <link rel="stylesheet" href="styles.css">
-    <style>canvas { width: 100%; height: 400px; }</style>
+    <style>canvas { width: 100%; height: 400px; } .controls { margin: 10px 0; }</style>
 </head>
 <body>
     <header><h1>Grokox 3D Visuals</h1></header>
     <main>
         <section>
             <h2>Binary Phase</h2>
+            <div class="controls">
+                <label>Lattice Size: <input type="number" id="binarySize" value="5" min="1" max="10"></label>
+                <button onclick="updateBinary()">Update</button>
+            </div>
             <canvas id="binaryCanvas"></canvas>
-            <p>Interact with the 3D lattice and chaotic flip.</p>
+            <p>Interact with the 3D lattice and chaotic flip (zoom/rotate with mouse).</p>
         </section>
         <section>
             <h2>QuantSpark Phase</h2>
+            <div class="controls">
+                <label>Flare Count: <input type="number" id="quantsparkCount" value="10" min="1" max="20"></label>
+                <button onclick="updateQuantspark()">Update</button>
+            </div>
             <canvas id="quantsparkCanvas"></canvas>
-            <p>Watch 10 chaotic flares pulse in 3D.</p>
+            <p>Watch chaotic flares pulse in 3D (zoom/rotate with mouse).</p>
         </section>
         <section>
             <h2>ChaosBloom Phase</h2>
+            <div class="controls">
+                <label>Web Points: <input type="number" id="chaosbloomPoints" value="300" min="100" max="1000" step="100"></label>
+                <button onclick="updateChaosbloom()">Update</button>
+            </div>
             <canvas id="chaosbloomCanvas"></canvas>
-            <p>Explore the 3D fractal web blooming dark energy.</p>
+            <p>Explore the 3D fractal web blooming dark energy (zoom/rotate with mouse).</p>
         </section>
         <a href="index.html">Back to Home</a>
     </main>
     <script src="js/three.min.js"></script>
+    <script src="js/orbitcontrols.js"></script>
     <script src="js/grokox3d.js"></script>
 </body>
 </html>
