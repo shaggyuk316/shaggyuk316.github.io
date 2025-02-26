@@ -183,15 +183,15 @@ function updateBinary() {
     if (!binaryScene) return;
     const size = parseInt(document.getElementById('binarySize').value) || 5;
     const color = document.getElementById('binaryColor').value || '#0000FF';
-    const soundAmplitude = parseFloat(document.getElementById('binarySound').value) || 0.5;
-    const densityVariation = parseFloat(document.getElementById('binaryDensity').value) || 0.2;
-    const vibrationScale = parseFloat(document.getElementById('binaryVibration').value) || 0.5;
+    const soundAmplitude = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('binaryDensityToggle').checked ? parseFloat(document.getElementById('binaryDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('binaryVibrationToggle').checked ? parseFloat(document.getElementById('binaryVibration').value) || 0.5 : 0;
     binaryScene.scene.clear();
     binaryLattice = [];
     const geometry = new THREE.SphereGeometry(0.1, 16, 16);
     const baseDensity = 0.1;
-    const k_v = 1e-50; // Vibration constant
-    const f_s = 1e95;  // Fixed frequency for simplicity
+    const k_v = 1e-50;
+    const f_s = 1e95;
     for (let x = -size / 2; x <= size / 2; x += 0.5) {
         for (let y = -size / 2; y <= size / 2; y += 0.5) {
             for (let z = -size / 2; z <= size / 2; z += 0.5) {
@@ -237,10 +237,10 @@ function updateQuantspark() {
     const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
     const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
     const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
-    const magneticStrength = parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1;
-    const soundAmplitude = parseFloat(document.getElementById('quantsparkSound').value) || 0.5;
-    const densityVariation = parseFloat(document.getElementById('quantsparkDensity').value) || 0.2;
-    const vibrationScale = parseFloat(document.getElementById('quantsparkVibration').value) || 0.5;
+    const magneticStrength = document.getElementById('quantsparkMagneticToggle').checked ? parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1 : 0;
+    const soundAmplitude = document.getElementById('quantsparkSoundToggle').checked ? parseFloat(document.getElementById('quantsparkSound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('quantsparkDensityToggle').checked ? parseFloat(document.getElementById('quantsparkDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('quantsparkVibrationToggle').checked ? parseFloat(document.getElementById('quantsparkVibration').value) || 0.5 : 0;
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const geometry = new THREE.SphereGeometry(0.2, 16, 16);
@@ -301,10 +301,10 @@ function updateChaosbloom() {
     const points = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
     const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
     const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
-    const gravityStrength = parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01;
-    const soundAmplitude = parseFloat(document.getElementById('chaosbloomSound').value) || 0.5;
-    const densityVariation = parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2;
-    const vibrationScale = parseFloat(document.getElementById('chaosbloomVibration').value) || 0.5;
+    const gravityStrength = document.getElementById('chaosbloomGravityToggle').checked ? parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01 : 0;
+    const soundAmplitude = document.getElementById('chaosbloomSoundToggle').checked ? parseFloat(document.getElementById('chaosbloomSound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('chaosbloomDensityToggle').checked ? parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('chaosbloomVibrationToggle').checked ? parseFloat(document.getElementById('chaosbloomVibration').value) || 0.5 : 0;
     chaosbloomScene.scene.clear();
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
