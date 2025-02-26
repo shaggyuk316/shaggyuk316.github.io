@@ -184,16 +184,21 @@ function updateBinary() {
     const size = parseInt(document.getElementById('binarySize').value) || 5;
     const color = document.getElementById('binaryColor').value || '#0000FF';
     const soundAmplitude = parseFloat(document.getElementById('binarySound').value) || 0.5;
+    const densityVariation = parseFloat(document.getElementById('binaryDensity').value) || 0.2;
     binaryScene.scene.clear();
     binaryLattice = [];
     const geometry = new THREE.SphereGeometry(0.1, 16, 16);
-    const material = new THREE.MeshBasicMaterial({ color: color });
+    const baseDensity = 0.1; // Fixed base density
     for (let x = -size / 2; x <= size / 2; x += 0.5) {
         for (let y = -size / 2; y <= size / 2; y += 0.5) {
             for (let z = -size / 2; z <= size / 2; z += 0.5) {
-                const sphere = new THREE.Mesh(geometry, material.clone());
+                const r = Math.sqrt(x * x + y * y + z * z);
+                const density = baseDensity + densityVariation * Math.exp(-r * r / 4); // Gaussian density
+                const material = new THREE.MeshBasicMaterial({ color: color });
+                const sphere = new THREE.Mesh(geometry, material);
                 sphere.position.set(x, y, z);
-                sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z)); // Sound influence
+                sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z));
+                sphere.density = density;
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
@@ -206,11 +211,11 @@ if (binaryScene) {
     let flipTime = 0;
     function animateBinary() {
         requestAnimationFrame(animateBinary);
-        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude); // Sound adjusts energy/speed
+        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude * binaryLattice[0].density); // Density boosts sound energy
         if (flipTime > 5) {
             binaryLattice.forEach(sphere => {
                 sphere.material.color.set(0xffff00);
-                sphere.scale.set(2 + sphere.soundOffset * binaryLattice.soundAmplitude, 2, 2); // Sound forms lattice
+                sphere.scale.set(2 + sphere.soundOffset * binaryLattice.soundAmplitude * sphere.density, 2, 2);
             });
         }
         binaryScene.controls.update();
@@ -229,9 +234,11 @@ function updateQuantspark() {
     const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
     const magneticStrength = parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1;
     const soundAmplitude = parseFloat(document.getElementById('quantsparkSound').value) || 0.5;
+    const densityVariation = parseFloat(document.getElementById('quantsparkDensity').value) || 0.2;
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
     const geometry = new THREE.SphereGeometry(0.2, 16, 16);
+    const baseDensity = 0.1;
     for (let i = 0; i < count; i++) {
         const solidMaterial = new THREE.MeshBasicMaterial({ color: solidColor });
         const gasMaterial = new THREE.MeshBasicMaterial({ color: gasColor });
@@ -241,6 +248,9 @@ function updateQuantspark() {
         gas.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
         solid.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
         gas.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
+        const r = solid.position.length();
+        solid.density = baseDensity + densityVariation * Math.sin(r); // Wave-like density
+        gas.density = baseDensity + densityVariation * Math.sin(r);
         quantsparkFlares.push({ solid, gas });
         quantsparkScene.scene.add(solid, gas);
     }
@@ -253,7 +263,7 @@ if (quantsparkScene) {
         requestAnimationFrame(animateQuantspark);
         const magneticField = new THREE.Vector3(0, 0, quantsparkFlares.magneticStrength);
         quantsparkFlares.forEach(flare => {
-            const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001); // Sound adjusts energy
+            const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001) * flare.solid.density; // Density scales sound energy
             const solidForce = flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
             const gasForce = flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy);
             flare.solid.velocity.add(solidForce);
@@ -262,8 +272,8 @@ if (quantsparkScene) {
             flare.gas.position.add(flare.gas.velocity);
             flare.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
             flare.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
-            flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005), 1 + Math.sin(Date.now() * 0.005), 1);
-            flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007), 1 + Math.sin(Date.now() * 0.007), 1);
+            flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005 + flare.solid.density), 1 + Math.sin(Date.now() * 0.005), 1);
+            flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007 + flare.gas.density), 1 + Math.sin(Date.now() * 0.007), 1);
         });
         quantsparkScene.controls.update();
         quantsparkScene.renderer.render(quantsparkScene.scene, quantsparkScene.camera);
@@ -281,19 +291,25 @@ function updateChaosbloom() {
     const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
     const gravityStrength = parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01;
     const soundAmplitude = parseFloat(document.getElementById('chaosbloomSound').value) || 0.5;
+    const densityVariation = parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2;
     chaosbloomScene.scene.clear();
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
     const colors = [];
     const positions = [];
+    const baseDensity = 0.1;
     for (let i = 0; i < points; i++) {
         const x = (Math.random() - 0.5) * 10;
         const y = (Math.random() - 0.5) * 10;
         const z = (Math.random() - 0.5) * 10;
+        const r = Math.sqrt(x * x + y * y + z * z);
+        const density = baseDensity + densityVariation * r; // Radial density
         vertices.push(x, y, z);
         const color = Math.random() < 0.5 ? new THREE.Color(color1) : new THREE.Color(color2);
         colors.push(color.r, color.g, color.b);
-        positions.push(new THREE.Vector3(x, y, z));
+        const pos = new THREE.Vector3(x, y, z);
+        pos.density = density;
+        positions.push(pos);
     }
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
@@ -321,7 +337,7 @@ if (chaosbloomScene) {
                     const distance = p1.distanceTo(p2);
                     if (distance < 0.1) continue;
                     const direction = p2.clone().sub(p1).normalize();
-                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) + soundEnergy * 0.01;
+                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) * p1.density * p2.density + soundEnergy * 0.01; // Density scales gravity
                     force.add(direction.multiplyScalar(gravity));
                 }
                 p1.add(force.multiplyScalar(0.01));
