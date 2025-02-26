@@ -44,3 +44,6 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+.controls label {
+    margin-right: 10px;
+}
