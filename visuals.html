@@ -19,9 +19,9 @@
             <div class="controls">
                 <label>Lattice Size: <input type="number" id="binarySize" value="5" min="1" max="10"></label>
                 <label>Color: <input type="color" id="binaryColor" value="#0000FF"></label>
-                <label>Sound Amplitude: <input type="number" id="binarySound" value="0.5" min="0" max="1" step="0.1"></label>
-                <label>Density Variation: <input type="number" id="binaryDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
-                <label>Vibration Scale: <input type="number" id="binaryVibration" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="checkbox" id="binarySoundToggle" checked> <input type="number" id="binarySound" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="checkbox" id="binaryDensityToggle" checked> <input type="number" id="binaryDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
+                <label>Vibration: <input type="checkbox" id="binaryVibrationToggle" checked> <input type="number" id="binaryVibration" value="0.5" min="0" max="1" step="0.1"></label>
                 <button onclick="updateBinary()">Update</button>
             </div>
             <canvas id="binaryCanvas"></canvas>
@@ -33,10 +33,10 @@
                 <label>Flare Count: <input type="number" id="quantsparkCount" value="10" min="1" max="20"></label>
                 <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></label>
                 <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></label>
-                <label>Magnetic Strength: <input type="number" id="quantsparkMagnetic" value="0.1" min="0" max="1" step="0.1"></label>
-                <label>Sound Amplitude: <input type="number" id="quantsparkSound" value="0.5" min="0" max="1" step="0.1"></label>
-                <label>Density Variation: <input type="number" id="quantsparkDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
-                <label>Vibration Scale: <input type="number" id="quantsparkVibration" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" checked> <input type="number" id="quantsparkMagnetic" value="0.1" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="checkbox" id="quantsparkSoundToggle" checked> <input type="number" id="quantsparkSound" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="checkbox" id="quantsparkDensityToggle" checked> <input type="number" id="quantsparkDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
+                <label>Vibration: <input type="checkbox" id="quantsparkVibrationToggle" checked> <input type="number" id="quantsparkVibration" value="0.5" min="0" max="1" step="0.1"></label>
                 <button onclick="updateQuantspark()">Update</button>
             </div>
             <canvas id="quantsparkCanvas"></canvas>
@@ -48,10 +48,10 @@
                 <label>Web Points: <input type="number" id="chaosbloomPoints" value="300" min="100" max="1000" step="100"></label>
                 <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></label>
                 <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></label>
-                <label>Gravity Strength: <input type="number" id="chaosbloomGravity" value="0.01" min="0" max="0.1" step="0.01"></label>
-                <label>Sound Amplitude: <input type="number" id="chaosbloomSound" value="0.5" min="0" max="1" step="0.1"></label>
-                <label>Density Variation: <input type="number" id="chaosbloomDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
-                <label>Vibration Scale: <input type="number" id="chaosbloomVibration" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Gravity: <input type="checkbox" id="chaosbloomGravityToggle" checked> <input type="number" id="chaosbloomGravity" value="0.01" min="0" max="0.1" step="0.01"></label>
+                <label>Sound: <input type="checkbox" id="chaosbloomSoundToggle" checked> <input type="number" id="chaosbloomSound" value="0.5" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="checkbox" id="chaosbloomDensityToggle" checked> <input type="number" id="chaosbloomDensity" value="0.2" min="0" max="0.5" step="0.1"></label>
+                <label>Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" checked> <input type="number" id="chaosbloomVibration" value="0.5" min="0" max="1" step="0.1"></label>
                 <button onclick="updateChaosbloom()">Update</button>
             </div>
             <canvas id="chaosbloomCanvas"></canvas>
