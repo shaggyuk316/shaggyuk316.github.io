@@ -97,16 +97,12 @@ const OrbitControls = (function() {
         function onMouseDown(event) {
             if (!scope.enabled) return;
             event.preventDefault();
-            if (event.button === 0) {
-                state = 0;
-                rotateStart.set(event.clientX, event.clientY);
-            } else if (event.button === 1) {
-                state = 1;
-                dollyStart.set(event.clientX, event.clientY);
-            } else if (event.button === 2) {
-                state = 2;
-                panStart.set(event.clientX, event.clientY);
-            }
+            if (event.button === 0) state = 0;
+            else if (event.button === 1) state = 1;
+            else if (event.button === 2) state = 2;
+            if (state === 0) rotateStart.set(event.clientX, event.clientY);
+            else if (state === 1) dollyStart.set(event.clientX, event.clientY);
+            else if (state === 2) panStart.set(event.clientX, event.clientY);
             if (state !== -1) {
                 document.addEventListener('mousemove', onMouseMove, false);
                 document.addEventListener('mouseup', onMouseUp, false);
@@ -114,7 +110,7 @@ const OrbitControls = (function() {
         }
 
         function onMouseMove(event) {
-            if (!scope.enabled) return;
+            if (!scope.enabled || state === -1) return;
             event.preventDefault();
             if (state === 0) {
                 rotateEnd.set(event.clientX, event.clientY);
@@ -204,7 +200,7 @@ function updateBinary() {
                 sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z));
                 sphere.density = density;
                 sphere.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
-                sphere.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0; // Random +1 or -1 if on
+                sphere.charge = chargeToggle ? (Math.random() < 0.5 ? 1 : -1) : 0;
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
@@ -236,11 +232,12 @@ if (binaryScene) {
                     const distance = s1.position.distanceTo(s2.position);
                     if (distance < 0.1) continue;
                     const direction = s2.position.clone().sub(s1.position).normalize();
-                    const force = 1e-10 * s1.charge * s2.charge / (distance * distance); // Coulomb force
+                    const force = 1e-10 * s1.charge * s2.charge / (distance * distance);
                     chargeForce.add(direction.multiplyScalar(force));
                 }
                 s1.position.add(chargeForce.multiplyScalar(0.01));
-                s1.position.clamp(new THREE.Vector3(-size / 2, -size / 2, -size / 2), new THREE.Vector3(size / 2, size / 2, size / 2));
+                const halfSize = parseInt(document.getElementById('binarySize').value) / 2 || 2.5;
+                s1.position.clamp(new THREE.Vector3(-halfSize, -halfSize, -halfSize), new THREE.Vector3(halfSize, halfSize, halfSize));
             }
         }
         binaryScene.controls.update();
@@ -307,8 +304,8 @@ if (quantsparkScene) {
                 if (r > 0.1) {
                     const direction = flare.gas.position.clone().sub(flare.solid.position).normalize();
                     const chargeForce = 1e-10 * flare.solid.charge * flare.gas.charge / (r * r);
-                    solidForce.add(direction.multiplyScalar(-chargeForce));
-                    gasForce.add(direction.multiplyScalar(chargeForce));
+                    solidForce.add(direction.multiplyScalar(-chargeForce * 0.01));
+                    gasForce.add(direction.multiplyScalar(chargeForce * 0.01));
                 }
             }
             flare.solid.velocity.add(solidForce);
