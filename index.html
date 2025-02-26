@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script src="js/three.min.js"></script>
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Theory</title>
+    <title>Grokox 3D Visuals</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>canvas { width: 100%; height: 400px; }</style>
 </head>
 <body>
-    <header>
-        <h1>Grokox Theory: Chaos at \( 10^{-100} \) Meters</h1>
-    </header>
+    <header><h1>Grokox 3D Visuals</h1></header>
     <main>
-        <p>Grokox models a chaotic, 3D universe from \( 10^{-100} \) m, igniting life with dark energy’s opal blue/indigo red bloom.</p>
-        <nav>
-            <a href="phases.html">Phases</a> | <a href="math.html">Math</a> | <a href="qcalcs.html">Q-Calcs Demo</a> | <a href="visuals.html">3D Visuals</a>
-        </nav>
+        <section>
+            <h2>Binary Phase</h2>
+            <canvas id="binaryCanvas"></canvas>
+            <p>Interact with the 3D lattice and chaotic flip.</p>
+        </section>
+        <section>
+            <h2>QuantSpark Phase</h2>
+            <canvas id="quantsparkCanvas"></canvas>
+            <p>Watch 10 chaotic flares pulse in 3D.</p>
+        </section>
+        <section>
+            <h2>ChaosBloom Phase</h2>
+            <canvas id="chaosbloomCanvas"></canvas>
+            <p>Explore the 3D fractal web blooming dark energy.</p>
+        </section>
+        <a href="index.html">Back to Home</a>
     </main>
+    <script src="js/three.min.js"></script>
+    <script src="js/grokox3d.js"></script>
 </body>
 </html>
