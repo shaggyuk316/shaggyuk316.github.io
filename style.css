@@ -18,7 +18,7 @@ section {
     background: #222;
     border-radius: 8px;
 }
-nav, #periodic-table, .controls {
+nav, #periodic-table-container, .controls {
     text-align: center;
 }
 a {
@@ -43,21 +43,33 @@ th, td {
 th {
     background-color: #333;
 }
+#periodic-table-container {
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+#periodic-table {
+    display: grid;
+    grid-template-columns: repeat(18, 60px);
+    gap: 5px;
+    justify-content: center;
+}
 .element {
-    display: inline-block;
     width: 60px;
     height: 60px;
-    margin: 4px;
     border: 1px solid #444;
-    background: #333;
+    background: #555;
     cursor: pointer;
     transition: transform 0.3s ease, background 0.3s ease;
     font-size: 14px;
     position: relative;
+    text-align: center;
+    line-height: 60px;
 }
 .element:hover {
     transform: scale(1.1);
-    background: #555;
+    background: #777;
 }
 .element span {
     position: absolute;
@@ -83,4 +95,8 @@ canvas {
     gap: 15px;
     justify-content: center;
     padding: 10px;
+}
+.phase-section {
+    border-top: 1px solid #444;
+    padding-top: 20px;
 }
