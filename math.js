@@ -43,6 +43,11 @@ const periodicTable = [
 
 function buildPeriodicTable() {
     const table = document.getElementById("periodic-table");
+    if (!table) {
+        console.error("Periodic table container not found");
+        return;
+    }
+    table.innerHTML = ""; // Clear any existing content
     periodicTable.forEach((el, i) => {
         const btn = document.createElement("button");
         btn.className = "element";
@@ -53,32 +58,23 @@ function buildPeriodicTable() {
         btn.style.gridRow = i < 2 ? 1 : (i < 10 ? 2 : (i < 18 ? 3 : (i < 36 ? 4 : (i < 54 ? 5 : (i < 86 ? 6 : 7))));
         btn.addEventListener("click", () => {
             localStorage.setItem("selectedElement", JSON.stringify(el));
-            calculate();
+            updateElementInfo();
         });
         table.appendChild(btn);
     });
 }
 
-function calculate() {
-    const z = parseFloat(document.getElementById("z").value) || 1;
-    const m = parseFloat(document.getElementById("mass").value) || 1.008;
-    const v = parseFloat(document.getElementById("vibration").value) || 0;
-    const q = parseFloat(document.getElementById("charge").value) || 0;
-    const d = parseFloat(document.getElementById("density").value) || 0.1;
-
-    const k_v = 1e-50, k_q = 1e-50, G = 6.674e-11;
-    const binaryResult = z * Math.sqrt(m) * (v + k_q * q) * d;
-    const quantsparkResult = z * Math.sqrt(m * 1e-93) * (v + k_q * q) * d;
-    const chaosbloomResult = z * (v + k_q * q) * d + G * m;
-
-    document.getElementById("results").innerHTML = `
-        <p>Binary: ${binaryResult.toExponential(2)}</p>
-        <p>QuantSpark: ${quantsparkResult.toExponential(2)}</p>
-        <p>ChaosBloom: ${chaosbloomResult.toExponential(2)}</p>
-    `;
+function updateElementInfo() {
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const info = document.getElementById("element-info");
+    if (info) {
+        info.textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
+    } else {
+        console.error("Element info div not found");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     buildPeriodicTable();
-    calculate();
+    updateElementInfo();
 });
