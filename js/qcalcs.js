@@ -1,3 +1,26 @@
+const periodicTable = [
+    { name: "H", atomicNumber: 1, mass: 1.008 },
+    { name: "He", atomicNumber: 2, mass: 4.002 },
+    { name: "Li", atomicNumber: 3, mass: 6.941 },
+    // Add more as needed
+];
+
+function buildPeriodicTable() {
+    const table = document.getElementById("periodic-table");
+    periodicTable.forEach(element => {
+        const btn = document.createElement("button");
+        btn.className = "element";
+        btn.textContent = element.name;
+        btn.dataset.atomicNumber = element.atomicNumber;
+        btn.dataset.mass = element.mass;
+        btn.addEventListener("click", () => {
+            localStorage.setItem("selectedElement", JSON.stringify(element));
+            updateQCalcs();
+        });
+        table.appendChild(btn);
+    });
+}
+
 function simulateQCalcs(n, t_start = 1e-108, e_base = 1e-93, atomicNumber, mass, vibration, charge) {
     const q_calcs = [];
     const k_v = 1e-50, k_e = 1e-93, k_q = 1e-50;
@@ -85,6 +108,7 @@ function updateQCalcs() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    buildPeriodicTable();
     initScene();
     updateQCalcs();
 });
