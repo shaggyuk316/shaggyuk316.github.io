@@ -56,8 +56,8 @@ function buildPeriodicTable() {
     });
 }
 
-function updateBinary() { console.log("Binary update placeholder"); }
-function updateQuantspark() { console.log("QuantSpark update placeholder"); }
-function updateChaosbloom() { console.log("ChaosBloom update placeholder"); }
+function updateBinary() {}
+function updateQuantspark() {}
+function updateChaosbloom() {}
 
 document.addEventListener("DOMContentLoaded", buildPeriodicTable);
