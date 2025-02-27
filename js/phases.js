@@ -15,7 +15,7 @@ function buildPeriodicTable() {
         btn.dataset.mass = element.mass;
         btn.addEventListener("click", () => {
             localStorage.setItem("selectedElement", JSON.stringify(element));
-            initScenes(); // Refresh all phase scenes
+            initScenes();
         });
         table.appendChild(btn);
     });
