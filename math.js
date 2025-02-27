@@ -66,15 +66,15 @@ function calculate() {
     const q = parseFloat(document.getElementById("charge").value) || 0;
     const d = parseFloat(document.getElementById("density").value) || 0.1;
 
-    const k_q = 1e-50, G = 6.674e-11;
-    const binary = z * Math.sqrt(m) * (v + k_q * q) * d;
-    const quantspark = z * Math.sqrt(m * 1e-93) * (v + k_q * q) * d;
-    const chaosbloom = z * (v + k_q * q) * d + G * m;
+    const k_v = 1e-50, k_q = 1e-50, G = 6.674e-11;
+    const binaryResult = z * Math.sqrt(m) * (v + k_q * q) * d;
+    const quantsparkResult = z * Math.sqrt(m * 1e-93) * (v + k_q * q) * d;
+    const chaosbloomResult = z * (v + k_q * q) * d + G * m;
 
     document.getElementById("results").innerHTML = `
-        <p>Binary: ${binary.toExponential(2)}</p>
-        <p>QuantSpark: ${quantspark.toExponential(2)}</p>
-        <p>ChaosBloom: ${chaosbloom.toExponential(2)}</p>
+        <p>Binary: ${binaryResult.toExponential(2)}</p>
+        <p>QuantSpark: ${quantsparkResult.toExponential(2)}</p>
+        <p>ChaosBloom: ${chaosbloomResult.toExponential(2)}</p>
     `;
 }
 
