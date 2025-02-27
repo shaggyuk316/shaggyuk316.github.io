@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Q-Calcs Demo</title>
+    <title>Grokox Q-Calcs</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header><h1>Grokox Q-Calcs Demo</h1></header>
+    <header><h1>Grokox Q-Calcs</h1></header>
     <main>
-        <p>Simulating 10 chaotic Q-calcs pulses in 3D space at 10⁻¹⁰⁰ m:</p>
+        <p>Simulate chaotic pulses with element settings:</p>
+        <div id="element-info"></div>
+        <div class="controls">
+            <label>Vibration: <input type="checkbox" id="vibrationToggle"> <input type="number" id="vibration" value="0.5" min="0" max="1" step="0.1"></label>
+            <label>+Charge: <input type="checkbox" id="positiveChargeToggle"> <input type="number" id="positiveCharge" value="0.5" min="0" max="1" step="0.1"></label>
+            <label>-Charge: <input type="checkbox" id="negativeChargeToggle"> <input type="number" id="negativeCharge" value="0.5" min="0" max="1" step="0.1"></label>
+            <button onclick="updateQCalcs()">Update</button>
+        </div>
         <table id="qcalcsTable">
-            <tr>
-                <th>Step</th>
-                <th>Time (s)</th>
-                <th>Energy (J)</th>
-                <th>Position (m)</th>
-            </tr>
+            <tr><th>Step</th><th>Time (s)</th><th>Energy (J)</th><th>Position (m)</th></tr>
         </table>
+        <canvas id="qcalcsCanvas"></canvas>
         <a href="index.html">Back to Home</a>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
     <script src="js/qcalcs.js"></script>
 </body>
 </html>
