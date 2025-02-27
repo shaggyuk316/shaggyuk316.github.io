@@ -1,8 +1,14 @@
 const periodicTable = [
-    { name: "H", atomicNumber: 1, mass: 1.008 },
-    { name: "He", atomicNumber: 2, mass: 4.002 },
-    { name: "Li", atomicNumber: 3, mass: 6.941 },
-    // Add more as needed
+    { name: "H", atomicNumber: 1, mass: 1.008 }, { name: "He", atomicNumber: 2, mass: 4.002 },
+    { name: "Li", atomicNumber: 3, mass: 6.941 }, { name: "Be", atomicNumber: 4, mass: 9.012 },
+    { name: "B", atomicNumber: 5, mass: 10.811 }, { name: "C", atomicNumber: 6, mass: 12.011 },
+    { name: "N", atomicNumber: 7, mass: 14.007 }, { name: "O", atomicNumber: 8, mass: 15.999 },
+    { name: "F", atomicNumber: 9, mass: 18.998 }, { name: "Ne", atomicNumber: 10, mass: 20.180 },
+    { name: "Na", atomicNumber: 11, mass: 22.990 }, { name: "Mg", atomicNumber: 12, mass: 24.305 },
+    { name: "Al", atomicNumber: 13, mass: 26.982 }, { name: "Si", atomicNumber: 14, mass: 28.085 },
+    { name: "P", atomicNumber: 15, mass: 30.974 }, { name: "S", atomicNumber: 16, mass: 32.06 },
+    { name: "Cl", atomicNumber: 17, mass: 35.45 }, { name: "Ar", atomicNumber: 18, mass: 39.948 },
+    // Add more up to 118
 ];
 
 function buildPeriodicTable() {
@@ -10,7 +16,7 @@ function buildPeriodicTable() {
     periodicTable.forEach(element => {
         const btn = document.createElement("button");
         btn.className = "element";
-        btn.textContent = element.name;
+        btn.innerHTML = `<span>${element.atomicNumber}</span>${element.name}`;
         btn.dataset.atomicNumber = element.atomicNumber;
         btn.dataset.mass = element.mass;
         btn.addEventListener("click", () => {
@@ -52,11 +58,7 @@ function initScene() {
 }
 
 function updateQCalcs() {
-    const element = JSON.parse(localStorage.getItem("selectedElement") || "{}");
-    if (!element.name) {
-        document.getElementById("element-info").textContent = "Select an element first!";
-        return;
-    }
+    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
     const vibrationToggle = document.getElementById("vibrationToggle").checked;
     const vibration = vibrationToggle ? parseFloat(document.getElementById("vibration").value) : 0;
     const positiveChargeToggle = document.getElementById("positiveChargeToggle").checked;
