@@ -1,93 +1,72 @@
+// Periodic Table Data
 const periodicTable = [
-    {symbol: "H", atomicNumber: 1, mass: 1.008}, {symbol: "He", atomicNumber: 2, mass: 4.002},
-    {symbol: "Li", atomicNumber: 3, mass: 6.941}, {symbol: "Be", atomicNumber: 4, mass: 9.012},
-    {symbol: "B", atomicNumber: 5, mass: 10.811}, {symbol: "C", atomicNumber: 6, mass: 12.011},
-    {symbol: "N", atomicNumber: 7, mass: 14.007}, {symbol: "O", atomicNumber: 8, mass: 15.999},
-    {symbol: "F", atomicNumber: 9, mass: 18.998}, {symbol: "Ne", atomicNumber: 10, mass: 20.180},
-    {symbol: "Na", atomicNumber: 11, mass: 22.990}, {symbol: "Mg", atomicNumber: 12, mass: 24.305},
-    {symbol: "Al", atomicNumber: 13, mass: 26.982}, {symbol: "Si", atomicNumber: 14, mass: 28.085},
-    {symbol: "P", atomicNumber: 15, mass: 30.974}, {symbol: "S", atomicNumber: 16, mass: 32.06},
-    {symbol: "Cl", atomicNumber: 17, mass: 35.45}, {symbol: "Ar", atomicNumber: 18, mass: 39.948},
-    {symbol: "K", atomicNumber: 19, mass: 39.098}, {symbol: "Ca", atomicNumber: 20, mass: 40.078},
-    {symbol: "Sc", atomicNumber: 21, mass: 44.956}, {symbol: "Ti", atomicNumber: 22, mass: 47.867},
-    {symbol: "V", atomicNumber: 23, mass: 50.942}, {symbol: "Cr", atomicNumber: 24, mass: 51.996},
-    {symbol: "Mn", atomicNumber: 25, mass: 54.938}, {symbol: "Fe", atomicNumber: 26, mass: 55.845},
-    {symbol: "Co", atomicNumber: 27, mass: 58.933}, {symbol: "Ni", atomicNumber: 28, mass: 58.693},
-    {symbol: "Cu", atomicNumber: 29, mass: 63.546}, {symbol: "Zn", atomicNumber: 30, mass: 65.38},
-    {symbol: "Ga", atomicNumber: 31, mass: 69.723}, {symbol: "Ge", atomicNumber: 32, mass: 72.630},
-    {symbol: "As", atomicNumber: 33, mass: 74.922}, {symbol: "Se", atomicNumber: 34, mass: 78.971},
-    {symbol: "Br", atomicNumber: 35, mass: 79.904}, {symbol: "Kr", atomicNumber: 36, mass: 83.798},
-    {symbol: "Rb", atomicNumber: 37, mass: 85.468}, {symbol: "Sr", atomicNumber: 38, mass: 87.62},
-    {symbol: "Y", atomicNumber: 39, mass: 88.906}, {symbol: "Zr", atomicNumber: 40, mass: 91.224},
-    {symbol: "Nb", atomicNumber: 41, mass: 92.906}, {symbol: "Mo", atomicNumber: 42, mass: 95.95},
-    {symbol: "Tc", atomicNumber: 43, mass: 98}, {symbol: "Ru", atomicNumber: 44, mass: 101.07},
-    {symbol: "Rh", atomicNumber: 45, mass: 102.91}, {symbol: "Pd", atomicNumber: 46, mass: 106.42},
-    {symbol: "Ag", atomicNumber: 47, mass: 107.87}, {symbol: "Cd", atomicNumber: 48, mass: 112.41},
-    {symbol: "In", atomicNumber: 49, mass: 114.82}, {symbol: "Sn", atomicNumber: 50, mass: 118.71},
-    {symbol: "Sb", atomicNumber: 51, mass: 121.76}, {symbol: "Te", atomicNumber: 52, mass: 127.60},
-    {symbol: "I", atomicNumber: 53, mass: 126.90}, {symbol: "Xe", atomicNumber: 54, mass: 131.29},
-    {symbol: "Cs", atomicNumber: 55, mass: 132.91}, {symbol: "Ba", atomicNumber: 56, mass: 137.33},
-    {symbol: "La", atomicNumber: 57, mass: 138.91}, {symbol: "Ce", atomicNumber: 58, mass: 140.12},
-    {symbol: "Pr", atomicNumber: 59, mass: 140.91}, {symbol: "Nd", atomicNumber: 60, mass: 144.24},
-    {symbol: "Pm", atomicNumber: 61, mass: 145}, {symbol: "Sm", atomicNumber: 62, mass: 150.36},
-    {symbol: "Eu", atomicNumber: 63, mass: 151.96}, {symbol: "Gd", atomicNumber: 64, mass: 157.25},
-    {symbol: "Tb", atomicNumber: 65, mass: 158.93}, {symbol: "Dy", atomicNumber: 66, mass: 162.50},
-    {symbol: "Ho", atomicNumber: 67, mass: 164.93}, {symbol: "Er", atomicNumber: 68, mass: 167.26},
-    {symbol: "Tm", atomicNumber: 69, mass: 168.93}, {symbol: "Yb", atomicNumber: 70, mass: 173.05},
-    {symbol: "Lu", atomicNumber: 71, mass: 174.97}, {symbol: "Hf", atomicNumber: 72, mass: 178.49},
-    {symbol: "Ta", atomicNumber: 73, mass: 180.95}, {symbol: "W", atomicNumber: 74, mass: 183.84},
-    {symbol: "Re", atomicNumber: 75, mass: 186.21}, {symbol: "Os", atomicNumber: 76, mass: 190.23},
-    {symbol: "Ir", atomicNumber: 77, mass: 192.22}, {symbol: "Pt", atomicNumber: 78, mass: 195.08},
-    {symbol: "Au", atomicNumber: 79, mass: 196.97}, {symbol: "Hg", atomicNumber: 80, mass: 200.59},
-    {symbol: "Tl", atomicNumber: 81, mass: 204.38}, {symbol: "Pb", atomicNumber: 82, mass: 207.2},
-    {symbol: "Bi", atomicNumber: 83, mass: 208.98}, {symbol: "Po", atomicNumber: 84, mass: 209},
-    {symbol: "At", atomicNumber: 85, mass: 210}, {symbol: "Rn", atomicNumber: 86, mass: 222},
-    {symbol: "Fr", atomicNumber: 87, mass: 223}, {symbol: "Ra", atomicNumber: 88, mass: 226},
-    {symbol: "Ac", atomicNumber: 89, mass: 227}, {symbol: "Th", atomicNumber: 90, mass: 232.04},
-    {symbol: "Pa", atomicNumber: 91, mass: 231.04}, {symbol: "U", atomicNumber: 92, mass: 238.03},
-    {symbol: "Np", atomicNumber: 93, mass: 237}, {symbol: "Pu", atomicNumber: 94, mass: 244},
-    {symbol: "Am", atomicNumber: 95, mass: 243}, {symbol: "Cm", atomicNumber: 96, mass: 247},
-    {symbol: "Bk", atomicNumber: 97, mass: 247}, {symbol: "Cf", atomicNumber: 98, mass: 251},
-    {symbol: "Es", atomicNumber: 99, mass: 252}, {symbol: "Fm", atomicNumber: 100, mass: 257},
-    {symbol: "Md", atomicNumber: 101, mass: 258}, {symbol: "No", atomicNumber: 102, mass: 259},
-    {symbol: "Lr", atomicNumber: 103, mass: 262}, {symbol: "Rf", atomicNumber: 104, mass: 267},
-    {symbol: "Db", atomicNumber: 105, mass: 268}, {symbol: "Sg", atomicNumber: 106, mass: 269},
-    {symbol: "Bh", atomicNumber: 107, mass: 270}, {symbol: "Hs", atomicNumber: 108, mass: 269},
-    {symbol: "Mt", atomicNumber: 109, mass: 278}, {symbol: "Ds", atomicNumber: 110, mass: 281},
-    {symbol: "Rg", atomicNumber: 111, mass: 280}, {symbol: "Cn", atomicNumber: 112, mass: 285},
-    {symbol: "Nh", atomicNumber: 113, mass: 286}, {symbol: "Fl", atomicNumber: 114, mass: 289},
-    {symbol: "Mc", atomicNumber: 115, mass: 289}, {symbol: "Lv", atomicNumber: 116, mass: 293},
-    {symbol: "Ts", atomicNumber: 117, mass: 294}, {symbol: "Og", atomicNumber: 118, mass: 294}
+    {symbol: "H", z: 1, mass: 1.008}, {symbol: "He", z: 2, mass: 4.002}, {symbol: "Li", z: 3, mass: 6.941},
+    {symbol: "Be", z: 4, mass: 9.012}, {symbol: "B", z: 5, mass: 10.811}, {symbol: "C", z: 6, mass: 12.011},
+    {symbol: "N", z: 7, mass: 14.007}, {symbol: "O", z: 8, mass: 15.999}, {symbol: "F", z: 9, mass: 18.998},
+    {symbol: "Ne", z: 10, mass: 20.180}, {symbol: "Na", z: 11, mass: 22.990}, {symbol: "Mg", z: 12, mass: 24.305},
+    {symbol: "Al", z: 13, mass: 26.982}, {symbol: "Si", z: 14, mass: 28.085}, {symbol: "P", z: 15, mass: 30.974},
+    {symbol: "S", z: 16, mass: 32.06}, {symbol: "Cl", z: 17, mass: 35.45}, {symbol: "Ar", z: 18, mass: 39.948},
+    {symbol: "K", z: 19, mass: 39.098}, {symbol: "Ca", z: 20, mass: 40.078}, {symbol: "Sc", z: 21, mass: 44.956},
+    {symbol: "Ti", z: 22, mass: 47.867}, {symbol: "V", z: 23, mass: 50.942}, {symbol: "Cr", z: 24, mass: 51.996},
+    {symbol: "Mn", z: 25, mass: 54.938}, {symbol: "Fe", z: 26, mass: 55.845}, {symbol: "Co", z: 27, mass: 58.933},
+    {symbol: "Ni", z: 28, mass: 58.693}, {symbol: "Cu", z: 29, mass: 63.546}, {symbol: "Zn", z: 30, mass: 65.38},
+    {symbol: "Ga", z: 31, mass: 69.723}, {symbol: "Ge", z: 32, mass: 72.630}, {symbol: "As", z: 33, mass: 74.922},
+    {symbol: "Se", z: 34, mass: 78.971}, {symbol: "Br", z: 35, mass: 79.904}, {symbol: "Kr", z: 36, mass: 83.798},
+    {symbol: "Rb", z: 37, mass: 85.468}, {symbol: "Sr", z: 38, mass: 87.62}, {symbol: "Y", z: 39, mass: 88.906},
+    {symbol: "Zr", z: 40, mass: 91.224}, {symbol: "Nb", z: 41, mass: 92.906}, {symbol: "Mo", z: 42, mass: 95.95},
+    {symbol: "Tc", z: 43, mass: 98}, {symbol: "Ru", z: 44, mass: 101.07}, {symbol: "Rh", z: 45, mass: 102.91},
+    {symbol: "Pd", z: 46, mass: 106.42}, {symbol: "Ag", z: 47, mass: 107.87}, {symbol: "Cd", z: 48, mass: 112.41},
+    {symbol: "In", z: 49, mass: 114.82}, {symbol: "Sn", z: 50, mass: 118.71}, {symbol: "Sb", z: 51, mass: 121.76},
+    {symbol: "Te", z: 52, mass: 127.60}, {symbol: "I", z: 53, mass: 126.90}, {symbol: "Xe", z: 54, mass: 131.29},
+    {symbol: "Cs", z: 55, mass: 132.91}, {symbol: "Ba", z: 56, mass: 137.33}, {symbol: "La", z: 57, mass: 138.91},
+    {symbol: "Ce", z: 58, mass: 140.12}, {symbol: "Pr", z: 59, mass: 140.91}, {symbol: "Nd", z: 60, mass: 144.24},
+    {symbol: "Pm", z: 61, mass: 145}, {symbol: "Sm", z: 62, mass: 150.36}, {symbol: "Eu", z: 63, mass: 151.96},
+    {symbol: "Gd", z: 64, mass: 157.25}, {symbol: "Tb", z: 65, mass: 158.93}, {symbol: "Dy", z: 66, mass: 162.50},
+    {symbol: "Ho", z: 67, mass: 164.93}, {symbol: "Er", z: 68, mass: 167.26}, {symbol: "Tm", z: 69, mass: 168.93},
+    {symbol: "Yb", z: 70, mass: 173.05}, {symbol: "Lu", z: 71, mass: 174.97}, {symbol: "Hf", z: 72, mass: 178.49},
+    {symbol: "Ta", z: 73, mass: 180.95}, {symbol: "W", z: 74, mass: 183.84}, {symbol: "Re", z: 75, mass: 186.21},
+    {symbol: "Os", z: 76, mass: 190.23}, {symbol: "Ir", z: 77, mass: 192.22}, {symbol: "Pt", z: 78, mass: 195.08},
+    {symbol: "Au", z: 79, mass: 196.97}, {symbol: "Hg", z: 80, mass: 200.59}, {symbol: "Tl", z: 81, mass: 204.38},
+    {symbol: "Pb", z: 82, mass: 207.2}, {symbol: "Bi", z: 83, mass: 208.98}, {symbol: "Po", z: 84, mass: 209},
+    {symbol: "At", z: 85, mass: 210}, {symbol: "Rn", z: 86, mass: 222}, {symbol: "Fr", z: 87, mass: 223},
+    {symbol: "Ra", z: 88, mass: 226}, {symbol: "Ac", z: 89, mass: 227}, {symbol: "Th", z: 90, mass: 232.04},
+    {symbol: "Pa", z: 91, mass: 231.04}, {symbol: "U", z: 92, mass: 238.03}, {symbol: "Np", z: 93, mass: 237},
+    {symbol: "Pu", z: 94, mass: 244}, {symbol: "Am", z: 95, mass: 243}, {symbol: "Cm", z: 96, mass: 247},
+    {symbol: "Bk", z: 97, mass: 247}, {symbol: "Cf", z: 98, mass: 251}, {symbol: "Es", z: 99, mass: 252},
+    {symbol: "Fm", z: 100, mass: 257}, {symbol: "Md", z: 101, mass: 258}, {symbol: "No", z: 102, mass: 259},
+    {symbol: "Lr", z: 103, mass: 262}, {symbol: "Rf", z: 104, mass: 267}, {symbol: "Db", z: 105, mass: 268},
+    {symbol: "Sg", z: 106, mass: 269}, {symbol: "Bh", z: 107, mass: 270}, {symbol: "Hs", z: 108, mass: 269},
+    {symbol: "Mt", z: 109, mass: 278}, {symbol: "Ds", z: 110, mass: 281}, {symbol: "Rg", z: 111, mass: 280},
+    {symbol: "Cn", z: 112, mass: 285}, {symbol: "Nh", z: 113, mass: 286}, {symbol: "Fl", z: 114, mass: 289},
+    {symbol: "Mc", z: 115, mass: 289}, {symbol: "Lv", z: 116, mass: 293}, {symbol: "Ts", z: 117, mass: 294},
+    {symbol: "Og", z: 118, mass: 294}
 ];
 
+// Build Periodic Table
 function buildPeriodicTable() {
     const table = document.getElementById("periodic-table");
-    periodicTable.forEach((element, index) => {
+    periodicTable.forEach((el, i) => {
         const btn = document.createElement("button");
         btn.className = "element";
-        btn.innerHTML = `<span>${element.atomicNumber}</span>${element.symbol}`;
-        btn.dataset.atomicNumber = element.atomicNumber;
-        btn.dataset.mass = element.mass;
-        btn.style.gridColumn = (index < 2) ? (index + 1) : ((index >= 2 && index < 18) ? (index - 1) : ((index >= 18 && index < 54) ? (index - 17) : (index - 53)));
-        btn.style.gridRow = (index < 2) ? 1 : ((index >= 2 && index < 10) ? 2 : ((index >= 10 && index < 18) ? 3 : ((index >= 18 && index < 36) ? 4 : ((index >= 36 && index < 54) ? 5 : ((index >= 54 && index < 86) ? 6 : 7)))));
+        btn.innerHTML = `<span>${el.z}</span>${el.symbol}`;
+        btn.dataset.z = el.z;
+        btn.dataset.mass = el.mass;
+        btn.style.gridColumn = i < 2 ? i + 1 : (i < 18 ? i - 1 : (i < 54 ? i - 17 : i - 53));
+        btn.style.gridRow = i < 2 ? 1 : (i < 10 ? 2 : (i < 18 ? 3 : (i < 36 ? 4 : (i < 54 ? 5 : (i < 86 ? 6 : 7)))));
         btn.addEventListener("click", () => {
-            localStorage.setItem("selectedElement", JSON.stringify(element));
-            updateBinary();
-            updateQuantspark();
-            updateChaosbloom();
+            localStorage.setItem("selectedElement", JSON.stringify(el));
+            updateAll();
         });
         table.appendChild(btn);
     });
 }
 
-function initScene(canvasId, sceneColor) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) {
-        console.error(`Canvas with ID ${canvasId} not found`);
-        return null;
-    }
+// Scene Setup
+function initScene(id, bgColor) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return null;
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(sceneColor);
+    scene.background = new THREE.Color(bgColor);
     const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(600, 400);
@@ -97,66 +76,64 @@ function initScene(canvasId, sceneColor) {
     return { scene, camera, renderer, controls };
 }
 
-const binaryScene = initScene('binaryCanvas', 0x000033);
+// Binary Phase
+let binaryScene = initScene("binaryCanvas", 0x000033);
 let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    const size = parseInt(document.getElementById('binarySize').value) || Math.min(Math.ceil(element.mass), 10);
-    const color = document.getElementById('binaryColor').value || '#0000FF';
-    const soundToggle = document.getElementById('binarySoundToggle').checked;
-    const soundAmplitude = soundToggle ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
-    const densityToggle = document.getElementById('binaryDensityToggle').checked;
-    const densityVariation = densityToggle ? parseFloat(document.getElementById('binaryDensity').value) || 0.2 : 0;
-    const vibrationToggle = document.getElementById('binaryVibrationToggle').checked;
-    const vibrationScale = vibrationToggle ? parseFloat(document.getElementById('binaryVibration').value) || 0.5 : 0;
-    const positiveChargeToggle = document.getElementById('binaryPositiveChargeToggle').checked;
-    const positiveCharge = positiveChargeToggle ? parseFloat(document.getElementById('binaryPositiveCharge').value) || 0.5 : 0;
-    const negativeChargeToggle = document.getElementById('binaryNegativeChargeToggle').checked;
-    const negativeCharge = negativeChargeToggle ? parseFloat(document.getElementById('binaryNegativeCharge').value) || 0.5 : 0;
-    const z = parseFloat(document.getElementById('binaryZ').value) || element.atomicNumber;
-    const mass = parseFloat(document.getElementById('binaryMass').value) || element.mass;
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const size = parseFloat(document.getElementById("binarySize").value) || 5;
+    const color = document.getElementById("binaryColor").value || "#0000FF";
+    const soundOn = document.getElementById("binarySoundToggle").checked;
+    const sound = soundOn ? parseFloat(document.getElementById("binarySound").value) || 0.5 : 0;
+    const densityOn = document.getElementById("binaryDensityToggle").checked;
+    const density = densityOn ? parseFloat(document.getElementById("binaryDensity").value) || 0.2 : 0;
+    const vibOn = document.getElementById("binaryVibrationToggle").checked;
+    const vib = vibOn ? parseFloat(document.getElementById("binaryVibration").value) || 0.5 : 0;
+    const posChargeOn = document.getElementById("binaryPositiveChargeToggle").checked;
+    const posCharge = posChargeOn ? parseFloat(document.getElementById("binaryPositiveCharge").value) || 0.5 : 0;
+    const negChargeOn = document.getElementById("binaryNegativeChargeToggle").checked;
+    const negCharge = negChargeOn ? parseFloat(document.getElementById("binaryNegativeCharge").value) || 0.5 : 0;
+    const z = parseFloat(document.getElementById("binaryZ").value) || el.z;
+    const mass = parseFloat(document.getElementById("binaryMass").value) || el.mass;
 
     binaryScene.scene.clear();
     binaryLattice = [];
-    const geometry = new THREE.SphereGeometry(0.1 * z, 16, 16);
-    const baseDensity = 0.1;
+    const geom = new THREE.SphereGeometry(0.1 * z, 16, 16);
     const k_v = 1e-50, k_q = 1e-50, f_s = 1e95;
-    const netCharge = positiveCharge - negativeCharge;
+    const charge = posCharge - negCharge;
+
     for (let x = -size / 2; x <= size / 2; x += 0.5) {
         for (let y = -size / 2; y <= size / 2; y += 0.5) {
             for (let z = -size / 2; z <= size / 2; z += 0.5) {
                 const r = Math.sqrt(x * x + y * y + z * z);
-                const density = baseDensity + densityVariation * Math.exp(-r * r / 4);
-                const material = new THREE.MeshBasicMaterial({ color });
-                const sphere = new THREE.Mesh(geometry, material);
+                const d = 0.1 + density * Math.exp(-r * r / 4);
+                const mat = new THREE.MeshBasicMaterial({ color });
+                const sphere = new THREE.Mesh(geom, mat);
                 sphere.position.set(x, y, z);
                 sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z));
-                sphere.density = density;
-                sphere.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
-                sphere.charge = k_q * netCharge;
+                sphere.density = d;
+                sphere.vibration = k_v * sound * f_s * Math.sqrt(d) * vib;
+                sphere.charge = k_q * charge;
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
         }
     }
-    binaryLattice.soundAmplitude = soundAmplitude;
-    binaryLattice.vibrationScale = vibrationScale;
-    binaryLattice.netCharge = netCharge;
 
     let flipTime = 0;
     function animate() {
         requestAnimationFrame(animate);
-        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude * binaryLattice[0].density * binaryLattice.vibrationScale + binaryLattice.netCharge);
+        flipTime += 0.05 * (1 + sound * binaryLattice[0].density * vib + charge);
         if (flipTime > 5) {
-            binaryLattice.forEach(sphere => {
-                sphere.material.color.set(0xffff00);
-                const scale = 1 + sphere.soundOffset * sphere.vibration + sphere.charge;
-                sphere.scale.set(scale, scale, scale);
+            binaryLattice.forEach(s => {
+                s.material.color.set(0xffff00);
+                const scale = 1 + s.soundOffset * s.vibration + s.charge;
+                s.scale.set(scale, scale, scale);
             });
             flipTime = 0;
-        } else if (!soundToggle && !vibrationToggle && !positiveChargeToggle && !negativeChargeToggle) {
-            binaryLattice.forEach(sphere => sphere.scale.set(1, 1, 1));
+        } else if (!soundOn && !vibOn && !posChargeOn && !negChargeOn) {
+            binaryLattice.forEach(s => s.scale.set(1, 1, 1));
         }
         binaryScene.controls.update();
         binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
@@ -164,77 +141,74 @@ function updateBinary() {
     animate();
 }
 
-const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
+// QuantSpark Phase
+let quantsparkScene = initScene("quantsparkCanvas", 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
     if (!quantsparkScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    const count = parseInt(document.getElementById('quantsparkCount').value) || Math.min(element.atomicNumber * 2, 20);
-    const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
-    const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
-    const magneticToggle = document.getElementById('quantsparkMagneticToggle').checked;
-    const magneticStrength = magneticToggle ? parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1 : 0;
-    const soundToggle = document.getElementById('quantsparkSoundToggle').checked;
-    const soundAmplitude = soundToggle ? parseFloat(document.getElementById('quantsparkSound').value) || 0.5 : 0;
-    const densityToggle = document.getElementById('quantsparkDensityToggle').checked;
-    const densityVariation = densityToggle ? parseFloat(document.getElementById('quantsparkDensity').value) || 0.2 : 0;
-    const vibrationToggle = document.getElementById('quantsparkVibrationToggle').checked;
-    const vibrationScale = vibrationToggle ? parseFloat(document.getElementById('quantsparkVibration').value) || 0.5 : 0;
-    const positiveChargeToggle = document.getElementById('quantsparkPositiveChargeToggle').checked;
-    const positiveCharge = positiveChargeToggle ? parseFloat(document.getElementById('quantsparkPositiveCharge').value) || 0.5 : 0;
-    const negativeChargeToggle = document.getElementById('quantsparkNegativeChargeToggle').checked;
-    const negativeCharge = negativeChargeToggle ? parseFloat(document.getElementById('quantsparkNegativeCharge').value) || 0.5 : 0;
-    const z = parseFloat(document.getElementById('quantsparkZ').value) || element.atomicNumber;
-    const mass = parseFloat(document.getElementById('quantsparkMass').value) || element.mass;
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const count = parseFloat(document.getElementById("quantsparkCount").value) || Math.min(el.z * 2, 20);
+    const solidColor = document.getElementById("quantsparkSolidColor").value || "#4B0082";
+    const gasColor = document.getElementById("quantsparkGasColor").value || "#FF0000";
+    const magOn = document.getElementById("quantsparkMagneticToggle").checked;
+    const mag = magOn ? parseFloat(document.getElementById("quantsparkMagnetic").value) || 0.1 : 0;
+    const soundOn = document.getElementById("quantsparkSoundToggle").checked;
+    const sound = soundOn ? parseFloat(document.getElementById("quantsparkSound").value) || 0.5 : 0;
+    const densityOn = document.getElementById("quantsparkDensityToggle").checked;
+    const density = densityOn ? parseFloat(document.getElementById("quantsparkDensity").value) || 0.2 : 0;
+    const vibOn = document.getElementById("quantsparkVibrationToggle").checked;
+    const vib = vibOn ? parseFloat(document.getElementById("quantsparkVibration").value) || 0.5 : 0;
+    const posChargeOn = document.getElementById("quantsparkPositiveChargeToggle").checked;
+    const posCharge = posChargeOn ? parseFloat(document.getElementById("quantsparkPositiveCharge").value) || 0.5 : 0;
+    const negChargeOn = document.getElementById("quantsparkNegativeChargeToggle").checked;
+    const negCharge = negChargeOn ? parseFloat(document.getElementById("quantsparkNegativeCharge").value) || 0.5 : 0;
+    const z = parseFloat(document.getElementById("quantsparkZ").value) || el.z;
+    const mass = parseFloat(document.getElementById("quantsparkMass").value) || el.mass;
 
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
-    const geometry = new THREE.SphereGeometry(0.2 * mass, 16, 16);
-    const baseDensity = 0.1;
+    const geom = new THREE.SphereGeometry(0.2 * mass, 16, 16);
     const k_v = 1e-50, k_q = 1e-50, f_s = 1e95;
-    const netCharge = positiveCharge - negativeCharge;
+    const charge = posCharge - negCharge;
+
     for (let i = 0; i < count; i++) {
-        const solidMaterial = new THREE.MeshBasicMaterial({ color: solidColor });
-        const gasMaterial = new THREE.MeshBasicMaterial({ color: gasColor });
-        const solid = new THREE.Mesh(geometry, solidMaterial);
-        const gas = new THREE.Mesh(geometry, gasMaterial);
+        const solidMat = new THREE.MeshBasicMaterial({ color: solidColor });
+        const gasMat = new THREE.MeshBasicMaterial({ color: gasColor });
+        const solid = new THREE.Mesh(geom, solidMat);
+        const gas = new THREE.Mesh(geom, gasMat);
         solid.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
         gas.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
         solid.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
         gas.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
         const r = solid.position.length();
-        const density = baseDensity + densityVariation * Math.sin(r);
-        solid.density = density;
-        gas.density = density;
-        solid.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
+        const d = 0.1 + density * Math.sin(r);
+        solid.density = d;
+        gas.density = d;
+        solid.vibration = k_v * sound * f_s * Math.sqrt(d) * vib;
         gas.vibration = solid.vibration;
-        solid.charge = k_q * netCharge;
-        gas.charge = k_q * netCharge;
+        solid.charge = k_q * charge;
+        gas.charge = k_q * charge;
         quantsparkFlares.push({ solid, gas });
         quantsparkScene.scene.add(solid, gas);
     }
-    quantsparkFlares.magneticStrength = magneticStrength;
-    quantsparkFlares.soundAmplitude = soundAmplitude;
-    quantsparkFlares.vibrationScale = vibrationScale;
-    quantsparkFlares.netCharge = netCharge;
 
     function animate() {
         requestAnimationFrame(animate);
-        const magneticField = new THREE.Vector3(0, 0, quantsparkFlares.magneticStrength);
-        quantsparkFlares.forEach(flare => {
-            const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001) * flare.solid.density * flare.solid.vibration;
-            const chargeForce = flare.solid.charge * 0.1;
-            const solidForce = magneticToggle ? flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce) : new THREE.Vector3();
-            const gasForce = magneticToggle ? flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce) : new THREE.Vector3();
-            flare.solid.velocity.add(solidForce);
-            flare.gas.velocity.add(gasForce);
-            flare.solid.position.add(flare.solid.velocity);
-            flare.gas.position.add(flare.gas.velocity);
-            flare.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
-            flare.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
-            const scale = (soundToggle || vibrationToggle || positiveChargeToggle || negativeChargeToggle) ? 1 + Math.sin(Date.now() * 0.005 + flare.solid.vibration + flare.solid.charge) : 1;
-            flare.solid.scale.set(scale, scale, scale);
-            flare.gas.scale.set(scale, scale, scale);
+        const magField = new THREE.Vector3(0, 0, mag);
+        quantsparkFlares.forEach(f => {
+            const soundEnergy = sound * Math.sin(Date.now() * 0.001) * f.solid.density * f.solid.vibration;
+            const chargeForce = f.solid.charge * 0.1;
+            const solidForce = magOn ? f.solid.velocity.clone().cross(magField).multiplyScalar(0.01 + soundEnergy + chargeForce) : new THREE.Vector3();
+            const gasForce = magOn ? f.gas.velocity.clone().cross(magField).multiplyScalar(0.01 + soundEnergy + chargeForce) : new THREE.Vector3();
+            f.solid.velocity.add(solidForce);
+            f.gas.velocity.add(gasForce);
+            f.solid.position.add(f.solid.velocity);
+            f.gas.position.add(f.gas.velocity);
+            f.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
+            f.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
+            const scale = (soundOn || vibOn || posChargeOn || negChargeOn) ? 1 + Math.sin(Date.now() * 0.005 + f.solid.vibration + f.solid.charge) : 1;
+            f.solid.scale.set(scale, scale, scale);
+            f.gas.scale.set(scale, scale, scale);
         });
         quantsparkScene.controls.update();
         quantsparkScene.renderer.render(quantsparkScene.scene, quantsparkScene.camera);
@@ -242,60 +216,57 @@ function updateQuantspark() {
     animate();
 }
 
-const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
+// ChaosBloom Phase
+let chaosbloomScene = initScene("chaosbloomCanvas", 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
     if (!chaosbloomScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    const points = parseInt(document.getElementById('chaosbloomPoints').value) || Math.min(Math.ceil(element.mass * 100), 1000);
-    const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
-    const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
-    const gravityToggle = document.getElementById('chaosbloomGravityToggle').checked;
-    const gravityStrength = gravityToggle ? parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01 : 0;
-    const soundToggle = document.getElementById('chaosbloomSoundToggle').checked;
-    const soundAmplitude = soundToggle ? parseFloat(document.getElementById('chaosbloomSound').value) || 0.5 : 0;
-    const densityToggle = document.getElementById('chaosbloomDensityToggle').checked;
-    const densityVariation = densityToggle ? parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2 : 0;
-    const vibrationToggle = document.getElementById('chaosbloomVibrationToggle').checked;
-    const vibrationScale = vibrationToggle ? parseFloat(document.getElementById('chaosbloomVibration').value) || 0.5 : 0;
-    const positiveChargeToggle = document.getElementById('chaosbloomPositiveChargeToggle').checked;
-    const positiveCharge = positiveChargeToggle ? parseFloat(document.getElementById('chaosbloomPositiveCharge').value) || 0.5 : 0;
-    const negativeChargeToggle = document.getElementById('chaosbloomNegativeChargeToggle').checked;
-    const negativeCharge = negativeChargeToggle ? parseFloat(document.getElementById('chaosbloomNegativeCharge').value) || 0.5 : 0;
-    const z = parseFloat(document.getElementById('chaosbloomZ').value) || element.atomicNumber;
-    const mass = parseFloat(document.getElementById('chaosbloomMass').value) || element.mass;
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const points = parseFloat(document.getElementById("chaosbloomPoints").value) || Math.min(Math.ceil(el.mass * 100), 1000);
+    const color1 = document.getElementById("chaosbloomColor1").value || "#0000FF";
+    const color2 = document.getElementById("chaosbloomColor2").value || "#FF0000";
+    const gravOn = document.getElementById("chaosbloomGravityToggle").checked;
+    const grav = gravOn ? parseFloat(document.getElementById("chaosbloomGravity").value) || 0.01 : 0;
+    const soundOn = document.getElementById("chaosbloomSoundToggle").checked;
+    const sound = soundOn ? parseFloat(document.getElementById("chaosbloomSound").value) || 0.5 : 0;
+    const densityOn = document.getElementById("chaosbloomDensityToggle").checked;
+    const density = densityOn ? parseFloat(document.getElementById("chaosbloomDensity").value) || 0.2 : 0;
+    const vibOn = document.getElementById("chaosbloomVibrationToggle").checked;
+    const vib = vibOn ? parseFloat(document.getElementById("chaosbloomVibration").value) || 0.5 : 0;
+    const posChargeOn = document.getElementById("chaosbloomPositiveChargeToggle").checked;
+    const posCharge = posChargeOn ? parseFloat(document.getElementById("chaosbloomPositiveCharge").value) || 0.5 : 0;
+    const negChargeOn = document.getElementById("chaosbloomNegativeChargeToggle").checked;
+    const negCharge = negChargeOn ? parseFloat(document.getElementById("chaosbloomNegativeCharge").value) || 0.5 : 0;
+    const z = parseFloat(document.getElementById("chaosbloomZ").value) || el.z;
+    const mass = parseFloat(document.getElementById("chaosbloomMass").value) || el.mass;
 
     chaosbloomScene.scene.clear();
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
+    const geom = new THREE.BufferGeometry();
+    const verts = [];
     const colors = [];
     const positions = [];
-    const baseDensity = 0.1;
     const k_v = 1e-50, k_q = 1e-50, f_s = 1e95;
-    const netCharge = positiveCharge - negativeCharge;
+    const charge = posCharge - negCharge;
+
     for (let i = 0; i < points; i++) {
         const x = (Math.random() - 0.5) * 10;
         const y = (Math.random() - 0.5) * 10;
         const z = (Math.random() - 0.5) * 10;
         const r = Math.sqrt(x * x + y * y + z * z);
-        const density = baseDensity + densityVariation * r;
-        vertices.push(x, y, z);
+        const d = 0.1 + density * r;
+        verts.push(x, y, z);
         const color = Math.random() < 0.5 ? new THREE.Color(color1) : new THREE.Color(color2);
         colors.push(color.r, color.g, color.b);
         const pos = new THREE.Vector3(x, y, z);
-        pos.density = density;
-        pos.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
-        pos.charge = k_q * netCharge;
+        pos.density = d;
+        pos.vibration = k_v * sound * f_s * Math.sqrt(d) * vib;
+        pos.charge = k_q * charge;
         positions.push(pos);
     }
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    chaosbloomWeb = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 0.1 * z, vertexColors: true }));
+    geom.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+    geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    chaosbloomWeb = new THREE.Points(geom, new THREE.PointsMaterial({ size: 0.1 * z, vertexColors: true }));
     chaosbloomWeb.positions = positions;
-    chaosbloomWeb.gravityStrength = gravityStrength;
-    chaosbloomWeb.soundAmplitude = soundAmplitude;
-    chaosbloomWeb.vibrationScale = vibrationScale;
-    chaosbloomWeb.netCharge = netCharge;
     chaosbloomScene.scene.add(chaosbloomWeb);
 
     function animate() {
@@ -303,10 +274,10 @@ function updateChaosbloom() {
         const posArray = chaosbloomWeb.geometry.attributes.position.array;
         for (let i = 0; i < chaosbloomWeb.positions.length; i++) {
             const p = chaosbloomWeb.positions[i];
-            if (gravityToggle || soundToggle || vibrationToggle || positiveChargeToggle || negativeChargeToggle) {
-                p.x += Math.sin(Date.now() * 0.001 + i) * 0.02 * chaosbloomWeb.vibrationScale;
-                p.y += Math.cos(Date.now() * 0.001 + i) * 0.02 * chaosbloomWeb.soundAmplitude;
-                p.z += Math.sin(Date.now() * 0.002 + i) * 0.02 * chaosbloomWeb.netCharge;
+            if (gravOn || soundOn || vibOn || posChargeOn || negChargeOn) {
+                p.x += Math.sin(Date.now() * 0.001 + i) * 0.02 * vib;
+                p.y += Math.cos(Date.now() * 0.001 + i) * 0.02 * sound;
+                p.z += Math.sin(Date.now() * 0.002 + i) * 0.02 * charge;
                 p.clamp(new THREE.Vector3(-10, -10, -10), new THREE.Vector3(10, 10, 10));
             }
             posArray[i * 3] = p.x;
@@ -322,6 +293,14 @@ function updateChaosbloom() {
     animate();
 }
 
+// Update All Phases
+function updateAll() {
+    updateBinary();
+    updateQuantspark();
+    updateChaosbloom();
+}
+
+// Initialize
 document.addEventListener("DOMContentLoaded", () => {
     buildPeriodicTable();
     if (binaryScene) updateBinary();
