@@ -9,21 +9,28 @@
     <header><h1>Grokox Phases</h1></header>
     <main>
         <section>
+            <h2>Select Element</h2>
+            <div id="periodic-table"></div>
+            <p>Pick an element to influence phase behavior.</p>
+        </section>
+        <section>
             <h2>Binary</h2>
             <p>Sound-vibration-density-charge flip with 3D spectral pulses seeds chaos.</p>
-            <img src="https://via.placeholder.com/300" alt="Binary Visual" width="300">
+            <canvas id="binaryCanvas"></canvas>
         </section>
         <section>
             <h2>QuantSpark</h2>
-            <p>Sound-vibration-energy ignition with magnetic-density-charge flares in 3D.</p>
-            <img src="https://via.placeholder.com/300" alt="QuantSpark Visual" width="300">
+            <p>Sound-vibration-energy ignition with magnetic-density-charge flares.</p>
+            <canvas id="quantsparkCanvas"></canvas>
         </section>
         <section>
             <h2>ChaosBloom</h2>
-            <p>Sound-vibration-density-charge shaped web blooms with gravity and dark energy.</p>
-            <img src="https://via.placeholder.com/300" alt="ChaosBloom Visual" width="300">
+            <p>Sound-vibration-density-charge shaped web blooms with gravity.</p>
+            <canvas id="chaosbloomCanvas"></canvas>
         </section>
         <a href="index.html">Back to Home</a>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+    <script src="js/phases.js"></script>
 </body>
 </html>
