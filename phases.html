@@ -2,18 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Theory</title>
+    <title>Grokox Phases</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Grokox Theory: Chaos at 10⁻¹⁰⁰ Meters</h1>
-    </header>
+    <header><h1>Grokox Phases</h1></header>
     <main>
-        <p>Grokox models a chaotic, 3D universe from 10⁻¹⁰⁰ m, igniting life with periodic elements, sound vibrations, energy, density, charge, and dark energy dynamics.</p>
-        <nav>
-            <a href="phases.html">Phases</a> | <a href="math.html">Math</a> | <a href="qcalcs.html">Q-Calcs</a> | <a href="visuals.html">Visuals</a>
-        </nav>
+        <section>
+            <h2>Periodic Table</h2>
+            <div id="periodic-table"></div>
+            <p>Select an element to preview phase behavior.</p>
+        </section>
+        <section>
+            <h2>Binary</h2>
+            <p>Spectral pulses seed chaos.</p>
+            <canvas id="binaryCanvas"></canvas>
+        </section>
+        <section>
+            <h2>QuantSpark</h2>
+            <p>Energy ignition with magnetic flares.</p>
+            <canvas id="quantsparkCanvas"></canvas>
+        </section>
+        <section>
+            <h2>ChaosBloom</h2>
+            <p>Web blooms with gravity and charge.</p>
+            <canvas id="chaosbloomCanvas"></canvas>
+        </section>
+        <a href="index.html">Back to Home</a>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+    <script src="js/phases.js"></script>
 </body>
 </html>
