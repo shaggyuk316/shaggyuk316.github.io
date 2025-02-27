@@ -61,7 +61,7 @@ function buildPeriodicTable() {
 
 function updateQCalcs() {
     const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    document.getElementById("element-info").textContent = `Element: ${el.s} (Z: ${el.z}, m: ${el.m})`;
+    document.getElementById("element-info").textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
