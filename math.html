@@ -8,32 +8,49 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header><h1>Grokox Mathematics</h1></header>
-    <main>
-        <section>
-            <h2>Formula Calculator</h2>
-            <div class="controls">
-                <label>Z (Atomic Number): <input type="number" id="z" value="1" min="1" max="118"></label>
-                <label>m (Mass): <input type="number" id="mass" value="1.008" step="0.001"></label>
-                <label>V_s (Vibration): <input type="number" id="vibration" value="0" step="0.1"></label>
-                <label>q (Charge): <input type="number" id="charge" value="0" step="0.1"></label>
-                <label>ρ (Density): <input type="number" id="density" value="0.1" step="0.1"></label>
-                <button onclick="calculateResults()">Calculate</button>
-            </div>
-            <div id="results">
-                <p>Binary: <span id="binaryResult"></span></p>
-                <p>QuantSpark: <span id="quantsparkResult"></span></p>
-                <p>ChaosBloom: <span id="chaosbloomResult"></span></p>
-            </div>
-        </section>
-        <section>
-            <h2>Equations</h2>
-            <p>Binary: \( S = Z \cdot \sqrt{m} \cdot (V_s + k_q \cdot q) \cdot \rho \)</p>
-            <p>QuantSpark: \( Q_n = Z \cdot \sqrt{m \cdot 10^{-93}} \cdot (V_s + k_q \cdot q) \cdot \rho \)</p>
-            <p>ChaosBloom: \( N = Z \cdot (V_s + k_q \cdot q) \cdot \rho + G \cdot m \)</p>
-        </section>
-        <a href="index.html">Back to Home</a>
-    </main>
+    <div class="sidebar">
+        <h2>Grokox</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="phases.html">Phases</a>
+            <a href="math.html">Math</a>
+            <a href="qcalcs.html">Q-Calcs</a>
+            <a href="visuals.html">Visuals</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header><h1>Mathematics</h1></header>
+        <main>
+            <section>
+                <h2>Periodic Table</h2>
+                <div id="periodic-table-container">
+                    <div id="periodic-table"></div>
+                </div>
+            </section>
+            <section>
+                <h2>Formula Calculator</h2>
+                <div class="controls">
+                    <label>Z (Atomic Number): <input type="number" id="z" value="1" min="1" max="118"></label>
+                    <label>m (Mass): <input type="number" id="mass" value="1.008" step="0.001"></label>
+                    <label>V_s (Vibration): <input type="number" id="vibration" value="0" step="0.1"></label>
+                    <label>q (Charge): <input type="number" id="charge" value="0" step="0.1"></label>
+                    <label>ρ (Density): <input type="number" id="density" value="0.1" step="0.1"></label>
+                    <button onclick="calculateResults()">Calculate</button>
+                </div>
+                <div id="results">
+                    <p>Binary: <span id="binaryResult"></span></p>
+                    <p>QuantSpark: <span id="quantsparkResult"></span></p>
+                    <p>ChaosBloom: <span id="chaosbloomResult"></span></p>
+                </div>
+            </section>
+            <section>
+                <h2>Equations</h2>
+                <p>Binary: \( S = Z \cdot \sqrt{m} \cdot (V_s + k_q \cdot q) \cdot \rho \)</p>
+                <p>QuantSpark: \( Q_n = Z \cdot \sqrt{m \cdot 10^{-93}} \cdot (V_s + k_q \cdot q) \cdot \rho \)</p>
+                <p>ChaosBloom: \( N = Z \cdot (V_s + k_q \cdot q) \cdot \rho + G \cdot m \)</p>
+            </section>
+        </main>
+    </div>
     <script src="js/math.js"></script>
 </body>
 </html>
