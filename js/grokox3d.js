@@ -1,4 +1,3 @@
-// Simplified OrbitControls (from original)
 const OrbitControls = (function() {
     function OrbitControls(object, domElement) {
         this.object = object;
@@ -160,7 +159,31 @@ const OrbitControls = (function() {
     return OrbitControls;
 })();
 
-// Scene Setup
+const periodicTable = [
+    { name: "H", atomicNumber: 1, mass: 1.008 },
+    { name: "He", atomicNumber: 2, mass: 4.002 },
+    { name: "Li", atomicNumber: 3, mass: 6.941 },
+    // Add more as needed
+];
+
+function buildPeriodicTable() {
+    const table = document.getElementById("periodic-table");
+    periodicTable.forEach(element => {
+        const btn = document.createElement("button");
+        btn.className = "element";
+        btn.textContent = element.name;
+        btn.dataset.atomicNumber = element.atomicNumber;
+        btn.dataset.mass = element.mass;
+        btn.addEventListener("click", () => {
+            localStorage.setItem("selectedElement", JSON.stringify(element));
+            updateBinary();
+            updateQuantspark();
+            updateChaosbloom();
+        });
+        table.appendChild(btn);
+    });
+}
+
 function initScene(canvasId, sceneColor) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return null;
@@ -175,7 +198,6 @@ function initScene(canvasId, sceneColor) {
     return { scene, camera, renderer, controls };
 }
 
-// Binary Phase
 const binaryScene = initScene('binaryCanvas', 0x000033);
 let binaryLattice = [];
 function updateBinary() {
@@ -241,7 +263,6 @@ function updateBinary() {
     animate();
 }
 
-// QuantSpark Phase
 const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
@@ -318,7 +339,6 @@ function updateQuantspark() {
     animate();
 }
 
-// ChaosBloom Phase
 const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
@@ -402,11 +422,14 @@ function updateChaosbloom() {
         chaosbloomWeb.rotation.x += 0.01;
         chaosbloomWeb.rotation.y += 0.01;
         chaosbloomScene.controls.update();
-        chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomScene.camera);
+        chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomCamera);
     }
     animate();
 }
 
-if (binaryScene) updateBinary();
-if (quantsparkScene) updateQuantspark();
-if (chaosbloomScene) updateChaosbloom();
+document.addEventListener("DOMContentLoaded", () => {
+    buildPeriodicTable();
+    if (binaryScene) updateBinary();
+    if (quantsparkScene) updateQuantspark();
+    if (chaosbloomScene) updateChaosbloom();
+});
