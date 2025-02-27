@@ -160,10 +160,16 @@ const OrbitControls = (function() {
 })();
 
 const periodicTable = [
-    { name: "H", atomicNumber: 1, mass: 1.008 },
-    { name: "He", atomicNumber: 2, mass: 4.002 },
-    { name: "Li", atomicNumber: 3, mass: 6.941 },
-    // Add more as needed
+    { name: "H", atomicNumber: 1, mass: 1.008 }, { name: "He", atomicNumber: 2, mass: 4.002 },
+    { name: "Li", atomicNumber: 3, mass: 6.941 }, { name: "Be", atomicNumber: 4, mass: 9.012 },
+    { name: "B", atomicNumber: 5, mass: 10.811 }, { name: "C", atomicNumber: 6, mass: 12.011 },
+    { name: "N", atomicNumber: 7, mass: 14.007 }, { name: "O", atomicNumber: 8, mass: 15.999 },
+    { name: "F", atomicNumber: 9, mass: 18.998 }, { name: "Ne", atomicNumber: 10, mass: 20.180 },
+    { name: "Na", atomicNumber: 11, mass: 22.990 }, { name: "Mg", atomicNumber: 12, mass: 24.305 },
+    { name: "Al", atomicNumber: 13, mass: 26.982 }, { name: "Si", atomicNumber: 14, mass: 28.085 },
+    { name: "P", atomicNumber: 15, mass: 30.974 }, { name: "S", atomicNumber: 16, mass: 32.06 },
+    { name: "Cl", atomicNumber: 17, mass: 35.45 }, { name: "Ar", atomicNumber: 18, mass: 39.948 },
+    // Add more up to 118
 ];
 
 function buildPeriodicTable() {
@@ -171,7 +177,7 @@ function buildPeriodicTable() {
     periodicTable.forEach(element => {
         const btn = document.createElement("button");
         btn.className = "element";
-        btn.textContent = element.name;
+        btn.innerHTML = `<span>${element.atomicNumber}</span>${element.name}`;
         btn.dataset.atomicNumber = element.atomicNumber;
         btn.dataset.mass = element.mass;
         btn.addEventListener("click", () => {
@@ -202,8 +208,8 @@ const binaryScene = initScene('binaryCanvas', 0x000033);
 let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || "{}");
-    const size = parseInt(document.getElementById('binarySize').value) || (element.mass ? Math.min(Math.ceil(element.mass), 10) : 5);
+    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const size = parseInt(document.getElementById('binarySize').value) || Math.min(Math.ceil(element.mass), 10);
     const color = document.getElementById('binaryColor').value || '#0000FF';
     const soundToggle = document.getElementById('binarySoundToggle').checked;
     const soundAmplitude = soundToggle ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
@@ -218,7 +224,7 @@ function updateBinary() {
 
     binaryScene.scene.clear();
     binaryLattice = [];
-    const geometry = new THREE.SphereGeometry(0.1 * (element.atomicNumber || 1), 16, 16);
+    const geometry = new THREE.SphereGeometry(0.1 * element.atomicNumber, 16, 16);
     const baseDensity = 0.1;
     const k_v = 1e-50, k_q = 1e-50, f_s = 1e95;
     const netCharge = positiveCharge - negativeCharge;
@@ -267,8 +273,8 @@ const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
     if (!quantsparkScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || "{}");
-    const count = parseInt(document.getElementById('quantsparkCount').value) || (element.atomicNumber ? Math.min(element.atomicNumber * 2, 20) : 10);
+    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const count = parseInt(document.getElementById('quantsparkCount').value) || Math.min(element.atomicNumber * 2, 20);
     const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
     const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
     const magneticToggle = document.getElementById('quantsparkMagneticToggle').checked;
@@ -286,7 +292,7 @@ function updateQuantspark() {
 
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
-    const geometry = new THREE.SphereGeometry(0.2 * (element.mass || 1), 16, 16);
+    const geometry = new THREE.SphereGeometry(0.2 * element.mass, 16, 16);
     const baseDensity = 0.1;
     const k_v = 1e-50, k_q = 1e-50, f_s = 1e95;
     const netCharge = positiveCharge - negativeCharge;
@@ -343,8 +349,8 @@ const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
     if (!chaosbloomScene) return;
-    const element = JSON.parse(localStorage.getItem("selectedElement") || "{}");
-    const points = parseInt(document.getElementById('chaosbloomPoints').value) || (element.mass ? Math.min(Math.ceil(element.mass * 100), 1000) : 300);
+    const element = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const points = parseInt(document.getElementById('chaosbloomPoints').value) || Math.min(Math.ceil(element.mass * 100), 1000);
     const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
     const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
     const gravityToggle = document.getElementById('chaosbloomGravityToggle').checked;
@@ -385,8 +391,7 @@ function updateChaosbloom() {
     }
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    const material = new THREE.PointsMaterial({ size: 0.1 * (element.atomicNumber || 1), vertexColors: true });
-    chaosbloomWeb = new THREE.Points(geometry, material);
+    chaosbloomWeb = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 0.1 * element.atomicNumber, vertexColors: true }));
     chaosbloomWeb.positions = positions;
     chaosbloomWeb.gravityStrength = gravityStrength;
     chaosbloomWeb.soundAmplitude = soundAmplitude;
@@ -396,33 +401,24 @@ function updateChaosbloom() {
 
     function animate() {
         requestAnimationFrame(animate);
-        const soundEnergy = chaosbloomWeb.soundAmplitude * Math.sin(Date.now() * 0.001);
         const posArray = chaosbloomWeb.geometry.attributes.position.array;
         for (let i = 0; i < chaosbloomWeb.positions.length; i++) {
-            const p1 = chaosbloomWeb.positions[i];
-            let force = new THREE.Vector3();
+            const p = chaosbloomWeb.positions[i];
             if (gravityToggle || soundToggle || vibrationToggle || positiveChargeToggle || negativeChargeToggle) {
-                for (let j = 0; j < chaosbloomWeb.positions.length; j++) {
-                    if (i === j) continue;
-                    const p2 = chaosbloomWeb.positions[j];
-                    const distance = p1.distanceTo(p2);
-                    if (distance < 0.1) continue;
-                    const direction = p2.clone().sub(p1).normalize();
-                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) * p1.density * p2.density + soundEnergy * p1.vibration * 0.01 + p1.charge * p2.charge * 0.01;
-                    force.add(direction.multiplyScalar(gravity));
-                }
-                p1.add(force.multiplyScalar(0.01));
+                p.x += Math.sin(Date.now() * 0.001 + i) * 0.02 * chaosbloomWeb.vibrationScale;
+                p.y += Math.cos(Date.now() * 0.001 + i) * 0.02 * chaosbloomWeb.soundAmplitude;
+                p.z += Math.sin(Date.now() * 0.002 + i) * 0.02 * chaosbloomWeb.netCharge;
+                p.clamp(new THREE.Vector3(-10, -10, -10), new THREE.Vector3(10, 10, 10));
             }
-            p1.clamp(new THREE.Vector3(-10, -10, -10), new THREE.Vector3(10, 10, 10));
-            posArray[i * 3] = p1.x;
-            posArray[i * 3 + 1] = p1.y;
-            posArray[i * 3 + 2] = p1.z;
+            posArray[i * 3] = p.x;
+            posArray[i * 3 + 1] = p.y;
+            posArray[i * 3 + 2] = p.z;
         }
         chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
         chaosbloomWeb.rotation.x += 0.01;
         chaosbloomWeb.rotation.y += 0.01;
         chaosbloomScene.controls.update();
-        chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomCamera);
+        chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomScene.camera);
     }
     animate();
 }
