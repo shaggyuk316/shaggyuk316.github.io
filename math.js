@@ -59,6 +59,7 @@ function buildPeriodicTable() {
         btn.addEventListener("click", () => {
             localStorage.setItem("selectedElement", JSON.stringify(el));
             updateElementInfo();
+            calculate();
         });
         table.appendChild(btn);
     });
@@ -69,12 +70,50 @@ function updateElementInfo() {
     const info = document.getElementById("element-info");
     if (info) {
         info.textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
+        document.getElementById("z").value = el.z;
+        document.getElementById("mass").value = el.m;
     } else {
         console.error("Element info div not found");
     }
 }
 
+function calculate() {
+    const z = parseFloat(document.getElementById("z").value) || 1;
+    const m = parseFloat(document.getElementById("mass").value) || 1.008;
+    const v = parseFloat(document.getElementById("vibration").value) || 0;
+    const q = parseFloat(document.getElementById("charge").value) || 0;
+    const d = parseFloat(document.getElementById("density").value) || 0.1;
+
+    // Schwinger-inspired QED influence + Higgs mass mechanism
+    const k_v = 1e-50; // Vibration coupling (quantum tunneling effect)
+    const k_q = 1e-50; // Charge coupling (QED-like interaction)
+    const G = 6.674e-11; // Gravitational constant for macro-scale tie-in
+    const higgsFactor = m * 1e-25; // Simplified Higgs field contribution to mass
+
+    // Binary: Quantum state transition (electron jump or tunneling)
+    const binary = z * Math.sqrt(m + higgsFactor) * (k_v * v + k_q * q) * d;
+
+    // QuantSpark: Field fluctuation at 10⁻⁹³ m (sub-Planck inspiration)
+    const quantspark = z * Math.sqrt(m * 1e-93) * (k_v * v + k_q * q) * d;
+
+    // ChaosBloom: Symmetry breaking + gravitational influence
+    const chaosbloom = z * (k_v * v + k_q * q) * d + G * (m + higgsFactor);
+
+    const results = document.getElementById("results");
+    if (results) {
+        results.innerHTML = `
+            <p>Binary: ${binary.toExponential(2)} (Quantum Transition)</p>
+            <p>QuantSpark: ${quantspark.toExponential(2)} (Field Fluctuation)</p>
+            <p>ChaosBloom: ${chaosbloom.toExponential(2)} (Symmetry Break)</p>
+        `;
+    } else {
+        console.error("Results div not found");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM loaded, building table...");
     buildPeriodicTable();
     updateElementInfo();
+    calculate();
 });
