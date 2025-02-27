@@ -1,4 +1,3 @@
-// Periodic Table Data (unchanged)
 const periodicTable = [
     {s: "H", z: 1, m: 1.008}, {s: "He", z: 2, m: 4.002}, {s: "Li", z: 3, m: 6.941},
     {s: "Be", z: 4, m: 9.012}, {s: "B", z: 5, m: 10.811}, {s: "C", z: 6, m: 12.011},
@@ -42,7 +41,6 @@ const periodicTable = [
     {s: "Og", z: 118, m: 294}
 ];
 
-// Build Periodic Table (unchanged)
 function buildPeriodicTable() {
     const table = document.getElementById("periodic-table");
     periodicTable.forEach((el, i) => {
@@ -56,12 +54,23 @@ function buildPeriodicTable() {
         btn.addEventListener("click", () => {
             localStorage.setItem("selectedElement", JSON.stringify(el));
             updateAll();
+            updateProperties();
         });
         table.appendChild(btn);
     });
 }
 
-// Scene Setup
+function updateProperties() {
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const info = document.createElement("div");
+    info.id = "element-info";
+    info.textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
+    const existingInfo = document.getElementById("element-info");
+    if (existingInfo) existingInfo.remove();
+    document.querySelector("section").appendChild(info);
+}
+
+// Scene Setup (unchanged)
 function initScene(canvasId, bgColor) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return null;
@@ -76,7 +85,7 @@ function initScene(canvasId, bgColor) {
     return { scene, camera, renderer, controls };
 }
 
-// Binary Phase
+// Binary Phase (unchanged)
 let binaryScene = initScene("binaryCanvas", 0x000033);
 let binaryLattice = [];
 function updateBinary() {
@@ -95,7 +104,7 @@ function updateBinary() {
     const negChargeOn = document.getElementById("binaryNegChargeToggle").checked;
     const negCharge = negChargeOn ? parseFloat(document.getElementById("binaryNegCharge").value) || 0.5 : 0;
     const z = parseFloat(document.getElementById("binaryZ").value) || el.z;
-    const mass = parseFloat(document.getElementById("binaryMass").value) || el.mass;
+    const mass = parseFloat(document.getElementById("binaryMass").value) || el.m;
 
     binaryScene.scene.clear();
     binaryLattice = [];
@@ -140,7 +149,7 @@ function updateBinary() {
     animate();
 }
 
-// QuantSpark Phase
+// QuantSpark Phase (unchanged)
 let quantsparkScene = initScene("quantsparkCanvas", 0x330000);
 let quantsparkFlares = [];
 function updateQuantspark() {
@@ -162,7 +171,7 @@ function updateQuantspark() {
     const negChargeOn = document.getElementById("quantsparkNegChargeToggle").checked;
     const negCharge = negChargeOn ? parseFloat(document.getElementById("quantsparkNegCharge").value) || 0.5 : 0;
     const z = parseFloat(document.getElementById("quantsparkZ").value) || el.z;
-    const mass = parseFloat(document.getElementById("quantsparkMass").value) || el.mass;
+    const mass = parseFloat(document.getElementById("quantsparkMass").value) || el.m;
 
     quantsparkScene.scene.clear();
     quantsparkFlares = [];
@@ -214,7 +223,7 @@ function updateQuantspark() {
     animate();
 }
 
-// ChaosBloom Phase
+// ChaosBloom Phase (unchanged)
 let chaosbloomScene = initScene("chaosbloomCanvas", 0x000000);
 let chaosbloomWeb = null;
 function updateChaosbloom() {
@@ -236,7 +245,7 @@ function updateChaosbloom() {
     const negChargeOn = document.getElementById("chaosbloomNegChargeToggle").checked;
     const negCharge = negChargeOn ? parseFloat(document.getElementById("chaosbloomNegCharge").value) || 0.5 : 0;
     const z = parseFloat(document.getElementById("chaosbloomZ").value) || el.z;
-    const mass = parseFloat(document.getElementById("chaosbloomMass").value) || el.mass;
+    const mass = parseFloat(document.getElementById("chaosbloomMass").value) || el.m;
 
     chaosbloomScene.scene.clear();
     const geom = new THREE.BufferGeometry();
@@ -290,16 +299,17 @@ function updateChaosbloom() {
     animate();
 }
 
-// Update All Phases
+// Update All Phases (unchanged)
 function updateAll() {
     updateBinary();
     updateQuantspark();
     updateChaosbloom();
 }
 
-// Initialize
+// Initialize (updated to include properties)
 document.addEventListener("DOMContentLoaded", () => {
     buildPeriodicTable();
+    updateProperties();
     if (binaryScene) updateBinary();
     if (quantsparkScene) updateQuantspark();
     if (chaosbloomScene) updateChaosbloom();
