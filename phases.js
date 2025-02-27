@@ -51,9 +51,25 @@ function buildPeriodicTable() {
         btn.dataset.m = el.m;
         btn.style.gridColumn = i < 2 ? i + 1 : (i < 18 ? i - 1 : (i < 54 ? i - 17 : i - 53));
         btn.style.gridRow = i < 2 ? 1 : (i < 10 ? 2 : (i < 18 ? 3 : (i < 36 ? 4 : (i < 54 ? 5 : (i < 86 ? 6 : 7))));
-        btn.addEventListener("click", () => localStorage.setItem("selectedElement", JSON.stringify(el)));
+        btn.addEventListener("click", () => {
+            localStorage.setItem("selectedElement", JSON.stringify(el));
+            updateProperties();
+        });
         table.appendChild(btn);
     });
 }
 
-document.addEventListener("DOMContentLoaded", buildPeriodicTable);
+function updateProperties() {
+    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
+    const info = document.createElement("div");
+    info.id = "element-info";
+    info.textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
+    const existingInfo = document.getElementById("element-info");
+    if (existingInfo) existingInfo.remove();
+    document.querySelector("section").appendChild(info);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    buildPeriodicTable();
+    updateProperties();
+});
