@@ -100,3 +100,7 @@ canvas {
     border-top: 1px solid #444;
     padding-top: 20px;
 }
+#results {
+    margin-top: 20px;
+    font-size: 16px;
+}
