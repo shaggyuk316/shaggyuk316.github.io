@@ -1,173 +1,46 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    background: #000;
-    color: #fff;
-    display: flex;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased; /* Smoother text */
-    -moz-osx-font-smoothing: grayscale;
-}
-.sidebar {
-    width: 200px;
-    background: #1a1a1a;
-    padding: 20px;
-    position: fixed;
-    height: 100%;
-    border-right: 1px solid #333;
-}
-.sidebar h2 {
-    color: #1da1f2;
-    margin: 0 0 20px;
-    font-size: 24px;
-    text-align: center; /* Center sidebar title */
-}
-.sidebar nav a {
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    margin: 15px 0;
-    font-size: 18px;
-    text-align: center; /* Center nav links */
-    transition: color 0.3s ease; /* Smooth hover transition */
-}
-.sidebar nav a:hover {
-    color: #1da1f2;
-}
-.main-content {
-    margin-left: 220px;
-    flex: 1;
-    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
 }
 header {
-    padding: 10px 0;
-    border-bottom: 1px solid #333;
-    text-align: center; /* Center page title */
-}
-h1 {
-    font-size: 28px;
-    margin: 0;
+    text-align: center;
+    color: #333;
 }
 main {
-    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 section {
     margin: 20px 0;
-    padding: 15px;
-    background: #1a1a1a;
-    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 5px;
 }
-h2 {
-    font-size: 20px;
-    margin: 0 0 10px;
-    text-align: center; /* Center subtopics */
-}
-p {
-    font-size: 16px;
-    text-align: center; /* Center paragraph text */
-}
-#periodic-table {
-    display: grid;
-    grid-template-columns: repeat(18, 60px);
-    gap: 5px;
-    padding: 15px;
-    background: #222;
-    border-radius: 8px;
-    justify-content: center; /* Center periodic table */
-}
-.element {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #444;
-    background: #333;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center;
-    line-height: 60px;
-    position: relative;
-    border-radius: 4px; /* Softer corners */
-    transition: transform 0.3s ease, background 0.3s ease; /* Smooth hover */
-}
-.element:hover {
-    background: #555;
-    transform: scale(1.1);
-}
-.element span {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    font-size: 10px;
-}
-#element-info {
-    margin: 10px 0;
-    font-weight: bold;
-    text-align: center; /* Center element info */
-}
-canvas {
-    width: 100%;
-    max-width: 600px;
-    height: 400px;
-    border: 1px solid #444;
+img, canvas {
     display: block;
     margin: 10px auto;
-    border-radius: 4px; /* Softer canvas edges */
 }
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
-    justify-content: center;
+nav {
+    text-align: center;
 }
-.controls label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
 }
-input[type="number"], input[type="color"] {
-    padding: 5px;
-    border: 1px solid #444;
-    background: #333;
-    color: #fff;
-    border-radius: 4px;
-    transition: border-color 0.3s ease; /* Smooth input focus */
-}
-input[type="number"]:focus, input[type="color"]:focus {
-    border-color: #1da1f2;
-    outline: none;
-}
-button {
-    padding: 8px 15px;
-    background: #1da1f2;
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease; /* Smooth button hover */
-}
-button:hover {
-    background: #0c87d1;
-}
-.phase-section {
-    border-top: 1px solid #333;
-    padding-top: 20px;
+a:hover {
+    text-decoration: underline;
 }
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 10px auto; /* Center table */
-    max-width: 600px;
 }
 th, td {
-    border: 1px solid #444;
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 th {
-    background: #333;
-}
-#results {
-    margin-top: 20px;
-    font-size: 16px;
-    text-align: center; /* Center results */
+    background-color: #f2f2f2;
 }
