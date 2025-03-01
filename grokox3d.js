@@ -1,145 +1,394 @@
-const periodicTable = [
-    {s: "H", z: 1, m: 1.008}, {s: "He", z: 2, m: 4.002}, {s: "Li", z: 3, m: 6.941},
-    {s: "Be", z: 4, m: 9.012}, {s: "B", z: 5, m: 10.811}, {s: "C", z: 6, m: 12.011},
-    {s: "N", z: 7, m: 14.007}, {s: "O", z: 8, m: 15.999}, {s: "F", z: 9, m: 18.998},
-    {s: "Ne", z: 10, m: 20.180}, {s: "Na", z: 11, m: 22.990}, {s: "Mg", z: 12, m: 24.305},
-    {s: "Al", z: 13, m: 26.982}, {s: "Si", z: 14, m: 28.085}, {s: "P", z: 15, m: 30.974},
-    {s: "S", z: 16, m: 32.06}, {s: "Cl", z: 17, m: 35.45}, {s: "Ar", z: 18, m: 39.948},
-    {s: "K", z: 19, m: 39.098}, {s: "Ca", z: 20, m: 40.078}, {s: "Sc", z: 21, m: 44.956},
-    {s: "Ti", z: 22, m: 47.867}, {s: "V", z: 23, m: 50.942}, {s: "Cr", z: 24, m: 51.996},
-    {s: "Mn", z: 25, m: 54.938}, {s: "Fe", z: 26, m: 55.845}, {s: "Co", z: 27, m: 58.933},
-    {s: "Ni", z: 28, m: 58.693}, {s: "Cu", z: 29, m: 63.546}, {s: "Zn", z: 30, m: 65.38},
-    {s: "Ga", z: 31, m: 69.723}, {s: "Ge", z: 32, m: 72.630}, {s: "As", z: 33, m: 74.922},
-    {s: "Se", z: 34, m: 78.971}, {s: "Br", z: 35, m: 79.904}, {s: "Kr", z: 36, m: 83.798},
-    {s: "Rb", z: 37, m: 85.468}, {s: "Sr", z: 38, m: 87.62}, {s: "Y", z: 39, m: 88.906},
-    {s: "Zr", z: 40, m: 91.224}, {s: "Nb", z: 41, m: 92.906}, {s: "Mo", z: 42, m: 95.95},
-    {s: "Tc", z: 43, m: 98}, {s: "Ru", z: 44, m: 101.07}, {s: "Rh", z: 45, m: 102.91},
-    {s: "Pd", z: 46, m: 106.42}, {s: "Ag", z: 47, m: 107.87}, {s: "Cd", z: 48, m: 112.41},
-    {s: "In", z: 49, m: 114.82}, {s: "Sn", z: 50, m: 118.71}, {s: "Sb", z: 51, m: 121.76},
-    {s: "Te", z: 52, m: 127.60}, {s: "I", z: 53, m: 126.90}, {s: "Xe", z: 54, m: 131.29},
-    {s: "Cs", z: 55, m: 132.91}, {s: "Ba", z: 56, m: 137.33}, {s: "La", z: 57, m: 138.91},
-    {s: "Ce", z: 58, m: 140.12}, {s: "Pr", z: 59, m: 140.91}, {s: "Nd", z: 60, m: 144.24},
-    {s: "Pm", z: 61, m: 145}, {s: "Sm", z: 62, m: 150.36}, {s: "Eu", z: 63, m: 151.96},
-    {s: "Gd", z: 64, m: 157.25}, {s: "Tb", z: 65, m: 158.93}, {s: "Dy", z: 66, m: 162.50},
-    {s: "Ho", z: 67, m: 164.93}, {s: "Er", z: 68, m: 167.26}, {s: "Tm", z: 69, m: 168.93},
-    {s: "Yb", z: 70, m: 173.05}, {s: "Lu", z: 71, m: 174.97}, {s: "Hf", z: 72, m: 178.49},
-    {s: "Ta", z: 73, m: 180.95}, {s: "W", z: 74, m: 183.84}, {s: "Re", z: 75, m: 186.21},
-    {s: "Os", z: 76, m: 190.23}, {s: "Ir", z: 77, m: 192.22}, {s: "Pt", z: 78, m: 195.08},
-    {s: "Au", z: 79, m: 196.97}, {s: "Hg", z: 80, m: 200.59}, {s: "Tl", z: 81, m: 204.38},
-    {s: "Pb", z: 82, m: 207.2}, {s: "Bi", z: 83, m: 208.98}, {s: "Po", z: 84, m: 209},
-    {s: "At", z: 85, m: 210}, {s: "Rn", z: 86, m: 222}, {s: "Fr", z: 87, m: 223},
-    {s: "Ra", z: 88, m: 226}, {s: "Ac", z: 89, m: 227}, {s: "Th", z: 90, m: 232.04},
-    {s: "Pa", z: 91, m: 231.04}, {s: "U", z: 92, m: 238.03}, {s: "Np", z: 93, m: 237},
-    {s: "Pu", z: 94, m: 244}, {s: "Am", z: 95, m: 243}, {s: "Cm", z: 96, m: 247},
-    {s: "Bk", z: 97, m: 247}, {s: "Cf", z: 98, m: 251}, {s: "Es", z: 99, m: 252},
-    {s: "Fm", z: 100, m: 257}, {s: "Md", z: 101, m: 258}, {s: "No", z: 102, m: 259},
-    {s: "Lr", z: 103, m: 262}, {s: "Rf", z: 104, m: 267}, {s: "Db", z: 105, m: 268},
-    {s: "Sg", z: 106, m: 269}, {s: "Bh", z: 107, m: 270}, {s: "Hs", z: 108, m: 269},
-    {s: "Mt", z: 109, m: 278}, {s: "Ds", z: 110, m: 281}, {s: "Rg", z: 111, m: 280},
-    {s: "Cn", z: 112, m: 285}, {s: "Nh", z: 113, m: 286}, {s: "Fl", z: 114, m: 289},
-    {s: "Mc", z: 115, m: 289}, {s: "Lv", z: 116, m: 293}, {s: "Ts", z: 117, m: 294},
-    {s: "Og", z: 118, m: 294}
-];
+// Simplified OrbitControls (embedded)
+const OrbitControls = (function() {
+    function OrbitControls(object, domElement) {
+        this.object = object;
+        this.domElement = domElement;
+        this.enabled = true;
+        this.target = new THREE.Vector3();
+        this.minDistance = 0;
+        this.maxDistance = Infinity;
+        this.enableDamping = true;
+        this.dampingFactor = 0.05;
+        this.enableZoom = true;
+        this.zoomSpeed = 1.0;
+        this.enableRotate = true;
+        this.rotateSpeed = 1.0;
+        this.enablePan = true;
+        this.panSpeed = 1.0;
 
-function buildPeriodicTable() {
-    const table = document.getElementById("periodic-table");
-    if (!table) {
-        console.error("Periodic table container not found");
-        return;
+        const scope = this;
+        const rotateStart = new THREE.Vector2();
+        const rotateEnd = new THREE.Vector2();
+        const rotateDelta = new THREE.Vector2();
+        const panStart = new THREE.Vector2();
+        const panEnd = new THREE.Vector2();
+        const panDelta = new THREE.Vector2();
+        const dollyStart = new THREE.Vector2();
+        const dollyEnd = new THREE.Vector2();
+        const dollyDelta = new THREE.Vector2();
+        let state = -1;
+        const spherical = new THREE.Spherical();
+        const sphericalDelta = new THREE.Spherical();
+        let scale = 1;
+        const panOffset = new THREE.Vector3();
+
+        function getZoomScale() { return Math.pow(0.95, scope.zoomSpeed); }
+        function rotateLeft(angle) { sphericalDelta.theta -= angle; }
+        function rotateUp(angle) { sphericalDelta.phi -= angle; }
+        function panLeft(distance, objectMatrix) {
+            const v = new THREE.Vector3().setFromMatrixColumn(objectMatrix, 0);
+            v.multiplyScalar(-distance);
+            panOffset.add(v);
+        }
+        function panUp(distance, objectMatrix) {
+            const v = new THREE.Vector3().setFromMatrixColumn(objectMatrix, 1);
+            v.multiplyScalar(distance);
+            panOffset.add(v);
+        }
+        function pan(deltaX, deltaY) {
+            const element = scope.domElement;
+            const position = scope.object.position;
+            const offset = position.clone().sub(scope.target);
+            let targetDistance = offset.length();
+            targetDistance *= Math.tan((scope.object.fov / 2) * Math.PI / 180.0);
+            panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
+            panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+        }
+        function dollyIn(dollyScale) { scale *= dollyScale; }
+        function dollyOut(dollyScale) { scale /= dollyScale; }
+
+        this.update = function() {
+            const offset = new THREE.Vector3();
+            const quat = new THREE.Quaternion().setFromUnitVectors(object.up, new THREE.Vector3(0, 1, 0));
+            const quatInverse = quat.clone().invert();
+            offset.copy(scope.object.position).sub(scope.target);
+            offset.applyQuaternion(quat);
+            spherical.setFromVector3(offset);
+            if (scope.enableDamping) {
+                spherical.theta += sphericalDelta.theta * scope.dampingFactor;
+                spherical.phi += sphericalDelta.phi * scope.dampingFactor;
+            } else {
+                spherical.theta += sphericalDelta.theta;
+                spherical.phi += sphericalDelta.phi;
+            }
+            spherical.phi = Math.max(0, Math.min(Math.PI, spherical.phi));
+            spherical.radius *= scale;
+            spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
+            if (scope.enableDamping) {
+                scope.target.addScaledVector(panOffset, scope.dampingFactor);
+            } else {
+                scope.target.add(panOffset);
+            }
+            offset.setFromSpherical(spherical);
+            offset.applyQuaternion(quatInverse);
+            scope.object.position.copy(scope.target).add(offset);
+            scope.object.lookAt(scope.target);
+            if (scope.enableDamping) {
+                sphericalDelta.theta *= (1 - scope.dampingFactor);
+                sphericalDelta.phi *= (1 - scope.dampingFactor);
+                panOffset.multiplyScalar(1 - scope.dampingFactor);
+            } else {
+                sphericalDelta.set(0, 0, 0);
+                panOffset.set(0, 0, 0);
+            }
+            scale = 1;
+        };
+
+        function onMouseDown(event) {
+            if (!scope.enabled) return;
+            event.preventDefault();
+            if (event.button === 0) {
+                state = 0;
+                rotateStart.set(event.clientX, event.clientY);
+            } else if (event.button === 1) {
+                state = 1;
+                dollyStart.set(event.clientX, event.clientY);
+            } else if (event.button === 2) {
+                state = 2;
+                panStart.set(event.clientX, event.clientY);
+            }
+            if (state !== -1) {
+                document.addEventListener('mousemove', onMouseMove, false);
+                document.addEventListener('mouseup', onMouseUp, false);
+            }
+        }
+
+        function onMouseMove(event) {
+            if (!scope.enabled) return;
+            event.preventDefault();
+            if (state === 0) {
+                rotateEnd.set(event.clientX, event.clientY);
+                rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+                const element = scope.domElement;
+                rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+                rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+                rotateStart.copy(rotateEnd);
+            } else if (state === 1) {
+                dollyEnd.set(event.clientX, event.clientY);
+                dollyDelta.subVectors(dollyEnd, dollyStart);
+                if (dollyDelta.y > 0) dollyOut(getZoomScale());
+                else if (dollyDelta.y < 0) dollyIn(getZoomScale());
+                dollyStart.copy(dollyEnd);
+            } else if (state === 2) {
+                panEnd.set(event.clientX, event.clientY);
+                panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+                pan(panDelta.x, panDelta.y);
+                panStart.copy(panEnd);
+            }
+            scope.update();
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mousemove', onMouseMove, false);
+            document.removeEventListener('mouseup', onMouseUp, false);
+            state = -1;
+        }
+
+        function onMouseWheel(event) {
+            if (!scope.enabled || !scope.enableZoom) return;
+            event.preventDefault();
+            if (event.deltaY < 0) dollyIn(getZoomScale());
+            else if (event.deltaY > 0) dollyOut(getZoomScale());
+            scope.update();
+        }
+
+        scope.domElement.addEventListener('mousedown', onMouseDown, false);
+        scope.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
+
+        this.update();
     }
-    table.innerHTML = "";
-    periodicTable.forEach((el, i) => {
-        const btn = document.createElement("button");
-        btn.className = "element";
-        btn.innerHTML = `<span>${el.z}</span>${el.s}`;
-        btn.dataset.z = el.z;
-        btn.dataset.m = el.m;
-        btn.style.gridColumn = i < 2 ? i + 1 : (i < 18 ? i - 1 : (i < 54 ? i - 17 : i - 53));
-        btn.style.gridRow = i < 2 ? 1 : (i < 10 ? 2 : (i < 18 ? 3 : (i < 36 ? 4 : (i < 54 ? 5 : (i < 86 ? 6 : 7))));
-        btn.addEventListener("click", () => {
-            localStorage.setItem("selectedElement", JSON.stringify(el));
-            updateElementInfo();
-            updateBinary();
-        });
-        table.appendChild(btn);
-    });
-}
+    return OrbitControls;
+})();
 
-function updateElementInfo() {
-    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    const info = document.getElementById("element-info");
-    if (info) {
-        info.textContent = `Selected: ${el.s} (Z: ${el.z}, Mass: ${el.m})`;
-        document.getElementById("binaryZ").value = el.z;
-        document.getElementById("binaryMass").value = el.m;
-    } else {
-        console.error("Element info div not found");
-    }
-}
-
-function initScene(canvasId, bgColor) {
+// Scene Setup
+function initScene(canvasId, sceneColor) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) {
-        console.error(`Canvas ${canvasId} not found`);
-        return null;
-    }
+    if (!canvas) { console.error(`Canvas '${canvasId}' not found`); return null; }
+    if (typeof THREE === 'undefined') { console.error('Three.js not loaded'); return null; }
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(bgColor);
-    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    camera.position.z = 10;
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    scene.background = new THREE.Color(sceneColor);
+    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+    renderer.setSize(canvas.clientWidth, 400);
+    camera.position.z = 20;
+    camera.lookAt(0, 0, 0);
+    const controls = new OrbitControls(camera, renderer.domElement);
     return { scene, camera, renderer, controls };
 }
 
-let binaryScene = initScene("binaryCanvas", 0x000033);
+// Binary Phase
+const binaryScene = initScene('binaryCanvas', 0x000033);
 let binaryLattice = [];
 function updateBinary() {
     if (!binaryScene) return;
-    const el = JSON.parse(localStorage.getItem("selectedElement") || JSON.stringify(periodicTable[0]));
-    const size = parseFloat(document.getElementById("binarySize").value) || 5;
-    const color = document.getElementById("binaryColor").value || "#0000FF";
-    const v = parseFloat(document.getElementById("binaryVibration").value) || 0;
-    const q = parseFloat(document.getElementById("binaryCharge").value) || 0;
-    const z = parseFloat(document.getElementById("binaryZ").value) || el.z;
-    const m = parseFloat(document.getElementById("binaryMass").value) || el.m;
-
+    const size = parseInt(document.getElementById('binarySize').value) || 5;
+    const color = document.getElementById('binaryColor').value || '#0000FF';
+    const soundAmplitude = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('binaryDensityToggle').checked ? parseFloat(document.getElementById('binaryDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('binaryVibrationToggle').checked ? parseFloat(document.getElementById('binaryVibration').value) || 0.5 : 0;
+    const positiveCharge = document.getElementById('binaryPositiveChargeToggle').checked ? parseFloat(document.getElementById('binaryPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('binaryNegativeChargeToggle').checked ? parseFloat(document.getElementById('binaryNegativeCharge').value) || 0.5 : 0;
     binaryScene.scene.clear();
     binaryLattice = [];
-    const geom = new THREE.SphereGeometry(0.1 * z, 16, 16); // Size scales with Z
-    const k_v = 1e-50, k_q = 1e-50; // Schwinger-inspired couplings
-
+    const geometry = new THREE.SphereGeometry(0.1, 16, 16);
+    const baseDensity = 0.1;
+    const k_v = 1e-50;
+    const k_q = 1e-50;
+    const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge; // Net charge from toggles
     for (let x = -size / 2; x <= size / 2; x += 0.5) {
         for (let y = -size / 2; y <= size / 2; y += 0.5) {
-            for (let zPos = -size / 2; zPos <= size / 2; zPos += 0.5) {
-                const mat = new THREE.MeshBasicMaterial({ color });
-                const sphere = new THREE.Mesh(geom, mat);
-                sphere.position.set(x, y, zPos);
-                sphere.vibration = v * k_v; // Quantum transition effect
-                sphere.charge = q * k_q; // QED-like influence
+            for (let z = -size / 2; z <= size / 2; z += 0.5) {
+                const r = Math.sqrt(x * x + y * y + z * z);
+                const density = baseDensity + densityVariation * Math.exp(-r * r / 4);
+                const material = new THREE.MeshBasicMaterial({ color: color });
+                const sphere = new THREE.Mesh(geometry, material);
+                sphere.position.set(x, y, z);
+                sphere.soundOffset = Math.sin(2 * Math.PI * (x + y + z));
+                sphere.density = density;
+                sphere.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
+                sphere.charge = k_q * netCharge; // Apply net charge effect
                 binaryLattice.push(sphere);
                 binaryScene.scene.add(sphere);
             }
         }
     }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        binaryLattice.forEach(sphere => {
-            const scale = 1 + Math.sin(Date.now() * 0.005) * sphere.vibration + sphere.charge;
-            sphere.scale.set(scale, scale, scale); // Reacts to vibration and charge
-        });
+    binaryLattice.soundAmplitude = soundAmplitude;
+    binaryLattice.vibrationScale = vibrationScale;
+    binaryLattice.netCharge = netCharge;
+}
+if (binaryScene) {
+    updateBinary();
+    let flipTime = 0;
+    function animateBinary() {
+        requestAnimationFrame(animateBinary);
+        flipTime += 0.05 * (1 + binaryLattice.soundAmplitude * binaryLattice[0].density * binaryLattice.vibrationScale + binaryLattice.netCharge);
+        if (flipTime > 5) {
+            binaryLattice.forEach(sphere => {
+                sphere.material.color.set(0xffff00);
+                sphere.scale.set(2 + sphere.soundOffset * sphere.vibration + sphere.charge, 2, 2);
+            });
+        }
         binaryScene.controls.update();
         binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
     }
-    animate();
+    animateBinary();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM loaded, building table...");
-    buildPeriodicTable();
-    updateElementInfo();
-    if (binaryScene) updateBinary();
-});
+// QuantSpark Phase
+const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
+let quantsparkFlares = [];
+function updateQuantspark() {
+    if (!quantsparkScene) return;
+    const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
+    const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
+    const gasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
+    const magneticStrength = document.getElementById('quantsparkMagneticToggle').checked ? parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1 : 0;
+    const soundAmplitude = document.getElementById('quantsparkSoundToggle').checked ? parseFloat(document.getElementById('quantsparkSound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('quantsparkDensityToggle').checked ? parseFloat(document.getElementById('quantsparkDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('quantsparkVibrationToggle').checked ? parseFloat(document.getElementById('quantsparkVibration').value) || 0.5 : 0;
+    const positiveCharge = document.getElementById('quantsparkPositiveChargeToggle').checked ? parseFloat(document.getElementById('quantsparkPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('quantsparkNegativeChargeToggle').checked ? parseFloat(document.getElementById('quantsparkNegativeCharge').value) || 0.5 : 0;
+    quantsparkScene.scene.clear();
+    quantsparkFlares = [];
+    const geometry = new THREE.SphereGeometry(0.2, 16, 16);
+    const baseDensity = 0.1;
+    const k_v = 1e-50;
+    const k_q = 1e-50;
+    const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge;
+    for (let i = 0; i < count; i++) {
+        const solidMaterial = new THREE.MeshBasicMaterial({ color: solidColor });
+        const gasMaterial = new THREE.MeshBasicMaterial({ color: gasColor });
+        const solid = new THREE.Mesh(geometry, solidMaterial);
+        const gas = new THREE.Mesh(geometry, gasMaterial);
+        solid.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+        gas.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+        solid.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
+        gas.velocity = new THREE.Vector3(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05);
+        const r = solid.position.length();
+        const density = baseDensity + densityVariation * Math.sin(r);
+        solid.density = density;
+        gas.density = density;
+        solid.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
+        gas.vibration = solid.vibration;
+        solid.charge = k_q * netCharge;
+        gas.charge = k_q * netCharge;
+        quantsparkFlares.push({ solid, gas });
+        quantsparkScene.scene.add(solid, gas);
+    }
+    quantsparkFlares.magneticStrength = magneticStrength;
+    quantsparkFlares.soundAmplitude = soundAmplitude;
+    quantsparkFlares.vibrationScale = vibrationScale;
+    quantsparkFlares.netCharge = netCharge;
+}
+if (quantsparkScene) {
+    updateQuantspark();
+    function animateQuantspark() {
+        requestAnimationFrame(animateQuantspark);
+        const magneticField = new THREE.Vector3(0, 0, quantsparkFlares.magneticStrength);
+        quantsparkFlares.forEach(flare => {
+            const soundEnergy = quantsparkFlares.soundAmplitude * Math.sin(Date.now() * 0.001) * flare.solid.density * flare.solid.vibration;
+            const chargeForce = flare.solid.charge * 0.1; // Simplified charge effect on velocity
+            const solidForce = flare.solid.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce);
+            const gasForce = flare.gas.velocity.clone().cross(magneticField).multiplyScalar(0.01 + soundEnergy + chargeForce);
+            flare.solid.velocity.add(solidForce);
+            flare.gas.velocity.add(gasForce);
+            flare.solid.position.add(flare.solid.velocity);
+            flare.gas.position.add(flare.gas.velocity);
+            flare.solid.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
+            flare.gas.position.clamp(new THREE.Vector3(-4, -4, -4), new THREE.Vector3(4, 4, 4));
+            flare.solid.scale.set(1 + Math.sin(Date.now() * 0.005 + flare.solid.vibration + flare.solid.charge), 1 + Math.sin(Date.now() * 0.005), 1);
+            flare.gas.scale.set(1 + Math.sin(Date.now() * 0.007 + flare.gas.vibration + flare.gas.charge), 1 + Math.sin(Date.now() * 0.007), 1);
+        });
+        quantsparkScene.controls.update();
+        quantsparkScene.renderer.render(quantsparkScene.scene, quantsparkScene.camera);
+    }
+    animateQuantspark();
+}
+
+// ChaosBloom Phase
+const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
+let chaosbloomWeb = null;
+function updateChaosbloom() {
+    if (!chaosbloomScene) return;
+    const points = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
+    const color1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
+    const color2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
+    const gravityStrength = document.getElementById('chaosbloomGravityToggle').checked ? parseFloat(document.getElementById('chaosbloomGravity').value) || 0.01 : 0;
+    const soundAmplitude = document.getElementById('chaosbloomSoundToggle').checked ? parseFloat(document.getElementById('chaosbloomSound').value) || 0.5 : 0;
+    const densityVariation = document.getElementById('chaosbloomDensityToggle').checked ? parseFloat(document.getElementById('chaosbloomDensity').value) || 0.2 : 0;
+    const vibrationScale = document.getElementById('chaosbloomVibrationToggle').checked ? parseFloat(document.getElementById('chaosbloomVibration').value) || 0.5 : 0;
+    const positiveCharge = document.getElementById('chaosbloomPositiveChargeToggle').checked ? parseFloat(document.getElementById('chaosbloomPositiveCharge').value) || 0.5 : 0;
+    const negativeCharge = document.getElementById('chaosbloomNegativeChargeToggle').checked ? parseFloat(document.getElementById('chaosbloomNegativeCharge').value) || 0.5 : 0;
+    chaosbloomScene.scene.clear();
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+    const positions = [];
+    const baseDensity = 0.1;
+    const k_v = 1e-50;
+    const k_q = 1e-50;
+    const f_s = 1e95;
+    const netCharge = positiveCharge - negativeCharge;
+    for (let i = 0; i < points; i++) {
+        const x = (Math.random() - 0.5) * 10;
+        const y = (Math.random() - 0.5) * 10;
+        const z = (Math.random() - 0.5) * 10;
+        const r = Math.sqrt(x * x + y * y + z * z);
+        const density = baseDensity + densityVariation * r;
+        vertices.push(x, y, z);
+        const color = Math.random() < 0.5 ? new THREE.Color(color1) : new THREE.Color(color2);
+        colors.push(color.r, color.g, color.b);
+        const pos = new THREE.Vector3(x, y, z);
+        pos.density = density;
+        pos.vibration = k_v * soundAmplitude * f_s * Math.sqrt(density) * vibrationScale;
+        pos.charge = k_q * netCharge;
+        positions.push(pos);
+    }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    const material = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
+    chaosbloomWeb = new THREE.Points(geometry, material);
+    chaosbloomWeb.positions = positions;
+    chaosbloomWeb.gravityStrength = gravityStrength;
+    chaosbloomWeb.soundAmplitude = soundAmplitude;
+    chaosbloomWeb.vibrationScale = vibrationScale;
+    chaosbloomWeb.netCharge = netCharge;
+    chaosbloomScene.scene.add(chaosbloomWeb);
+}
+if (chaosbloomScene) {
+    updateChaosbloom();
+    function animateChaosbloom() {
+        requestAnimationFrame(animateChaosbloom);
+        if (chaosbloomWeb) {
+            const positions = chaosbloomWeb.positions;
+            const posArray = chaosbloomWeb.geometry.attributes.position.array;
+            const soundEnergy = chaosbloomWeb.soundAmplitude * Math.sin(Date.now() * 0.001);
+            for (let i = 0; i < positions.length; i++) {
+                const p1 = positions[i];
+                let force = new THREE.Vector3();
+                for (let j = 0; j < positions.length; j++) {
+                    if (i === j) continue;
+                    const p2 = positions[j];
+                    const distance = p1.distanceTo(p2);
+                    if (distance < 0.1) continue;
+                    const direction = p2.clone().sub(p1).normalize();
+                    const gravity = chaosbloomWeb.gravityStrength / (distance * distance) * p1.density * p2.density + soundEnergy * p1.vibration * 0.01 + p1.charge * p2.charge * 0.01;
+                    force.add(direction.multiplyScalar(gravity));
+                }
+                p1.add(force.multiplyScalar(0.01));
+                p1.clamp(new THREE.Vector3(-10, -10, -10), new THREE.Vector3(10, 10, 10));
+                posArray[i * 3] = p1.x;
+                posArray[i * 3 + 1] = p1.y;
+                posArray[i * 3 + 2] = p1.z;
+            }
+            chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
+            chaosbloomWeb.rotation.x += 0.01;
+            chaosbloomWeb.rotation.y += 0.01;
+        }
+        chaosbloomScene.controls.update();
+        chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomScene.camera);
+    }
+    animateChaosbloom();
+}
