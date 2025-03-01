@@ -1,43 +1,31 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Math</title>
+    <title>Grokox Mathematics</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="math.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Grokox</h2>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="phases.html">Phases</a>
-            <a href="math.html">Math</a>
-            <a href="qcalcs.html">Q-Calcs</a>
-            <a href="visuals.html">Visuals</a>
-        </nav>
-    </div>
-    <div class="main-content">
-        <header><h1>Math</h1></header>
-        <main>
-            <section>
-                <h2>Periodic Table</h2>
-                <div id="periodic-table"></div>
-                <div id="element-info"></div>
-            </section>
-            <section>
-                <h2>Calculator</h2>
-                <div class="controls">
-                    <label>Z: <input type="number" id="z" value="1" min="1" max="118"></label>
-                    <label>Mass: <input type="number" id="mass" value="1.008" step="0.001"></label>
-                    <label>Vibration: <input type="number" id="vibration" value="0" step="0.1"></label>
-                    <label>Charge: <input type="number" id="charge" value="0" step="0.1"></label>
-                    <label>Density: <input type="number" id="density" value="0.1" step="0.1"></label>
-                    <button onclick="calculate()">Calculate</button>
-                </div>
-                <div id="results"></div>
-            </section>
-        </main>
-    </div>
+    <header><h1>Grokox Mathematics</h1></header>
+    <main>
+        <section>
+            <h2>Binary</h2>
+            <p>\( S(t, \mathbf{r}, f) = H(t - t_0) \cdot R_0 e^{i \mathbf{k_s} \cdot \mathbf{r}} + \sum_f \left[ \left( V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q \right) \sin(2\pi f_s t) \cdot \sqrt{|\mathbf{r}|} \right] \cdot \pi \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot e^{-|\mathbf{r}|^2 / \sigma_\rho^2} \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
+        </section>
+        <section>
+            <h2>QuantSpark</h2>
+            <p>\( Q_n(t, \mathbf{r}, f) = n \cdot \sqrt{10^{-93} \cdot R_n(t, \mathbf{r})} \cdot (h f_e + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q) \cdot \pi \cdot e^{-(\sqrt{|\mathbf{r}|})^2/\sigma^2} + (\mathbf{v} + \nabla [A_s \sin(2\pi f_s t)]) \times \mathbf{B} \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot \sin(\mathbf{k_d} \cdot \mathbf{r}) \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
+        </section>
+        <section>
+            <h2>ChaosBloom</h2>
+            <p>\( N(t, \mathbf{r}, f) = N_s + N_g + \sum_{f_c} \left( \frac{c}{f_c} \cdot (|\psi_c(t, f_c)|^2 + V_s \cdot \frac{1}{2} \rho(\mathbf{r}) v^2 A_s^2 + k_q Q_s q) \right) + \left( G \frac{m_1 m_2}{|\mathbf{r}|^2} + V_s \cdot A_s \sin(2\pi f_s t) \cdot \rho(\mathbf{r}) + k_q Q_s q \right) \)</p>
+            <p>Density: \( \rho(\mathbf{r}) = \rho_0 + \Delta \rho \cdot |\mathbf{r}| \), Vibration: \( V_s = k_v \cdot A_s \cdot f_s \cdot \sqrt{\rho(\mathbf{r})} \), Charge: \( q = Q_{s+} - Q_{s-} \)</p>
+        </section>
+        <a href="index.html">Back to Home</a>
+    </main>
 </body>
 </html>
