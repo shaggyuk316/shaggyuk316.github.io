@@ -9,6 +9,12 @@
 <body>
     <h1>Combined Visuals</h1>
     <p>All phases in one view—Grokox Theory chaos.</p>
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="visuals.html">Visuals</a> |
+        <a href="quantumibarial.html">Quantumibarial</a> |
+        <a href="combined.html">Combined</a>
+    </nav>
     <button onclick="updateAll()">Update Variables</button>
 
     <div class="visual-section">
@@ -36,14 +42,41 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
+    </footer>
+
     <script>
-        // [OrbitControls code—same as above, omitted for brevity]
+        // OrbitControls (from your script.js—pasted here for standalone functionality)
+        const OrbitControls = (function() {
+            /* [Exact OrbitControls code from your script.js—omitted here for brevity] */
+            return OrbitControls;
+        })();
+
+        function initScene(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                console.error(`Canvas with ID '${canvasId}' not found`);
+                return null;
+            }
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff);
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 600, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+            renderer.setSize(canvas.clientWidth, 600);
+            camera.position.z = 20;
+            const controls = new OrbitControls(camera, renderer.domElement);
+            return { scene, camera, renderer, controls };
+        }
 
         const combined = initScene('combinedCanvas');
         let binaryCubes = [], quantFlares = [], quantibPoints;
 
         function updateAll() {
-            if (!combined) return;
+            if (!combined) {
+                console.error('Combined scene not initialized');
+                return;
+            }
             combined.scene.clear();
             binaryCubes = [];
             quantFlares = [];
@@ -58,7 +91,7 @@
             const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor });
             for (let i = 0; i < binarySize; i++) {
                 const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - (binarySize - 1), -5, 0);
+                cube.position.set(i * 2 - (binarySize - 1), -10, 0); // Lowered to separate
                 binaryCubes.push(cube);
                 combined.scene.add(cube);
             }
@@ -97,7 +130,7 @@
             const vertices = [];
             const colors = [];
             for (let i = 0; i < quantibNodes; i++) {
-                vertices.push(Math.random() * 10 - 5, Math.random() * 10 + 5, Math.random() * 10 - 5);
+                vertices.push(Math.random() * 10 - 5, Math.random() * 10 + 10, Math.random() * 10 - 5); // Raised to separate
                 const color = Math.random() < 0.5 ? new THREE.Color(quantibColor1) : new THREE.Color(quantibColor2);
                 colors.push(color.r, color.g, color.b);
             }
