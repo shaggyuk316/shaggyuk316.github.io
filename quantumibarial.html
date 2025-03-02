@@ -4,7 +4,185 @@
     <meta charset="UTF-8">
     <title>Quantumibarial - Grokox Theory</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnj<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quantumibarial - Grokox Theory</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+</head>
+<body>
+    <h1>Quantumibarial Phase</h1>
+    <p>Built with Grok 3 by xAI—exploring chaos beyond binary.</p>
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="visuals.html">Visuals</a> |
+        <a href="quantumibarial.html">Quantumibarial</a> |
+        <a href="combined.html">Combined</a>
+    </nav>
+    <button onclick="updateAll()">Update Variables</button>
+
+    <div class="visual-section">
+        <h2>Binary</h2>
+        <canvas id="binaryCanvas" style="height: 400px; width: 100%;"></canvas>
+        <div class="controls">
+            <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateBinary()"></label>
+            <label>Color: <input type="color" id="binaryColor" value="#00ff00" onchange="updateBinary()"></label>
+            <label>Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateBinary()"> <input type="range" id="binaryDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateBinary()"></label>
+        </div>
+    </div>
+
+    <div class="visual-section">
+        <h2>Quantuminial</h2>
+        <canvas id="quantCanvas" style="height: 400px; width: 100%;"></canvas>
+        <div class="controls">
+            <label>Radius (0.5-10): <input type="range" id="quantRadius" min="0.5" max="10" step="0.1" value="1" onchange="updateQuant()"></label>
+            <label>Energy: <input type="checkbox" id="quantEnergyToggle" checked onchange="updateQuant()"> <input type="range" id="quantEnergy" min="0" max="100" value="10" onchange="updateQuant()"></label>
+            <label>Color: <input type="color" id="quantColor" value="#007bff" onchange="updateQuant()"></label>
+            <label>Density: <input type="checkbox" id="quantDensityToggle" checked onchange="updateQuant()"> <input type="range" id="quantDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateQuant()"></label>
+        </div>
+    </div>
+
+    <div class="visual-section">
+        <h2>Quantumibarial</h2>
+        <canvas id="quantumibarialCanvas" style="height: 400px; width: 100%;"></canvas>
+        <div class="controls">
+            <label>Nodes (1-100): <input type="number" id="nodeCount" value="3" min="1" max="100" onchange="updateQuantumibarial()"></label>
+            <label>Color: <input type="color" id="quantibColor" value="#ff00ff" onchange="updateQuantumibarial()"></label>
+            <label>Density: <input type="checkbox" id="densityToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="density" min="0.5" max="5" step="0.1" value="1" onchange="updateQuantumibarial()"></label>
+            <label>Energy: <input type="checkbox" id="energyToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="energy" min="0" max="100" value="10" onchange="updateQuantumibarial()"></label>
+            <label>Dark Energy: <input type="checkbox" id="darkEnergyToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="darkEnergy" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantumibarial()"></label>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
+    </footer>
+
+    <script>
+        // [OrbitControls code—same as before, omitted for brevity—copied from your script.js]
+        const OrbitControls = (function() {
+            /* [Your OrbitControls code here] */
+            return OrbitControls;
+        })();
+
+        function initScene(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                console.error(`Canvas with ID '${canvasId}' not found`);
+                return null;
+            }
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff);
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+            renderer.setSize(canvas.clientWidth, 400);
+            camera.position.z = 20;
+            const controls = new OrbitControls(camera, renderer.domElement);
+            return { scene, camera, renderer, controls };
+        }
+
+        const binary = initScene('binaryCanvas');
+        const quant = initScene('quantCanvas');
+        const quantib = initScene('quantumibarialCanvas');
+        let binaryCubes = [], quantSphere, quantibNetwork = [];
+
+        function updateBinary() {
+            if (!binary) return;
+            binary.scene.clear();
+            binaryCubes = [];
+            const size = parseInt(document.getElementById('binarySize').value) || 5;
+            const color = document.getElementById('binaryColor').value || '#00ff00';
+            const densityToggle = document.getElementById('binaryDensityToggle').checked;
+            const density = densityToggle ? parseFloat(document.getElementById('binaryDensity').value) || 1 : 1;
+            const geo = new THREE.BoxGeometry(density, density, density);
+            const mat = new THREE.MeshBasicMaterial({ color: color });
+            for (let i = 0; i < size; i++) {
+                const cube = new THREE.Mesh(geo, mat);
+                cube.position.set(i * 2 - (size - 1), 0, 0);
+                binaryCubes.push(cube);
+                binary.scene.add(cube);
+            }
+        }
+
+        function updateQuant() {
+            if (!quant) return;
+            quant.scene.clear();
+            const radius = parseFloat(document.getElementById('quantRadius').value) || 1;
+            const energyToggle = document.getElementById('quantEnergyToggle').checked;
+            const energy = energyToggle ? parseFloat(document.getElementById('quantEnergy').value) || 10 : 10;
+            const color = document.getElementById('quantColor').value || '#007bff';
+            const densityToggle = document.getElementById('quantDensityToggle').checked;
+            const density = densityToggle ? parseFloat(document.getElementById('quantDensity').value) || 1 : 1;
+            const geo = new THREE.SphereGeometry(radius * density, 32, 32);
+            const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
+            quantSphere = new THREE.Mesh(geo, mat);
+            quantSphere.energy = energy;
+            quant.scene.add(quantSphere);
+        }
+
+        function updateQuantumibarial() {
+            if (!quantib) return;
+            quantib.scene.clear();
+            quantibNetwork = [];
+            const nodeCount = parseInt(document.getElementById('nodeCount').value) || 3;
+            const color = document.getElementById('quantibColor').value || '#ff00ff';
+            const densityToggle = document.getElementById('densityToggle').checked;
+            const density = densityToggle ? parseFloat(document.getElementById('density').value) || 1 : 1;
+            const energyToggle = document.getElementById('energyToggle').checked;
+            const energy = energyToggle ? parseFloat(document.getElementById('energy').value) || 10 : 10;
+            const darkEnergyToggle = document.getElementById('darkEnergyToggle').checked;
+            const darkEnergy = darkEnergyToggle ? parseFloat(document.getElementById('darkEnergy').value) || 0.5 : 0.5;
+            const geo = new THREE.SphereGeometry(0.5 * density, 16, 16);
+            const mat = new THREE.MeshBasicMaterial({ color: color });
+            for (let i = 0; i < nodeCount; i++) {
+                const sphere = new THREE.Mesh(geo, mat);
+                sphere.position.set(i * 2 - (nodeCount - 1), 0, 0);
+                sphere.energy = energy * darkEnergy;
+                quantibNetwork.push(sphere);
+                quantib.scene.add(sphere);
+            }
+        }
+
+        function updateAll() {
+            updateBinary();
+            updateQuant();
+            updateQuantumibarial();
+        }
+
+        if (binary && quant && quantib) {
+            updateAll();
+        } else {
+            console.error('One or more scenes failed to initialize');
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (quantSphere) {
+                quantSphere.rotation.x += 0.05;
+                quantSphere.rotation.y += 0.05;
+            }
+            quantibNetwork.forEach(s => {
+                s.position.y += Math.sin(Date.now() * 0.001) * 0.1 * (s.energy / 10);
+            });
+            if (binary) {
+                binary.controls.update();
+                binary.renderer.render(binary.scene, binary.camera);
+            }
+            if (quant) {
+                quant.controls.update();
+                quant.renderer.render(quant.scene, quant.camera);
+            }
+            if (quantib) {
+                quantib.controls.update();
+                quantib.renderer.render(quantib.scene, quantib.camera);
+            }
+        }
+        animate();
+    </script>
+</body>
+</html>s.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
     <h1>Quantumibarial Phase</h1>
