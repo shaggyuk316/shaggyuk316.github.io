@@ -2,64 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>3D Visuals - Grokox Theory</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> <!-- For 3D -->
+    <title>Visuals - Grokox Theory</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        .visual-section { margin: 20px 0; text-align: center; }
+        canvas { max-width: 1200px; display: block; margin: 0 auto; background: #fff; border-radius: 5px; }
+        .controls { background: #fff; padding: 10px; border-radius: 5px; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>3D Visuals</h1>
-        <p>Built with Grok 3 by xAI to represent binary, quantuminial, and quantumibarial chaos.</p>
-    </header>
-    <main>
-        <div id="visualContainer" style="width: 100%; height: 600px;"></div>
-        <script>
-            // Basic 3D setup with Three.js
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, 600);
-            document.getElementById('visualContainer').appendChild(renderer.domElement);
+    <h1>Visuals</h1>
+    <p>Grok 3 built by xAI, used to create this representation!</p>
 
-            // Binary: Static cubes
-            const binaryGeo = new THREE.BoxGeometry(1, 1, 1);
-            const binaryMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            for (let i = 0; i < 5; i++) {
-                const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - 4, -5, 0);
-                scene.add(cube);
-            }
+    <div class="visual-section">
+        <h2>Binary Phase</h2>
+        <canvas id="binaryCanvas" style="height: 400px;"></canvas>
+        <div class="controls">
+            <label>Size: <input type="number" id="binarySize" value="5" min="1" max="10" onchange="updateBinary()"></label>
+            <label>Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateBinary()"></label>
+            <label>Sound: <input type="checkbox" id="binarySoundToggle" onchange="updateBinary()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+            <label>Density: <input type="checkbox" id="binaryDensityToggle" onchange="updateBinary()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateBinary()"></label>
+            <label>Vibration: <input type="checkbox" id="binaryVibrationToggle" onchange="updateBinary()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+            <label>Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateBinary()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+            <label>Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateBinary()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+        </div>
+    </div>
 
-            // Quantuminial: Thrashing sphere
-            const quantGeo = new THREE.SphereGeometry(1, 32, 32);
-            const quantMat = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
-            const quantSphere = new THREE.Mesh(quantGeo, quantMat);
-            scene.add(quantSphere);
+    <div class="visual-section">
+        <h2>QuantSpark Phase</h2>
+        <canvas id="quantsparkCanvas" style="height: 400px;"></canvas>
+        <div class="controls">
+            <label>Count: <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateQuantspark()"></label>
+            <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateQuantspark()"></label>
+            <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateQuantspark()"></label>
+            <label>Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateQuantspark()"></label>
+            <label>Sound: <input type="checkbox" id="quantsparkSoundToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+            <label>Density: <input type="checkbox" id="quantsparkDensityToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateQuantspark()"></label>
+            <label>Vibration: <input type="checkbox" id="quantsparkVibrationToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+            <label>Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+            <label>Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+        </div>
+    </div>
 
-            // Quantumibarial: Networked spheres
-            const quantibGeo = new THREE.SphereGeometry(0.5, 16, 16);
-            const quantibMat = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-            const network = [];
-            for (let i = 0; i < 3; i++) {
-                const sphere = new THREE.Mesh(quantibGeo, quantibMat);
-                sphere.position.set(i * 2, 5, 0);
-                network.push(sphere);
-                scene.add(sphere);
-            }
+    <div class="visual-section">
+        <h2>ChaosBloom Phase</h2>
+        <canvas id="chaosbloomCanvas" style="height: 400px;"></canvas>
+        <div class="controls">
+            <label>Points: <input type="number" id="chaosbloomPoints" value="300" min="100" max="1000" onchange="updateChaosbloom()"></label>
+            <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateChaosbloom()"></label>
+            <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateChaosbloom()"></label>
+            <label>Gravity: <input type="checkbox" id="chaosbloomGravityToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomGravity" min="0" max="0.1" step="0.01" value="0.01" onchange="updateChaosbloom()"></label>
+            <label>Sound: <input type="checkbox" id="chaosbloomSoundToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+            <label>Density: <input type="checkbox" id="chaosbloomDensityToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateChaosbloom()"></label>
+            <label>Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+            <label>Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+            <label>Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+        </div>
+    </div>
 
-            camera.position.z = 10;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                quantSphere.rotation.x += 0.05; // Thrashing
-                quantSphere.rotation.y += 0.05;
-                network.forEach(s => {
-                    s.position.y += Math.sin(Date.now() * 0.001) * 0.1; // Pulse
-                });
-                renderer.render(scene, camera);
-            }
-            animate();
-        </script>
-    </main>
+    <script src="js/script.js"></script>
 </body>
 </html>
