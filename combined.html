@@ -12,37 +12,38 @@
     <button onclick="updateAll()">Update Variables</button>
 
     <div class="visual-section">
-        <canvas id="combinedCanvas" style="height: 600px;"></canvas>
+        <canvas id="combinedCanvas" style="height: 600px; width: 100%;"></canvas>
         <div class="controls">
-            <!-- Binary -->
             <h3>Binary</h3>
-            <label>Size: <input type="number" id="binarySize" value="5" min="1" max="20" onchange="updateAll()"></label>
+            <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
             <label>Color: <input type="color" id="binaryColor" value="#00ff00" onchange="updateAll()"></label>
-            <label>Density: <input type="checkbox" id="binaryDensityToggle" onchange="updateAll()"> <input type="range" id="binaryDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
-            <!-- Quantuminial/QuantSpark -->
-            <h3>Quantuminial</h3>
-            <label>Count: <input type="number" id="quantCount" value="10" min="1" max="50" onchange="updateAll()"></label>
-            <label>Color: <input type="color" id="quantColor" value="#007bff" onchange="updateAll()"></label>
-            <label>Energy: <input type="checkbox" id="quantEnergyToggle" onchange="updateAll()"> <input type="range" id="quantEnergy" min="0" max="100" value="10" onchange="updateAll()"></label>
-            <label>Density: <input type="checkbox" id="quantDensityToggle" onchange="updateAll()"> <input type="range" id="quantDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
-            <!-- Quantumibarial/ChaosBloom -->
-            <h3>Quantumibarial</h3>
-            <label>Nodes: <input type="number" id="quantibNodes" value="300" min="100" max="1000" onchange="updateAll()"></label>
-            <label>Color 1: <input type="color" id="quantibColor1" value="#ff00ff" onchange="updateAll()"></label>
-            <label>Color 2: <input type="color" id="quantibColor2" value="#ff0000" onchange="updateAll()"></label>
-            <label>Density: <input type="checkbox" id="quantibDensityToggle" onchange="updateAll()"> <input type="range" id="quantibDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
-            <label>Energy: <input type="checkbox" id="quantibEnergyToggle" onchange="updateAll()"> <input type="range" id="quantibEnergy" min="0" max="100" value="10" onchange="updateAll()"></label>
-            <label>Dark Energy: <input type="checkbox" id="quantibDarkEnergyToggle" onchange="updateAll()"> <input type="range" id="quantibDarkEnergy" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+            <label>Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateAll()"> <input type="range" id="binaryDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
+
+            <h3>Quantuminial (QuantSpark)</h3>
+            <label>Count (1-50): <input type="number" id="quantCount" value="10" min="1" max="50" onchange="updateAll()"></label>
+            <label>Solid Color: <input type="color" id="quantSolidColor" value="#4B0082" onchange="updateAll()"></label>
+            <label>Gas Color: <input type="color" id="quantGasColor" value="#FF0000" onchange="updateAll()"></label>
+            <label>Energy: <input type="checkbox" id="quantEnergyToggle" checked onchange="updateAll()"> <input type="range" id="quantEnergy" min="0" max="100" value="10" onchange="updateAll()"></label>
+            <label>Density: <input type="checkbox" id="quantDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
+
+            <h3>Quantumibarial (ChaosBloom)</h3>
+            <label>Nodes (1-1000): <input type="number" id="quantibNodes" value="300" min="1" max="1000" onchange="updateAll()"></label>
+            <label>Color 1: <input type="color" id="quantibColor1" value="#0000FF" onchange="updateAll()"></label>
+            <label>Color 2: <input type="color" id="quantibColor2" value="#FF0000" onchange="updateAll()"></label>
+            <label>Density: <input type="checkbox" id="quantibDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantibDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateAll()"></label>
+            <label>Energy: <input type="checkbox" id="quantibEnergyToggle" checked onchange="updateAll()"> <input type="range" id="quantibEnergy" min="0" max="100" value="10" onchange="updateAll()"></label>
+            <label>Dark Energy: <input type="checkbox" id="quantibDarkEnergyToggle" checked onchange="updateAll()"> <input type="range" id="quantibDarkEnergy" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
         </div>
     </div>
 
     <script>
-        // [OrbitControls code here—same as above, omitted for brevity]
+        // [OrbitControls code—same as above, omitted for brevity]
 
         const combined = initScene('combinedCanvas');
         let binaryCubes = [], quantFlares = [], quantibPoints;
 
         function updateAll() {
+            if (!combined) return;
             combined.scene.clear();
             binaryCubes = [];
             quantFlares = [];
@@ -62,27 +63,30 @@
                 combined.scene.add(cube);
             }
 
-            // Quantuminial
+            // Quantuminial (QuantSpark-inspired)
             const quantCount = parseInt(document.getElementById('quantCount').value) || 10;
-            const quantColor = document.getElementById('quantColor').value || '#007bff';
+            const quantSolidColor = document.getElementById('quantSolidColor').value || '#4B0082';
+            const quantGasColor = document.getElementById('quantGasColor').value || '#FF0000';
             const quantEnergyToggle = document.getElementById('quantEnergyToggle').checked;
             const quantEnergy = quantEnergyToggle ? parseFloat(document.getElementById('quantEnergy').value) || 10 : 10;
             const quantDensityToggle = document.getElementById('quantDensityToggle').checked;
             const quantDensity = quantDensityToggle ? parseFloat(document.getElementById('quantDensity').value) || 1 : 1;
-            const quantGeo = new THREE.SphereGeometry(quantDensity, 32, 32);
-            const quantMat = new THREE.MeshBasicMaterial({ color: quantColor, wireframe: true });
+            const quantGeo = new THREE.SphereGeometry(0.5 * quantDensity, 16, 16);
             for (let i = 0; i < quantCount; i++) {
-                const flare = new THREE.Mesh(quantGeo, quantMat);
-                flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
-                flare.energy = quantEnergy;
-                quantFlares.push(flare);
-                combined.scene.add(flare);
+                const solid = new THREE.Mesh(quantGeo, new THREE.MeshBasicMaterial({ color: quantSolidColor }));
+                const gas = new THREE.Mesh(quantGeo, new THREE.MeshBasicMaterial({ color: quantGasColor }));
+                solid.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                gas.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                solid.energy = quantEnergy;
+                gas.energy = quantEnergy;
+                quantFlares.push({ solid, gas });
+                combined.scene.add(solid, gas);
             }
 
-            // Quantumibarial
+            // Quantumibarial (ChaosBloom-inspired)
             const quantibNodes = parseInt(document.getElementById('quantibNodes').value) || 300;
-            const quantibColor1 = document.getElementById('quantibColor1').value || '#ff00ff';
-            const quantibColor2 = document.getElementById('quantibColor2').value || '#ff0000';
+            const quantibColor1 = document.getElementById('quantibColor1').value || '#0000FF';
+            const quantibColor2 = document.getElementById('quantibColor2').value || '#FF0000';
             const quantibDensityToggle = document.getElementById('quantibDensityToggle').checked;
             const quantibDensity = quantibDensityToggle ? parseFloat(document.getElementById('quantibDensity').value) || 1 : 1;
             const quantibEnergyToggle = document.getElementById('quantibEnergyToggle').checked;
@@ -104,20 +108,29 @@
             quantibPoints.energy = quantibEnergy * quantibDarkEnergy;
             combined.scene.add(quantibPoints);
         }
-        updateAll();
+
+        if (combined) {
+            updateAll();
+        } else {
+            console.error('Combined scene failed to initialize');
+        }
 
         function animate() {
             requestAnimationFrame(animate);
             quantFlares.forEach(f => {
-                f.rotation.x += 0.05;
-                f.rotation.y += 0.05;
+                f.solid.rotation.x += 0.05;
+                f.solid.rotation.y += 0.05;
+                f.gas.rotation.x += 0.05;
+                f.gas.rotation.y += 0.05;
             });
             if (quantibPoints) {
                 quantibPoints.rotation.x += 0.01 * (quantibPoints.energy / 10);
                 quantibPoints.rotation.y += 0.01 * (quantibPoints.energy / 10);
             }
-            combined.controls.update();
-            combined.renderer.render(combined.scene, combined.camera);
+            if (combined) {
+                combined.controls.update();
+                combined.renderer.render(combined.scene, combined.camera);
+            }
         }
         animate();
     </script>
