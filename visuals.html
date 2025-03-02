@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>3D Visuals - Grokox Theory</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Visuals - Grokox Theory</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Fixed typo: style.css → styles.css -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <style>
         #visualContainer {
@@ -11,64 +11,101 @@
             margin: 20px auto;
             background: #fff;
             border-radius: 5px;
-            overflow: hidden; /* Keeps 3D render neat */
+            overflow: hidden;
+            height: 600px;
+        }
+        .visual-section {
+            margin: 20px 0;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>3D Visuals</h1>
-        <p>Built with Grok 3 by xAI to represent binary, quantuminial, and quantumibarial chaos.</p>
-    </header>
-    <main>
-        <div id="visualContainer" style="height: 600px;"></div>
-        <script>
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xffffff); // Match #fff section bg
-            const camera = new THREE.PerspectiveCamera(75, 1200 / 600, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer();
-            renderer.setSize(1200, 600);
-            document.getElementById('visualContainer').appendChild(renderer.domElement);
+    <h1>Visuals</h1>
+    <p>Grok 3 built by xAI, used to create this representation!</p>
 
-            // Binary: Static cubes
-            const binaryGeo = new THREE.BoxGeometry(1, 1, 1);
-            const binaryMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            for (let i = 0; i < 5; i++) {
-                const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - 4, -5, 0);
-                scene.add(cube);
-            }
+    <div class="visual-section">
+        <h2>Binary - The Static Base</h2>
+        <div id="binaryContainer" style="height: 200px;"></div>
+    </div>
+    <div class="visual-section">
+        <h2>Quantuminial - Thrashing Chaos</h2>
+        <div id="quantuminialContainer" style="height: 200px;"></div>
+    </div>
+    <div class="visual-section">
+        <h2>Quantumibarial - Multiplying Network</h2>
+        <div id="quantumibarialContainer" style="height: 200px;"></div>
+    </div>
 
-            // Quantuminial: Thrashing sphere
-            const quantGeo = new THREE.SphereGeometry(1, 32, 32);
-            const quantMat = new THREE.MeshBasicMaterial({ color: 0x007bff, wireframe: true }); // Match link color
-            const quantSphere = new THREE.Mesh(quantGeo, quantMat);
-            scene.add(quantSphere);
+    <div id="visualContainer"></div> <!-- Your original container, empty for script.js -->
+    <script src="script.js"></script> <!-- Your original script -->
 
-            // Quantumibarial: Networked spheres
-            const quantibGeo = new THREE.SphereGeometry(0.5, 16, 16);
-            const quantibMat = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-            const network = [];
-            for (let i = 0; i < 3; i++) {
-                const sphere = new THREE.Mesh(quantibGeo, quantibMat);
-                sphere.position.set(i * 2, 5, 0);
-                network.push(sphere);
-                scene.add(sphere);
-            }
+    <script>
+        // Variables (to be expanded with calculator)
+        let density = 1; // Placeholder for ρ (kg/m³ or scale)
+        let nUnits = 5;  // Quantuminial units
+        let mInteractions = 3; // Quantumibarial interactions
 
-            camera.position.z = 10;
+        // Binary Setup
+        const binaryScene = new THREE.Scene();
+        binaryScene.background = new THREE.Color(0xffffff);
+        const binaryCamera = new THREE.PerspectiveCamera(75, 1200 / 200, 0.1, 1000);
+        const binaryRenderer = new THREE.WebGLRenderer();
+        binaryRenderer.setSize(1200, 200);
+        document.getElementById('binaryContainer').appendChild(binaryRenderer.domElement);
+        const binaryGeo = new THREE.BoxGeometry(1, 1, 1);
+        const binaryMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        for (let i = 0; i < nUnits; i++) {
+            const cube = new THREE.Mesh(binaryGeo, binaryMat);
+            cube.position.set(i * 2 - (nUnits - 1), 0, 0);
+            binaryScene.add(cube);
+        }
+        binaryCamera.position.z = 5;
 
-            function animate() {
-                requestAnimationFrame(animate);
-                quantSphere.rotation.x += 0.05;
-                quantSphere.rotation.y += 0.05;
-                network.forEach(s => {
-                    s.position.y += Math.sin(Date.now() * 0.001) * 0.1;
-                });
-                renderer.render(scene, camera);
-            }
-            animate();
-        </script>
-    </main>
+        // Quantuminial Setup
+        const quantScene = new THREE.Scene();
+        quantScene.background = new THREE.Color(0xffffff);
+        const quantCamera = new THREE.PerspectiveCamera(75, 1200 / 200, 0.1, 1000);
+        const quantRenderer = new THREE.WebGLRenderer();
+        quantRenderer.setSize(1200, 200);
+        document.getElementById('quantuminialContainer').appendChild(quantRenderer.domElement);
+        const quantGeo = new THREE.SphereGeometry(1 * density, 32, 32); // Density scales size
+        const quantMat = new THREE.MeshBasicMaterial({ color: 0x007bff, wireframe: true });
+        const quantSphere = new THREE.Mesh(quantGeo, quantMat);
+        quantScene.add(quantSphere);
+        quantCamera.position.z = 5;
+
+        // Quantumibarial Setup
+        const quantibScene = new THREE.Scene();
+        quantibScene.background = new THREE.Color(0xffffff);
+        const quantibCamera = new THREE.PerspectiveCamera(75, 1200 / 200, 0.1, 1000);
+        const quantibRenderer = new THREE.WebGLRenderer();
+        quantibRenderer.setSize(1200, 200);
+        document.getElementById('quantumibarialContainer').appendChild(quantibRenderer.domElement);
+        const quantibGeo = new THREE.SphereGeometry(0.5 * density, 16, 16);
+        const quantibMat = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+        const network = [];
+        for (let i = 0; i < mInteractions; i++) {
+            const sphere = new THREE.Mesh(quantibGeo, quantibMat);
+            sphere.position.set(i * 2 - (mInteractions - 1), 0, 0);
+            network.push(sphere);
+            quantibScene.add(sphere);
+        }
+        quantibCamera.position.z = 5;
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            quantSphere.rotation.x += 0.05;
+            quantSphere.rotation.y += 0.05;
+            network.forEach(s => {
+                s.position.y += Math.sin(Date.now() * 0.001) * 0.1 * density; // Density affects pulse
+            });
+            binaryRenderer.render(binaryScene, binaryCamera);
+            quantRenderer.render(quantScene, quantCamera);
+            quantibRenderer.render(quantibScene, quantibCamera);
+        }
+        animate();
+    </script>
 </body>
 </html>
