@@ -26,24 +26,25 @@
 
     <div class="visual-section">
         <h2>Quantuminial</h2>
-        <canvas id="quantCanvas" style="height: 400px; width: 100%;"></canvas>
+        <canvas id="quantsparkCanvas" style="height: 400px; width: 100%;"></canvas>
         <div class="controls">
-            <label>Radius (0.5-10): <input type="range" id="quantRadius" min="0.5" max="10" step="0.1" value="1" onchange="updateQuant()"></label>
-            <label>Energy: <input type="checkbox" id="quantEnergyToggle" checked onchange="updateQuant()"> <input type="range" id="quantEnergy" min="0" max="100" value="10" onchange="updateQuant()"></label>
-            <label>Color: <input type="color" id="quantColor" value="#007bff" onchange="updateQuant()"></label>
-            <label>Density: <input type="checkbox" id="quantDensityToggle" checked onchange="updateQuant()"> <input type="range" id="quantDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateQuant()"></label>
+            <label>Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateQuantspark()"></label>
+            <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateQuantspark()"></label>
+            <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateQuantspark()"></label>
+            <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateQuantspark()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateQuantspark()"></label>
+            <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
         </div>
     </div>
 
     <div class="visual-section">
         <h2>Quantumibarial</h2>
-        <canvas id="quantumibarialCanvas" style="height: 400px; width: 100%;"></canvas>
+        <canvas id="chaosbloomCanvas" style="height: 400px; width: 100%;"></canvas>
         <div class="controls">
-            <label>Nodes (1-100): <input type="number" id="nodeCount" value="3" min="1" max="100" onchange="updateQuantumibarial()"></label>
-            <label>Color: <input type="color" id="quantibColor" value="#ff00ff" onchange="updateQuantumibarial()"></label>
-            <label>Density: <input type="checkbox" id="densityToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="density" min="0.5" max="5" step="0.1" value="1" onchange="updateQuantumibarial()"></label>
-            <label>Energy: <input type="checkbox" id="energyToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="energy" min="0" max="100" value="10" onchange="updateQuantumibarial()"></label>
-            <label>Dark Energy: <input type="checkbox" id="darkEnergyToggle" checked onchange="updateQuantumibarial()"> <input type="range" id="darkEnergy" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantumibarial()"></label>
+            <label>Nodes (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateChaosbloom()"></label>
+            <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateChaosbloom()"></label>
+            <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateChaosbloom()"></label>
+            <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateChaosbloom()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateChaosbloom()"></label>
+            <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
         </div>
     </div>
 
@@ -51,126 +52,15 @@
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
     </footer>
 
+    <script src="js/script.js"></script>
     <script>
-        const OrbitControls = (function() {
-            /* [Your OrbitControls code from script.js—pasted here, omitted for brevity] */
-            return OrbitControls;
-        })();
-
-        function initScene(canvasId, sceneColor) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) {
-                console.error(`Canvas '${canvasId}' not found`);
-                return null;
-            }
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(sceneColor || 0xffffff);
-            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas });
-            renderer.setSize(canvas.clientWidth, 400);
-            camera.position.z = 20;
-            camera.lookAt(0, 0, 0);
-            const controls = new OrbitControls(camera, renderer.domElement);
-            return { scene, camera, renderer, controls };
-        }
-
-        const binaryScene = initScene('binaryCanvas', 0x000033);
-        const quantScene = initScene('quantCanvas', 0x330000);
-        const quantibScene = initScene('quantumibarialCanvas', 0x000000);
-        let binaryCubes = [], quantSphere, quantibNetwork = [];
-
-        function updateBinary() {
-            if (!binaryScene) return;
-            binaryScene.scene.clear();
-            binaryCubes = [];
-            const size = parseInt(document.getElementById('binarySize').value) || 5;
-            const color = document.getElementById('binaryColor').value || '#00ff00';
-            const densityToggle = document.getElementById('binaryDensityToggle').checked;
-            const density = densityToggle ? parseFloat(document.getElementById('binaryDensity').value) || 1 : 1;
-            const geo = new THREE.BoxGeometry(density, density, density);
-            const mat = new THREE.MeshBasicMaterial({ color: color });
-            for (let i = 0; i < size; i++) {
-                const cube = new THREE.Mesh(geo, mat);
-                cube.position.set(i * 2 - (size - 1), 0, 0);
-                binaryCubes.push(cube);
-                binaryScene.scene.add(cube);
-            }
-        }
-
-        function updateQuant() {
-            if (!quantScene) return;
-            quantScene.scene.clear();
-            const radius = parseFloat(document.getElementById('quantRadius').value) || 1;
-            const energyToggle = document.getElementById('quantEnergyToggle').checked;
-            const energy = energyToggle ? parseFloat(document.getElementById('quantEnergy').value) || 10 : 10;
-            const color = document.getElementById('quantColor').value || '#007bff';
-            const densityToggle = document.getElementById('quantDensityToggle').checked;
-            const density = densityToggle ? parseFloat(document.getElementById('quantDensity').value) || 1 : 1;
-            const geo = new THREE.SphereGeometry(radius * density, 32, 32);
-            const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
-            quantSphere = new THREE.Mesh(geo, mat);
-            quantSphere.energy = energy;
-            quantScene.scene.add(quantSphere);
-        }
-
-        function updateQuantumibarial() {
-            if (!quantibScene) return;
-            quantibScene.scene.clear();
-            quantibNetwork = [];
-            const nodeCount = parseInt(document.getElementById('nodeCount').value) || 3;
-            const color = document.getElementById('quantibColor').value || '#ff00ff';
-            const densityToggle = document.getElementById('densityToggle').checked;
-            const density = densityToggle ? parseFloat(document.getElementById('density').value) || 1 : 1;
-            const energyToggle = document.getElementById('energyToggle').checked;
-            const energy = energyToggle ? parseFloat(document.getElementById('energy').value) || 10 : 10;
-            const darkEnergyToggle = document.getElementById('darkEnergyToggle').checked;
-            const darkEnergy = darkEnergyToggle ? parseFloat(document.getElementById('darkEnergy').value) || 0.5 : 0.5;
-            const geo = new THREE.SphereGeometry(0.5 * density, 16, 16);
-            const mat = new THREE.MeshBasicMaterial({ color: color });
-            for (let i = 0; i < nodeCount; i++) {
-                const sphere = new THREE.Mesh(geo, mat);
-                sphere.position.set(i * 2 - (nodeCount - 1), 0, 0);
-                sphere.energy = energy * darkEnergy;
-                quantibNetwork.push(sphere);
-                quantibScene.scene.add(sphere);
-            }
-        }
-
         function updateAll() {
             updateBinary();
-            updateQuant();
-            updateQuantumibarial();
+            updateQuantspark();
+            updateChaosbloom();
         }
-
-        if (binaryScene && quantScene && quantibScene) {
-            updateAll();
-        } else {
-            console.error('One or more scenes failed to initialize');
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            if (quantSphere) {
-                quantSphere.rotation.x += 0.05;
-                quantSphere.rotation.y += 0.05;
-            }
-            quantibNetwork.forEach(s => {
-                s.position.y += Math.sin(Date.now() * 0.001) * 0.1 * (s.energy / 10);
-            });
-            if (binaryScene) {
-                binaryScene.controls.update();
-                binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
-            }
-            if (quantScene) {
-                quantScene.controls.update();
-                quantScene.renderer.render(quantScene.scene, quantScene.camera);
-            }
-            if (quantibScene) {
-                quantibScene.controls.update();
-                quantibScene.renderer.render(quantibScene.scene, quantibScene.camera);
-            }
-        }
-        animate();
+        // Initial call to ensure visuals load
+        updateAll();
     </script>
 </body>
 </html>
