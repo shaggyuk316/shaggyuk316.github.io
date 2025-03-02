@@ -4,22 +4,13 @@
     <meta charset="UTF-8">
     <title>Quantumibarial - Grokox Theory</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnj<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Quantumibarial - Grokox Theory</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
     <h1>Quantumibarial Phase</h1>
     <p>Built with Grok 3 by xAI—exploring chaos beyond binary.</p>
     <nav>
-        <a href="index.html">Home</a> |
-        <a href="visuals.html">Visuals</a> |
-        <a href="quantumibarial.html">Quantumibarial</a> |
-        <a href="combined.html">Combined</a>
+        <a href="index.html">Home</a> | <a href="visuals.html">Visuals</a> | <a href="quantumibarial.html">Quantumibarial</a> | <a href="combined.html">Combined</a>
     </nav>
     <button onclick="updateAll()">Update Variables</button>
 
@@ -61,36 +52,36 @@
     </footer>
 
     <script>
-        // [OrbitControls code—same as before, omitted for brevity—copied from your script.js]
         const OrbitControls = (function() {
-            /* [Your OrbitControls code here] */
+            /* [Your OrbitControls code from script.js—pasted here, omitted for brevity] */
             return OrbitControls;
         })();
 
-        function initScene(canvasId) {
+        function initScene(canvasId, sceneColor) {
             const canvas = document.getElementById(canvasId);
             if (!canvas) {
-                console.error(`Canvas with ID '${canvasId}' not found`);
+                console.error(`Canvas '${canvasId}' not found`);
                 return null;
             }
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xffffff);
+            scene.background = new THREE.Color(sceneColor || 0xffffff);
             const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: canvas });
             renderer.setSize(canvas.clientWidth, 400);
             camera.position.z = 20;
+            camera.lookAt(0, 0, 0);
             const controls = new OrbitControls(camera, renderer.domElement);
             return { scene, camera, renderer, controls };
         }
 
-        const binary = initScene('binaryCanvas');
-        const quant = initScene('quantCanvas');
-        const quantib = initScene('quantumibarialCanvas');
+        const binaryScene = initScene('binaryCanvas', 0x000033);
+        const quantScene = initScene('quantCanvas', 0x330000);
+        const quantibScene = initScene('quantumibarialCanvas', 0x000000);
         let binaryCubes = [], quantSphere, quantibNetwork = [];
 
         function updateBinary() {
-            if (!binary) return;
-            binary.scene.clear();
+            if (!binaryScene) return;
+            binaryScene.scene.clear();
             binaryCubes = [];
             const size = parseInt(document.getElementById('binarySize').value) || 5;
             const color = document.getElementById('binaryColor').value || '#00ff00';
@@ -102,13 +93,13 @@
                 const cube = new THREE.Mesh(geo, mat);
                 cube.position.set(i * 2 - (size - 1), 0, 0);
                 binaryCubes.push(cube);
-                binary.scene.add(cube);
+                binaryScene.scene.add(cube);
             }
         }
 
         function updateQuant() {
-            if (!quant) return;
-            quant.scene.clear();
+            if (!quantScene) return;
+            quantScene.scene.clear();
             const radius = parseFloat(document.getElementById('quantRadius').value) || 1;
             const energyToggle = document.getElementById('quantEnergyToggle').checked;
             const energy = energyToggle ? parseFloat(document.getElementById('quantEnergy').value) || 10 : 10;
@@ -119,12 +110,12 @@
             const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
             quantSphere = new THREE.Mesh(geo, mat);
             quantSphere.energy = energy;
-            quant.scene.add(quantSphere);
+            quantScene.scene.add(quantSphere);
         }
 
         function updateQuantumibarial() {
-            if (!quantib) return;
-            quantib.scene.clear();
+            if (!quantibScene) return;
+            quantibScene.scene.clear();
             quantibNetwork = [];
             const nodeCount = parseInt(document.getElementById('nodeCount').value) || 3;
             const color = document.getElementById('quantibColor').value || '#ff00ff';
@@ -141,7 +132,7 @@
                 sphere.position.set(i * 2 - (nodeCount - 1), 0, 0);
                 sphere.energy = energy * darkEnergy;
                 quantibNetwork.push(sphere);
-                quantib.scene.add(sphere);
+                quantibScene.scene.add(sphere);
             }
         }
 
@@ -151,7 +142,7 @@
             updateQuantumibarial();
         }
 
-        if (binary && quant && quantib) {
+        if (binaryScene && quantScene && quantibScene) {
             updateAll();
         } else {
             console.error('One or more scenes failed to initialize');
@@ -166,17 +157,17 @@
             quantibNetwork.forEach(s => {
                 s.position.y += Math.sin(Date.now() * 0.001) * 0.1 * (s.energy / 10);
             });
-            if (binary) {
-                binary.controls.update();
-                binary.renderer.render(binary.scene, binary.camera);
+            if (binaryScene) {
+                binaryScene.controls.update();
+                binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
             }
-            if (quant) {
-                quant.controls.update();
-                quant.renderer.render(quant.scene, quant.camera);
+            if (quantScene) {
+                quantScene.controls.update();
+                quantScene.renderer.render(quantScene.scene, quantScene.camera);
             }
-            if (quantib) {
-                quantib.controls.update();
-                quantib.renderer.render(quantib.scene, quantib.camera);
+            if (quantibScene) {
+                quantibScene.controls.update();
+                quantibScene.renderer.render(quantibScene.scene, quantibScene.camera);
             }
         }
         animate();
