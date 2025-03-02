@@ -8,15 +8,16 @@
 </head>
 <body>
     <h1>Quantumibarial Phase</h1>
-    <p>Built with Grok 3 by xAI—multiplying chaos network.</p>
+    <p>Built with Grok 3 by xAI—exploring chaos beyond binary.</p>
     <button onclick="updateAll()">Update Variables</button>
 
     <div class="visual-section">
         <h2>Binary</h2>
         <canvas id="binaryCanvas" style="height: 400px;"></canvas>
         <div class="controls">
-            <label>Size: <input type="number" id="binarySize" value="5" min="1" max="10" onchange="updateBinary()"></label>
-            <label>Density: <input type="checkbox" id="binaryDensityToggle" onchange="updateBinary()"> <input type="range" id="binaryDensity" min="0.5" max="2" step="0.1" value="1" onchange="updateBinary()"></label>
+            <label>Size: <input type="number" id="binarySize" value="5" min="1" max="20" onchange="updateBinary()"></label>
+            <label>Color: <input type="color" id="binaryColor" value="#00ff00" onchange="updateBinary()"></label>
+            <label>Density: <input type="checkbox" id="binaryDensityToggle" onchange="updateBinary()"> <input type="range" id="binaryDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateBinary()"></label>
         </div>
     </div>
 
@@ -25,7 +26,8 @@
         <canvas id="quantCanvas" style="height: 400px;"></canvas>
         <div class="controls">
             <label>Energy: <input type="checkbox" id="quantEnergyToggle" onchange="updateQuant()"> <input type="range" id="quantEnergy" min="0" max="100" value="10" onchange="updateQuant()"></label>
-            <label>Density: <input type="checkbox" id="quantDensityToggle" onchange="updateQuant()"> <input type="range" id="quantDensity" min="0.5" max="2" step="0.1" value="1" onchange="updateQuant()"></label>
+            <label>Color: <input type="color" id="quantColor" value="#007bff" onchange="updateQuant()"></label>
+            <label>Density: <input type="checkbox" id="quantDensityToggle" onchange="updateQuant()"> <input type="range" id="quantDensity" min="0.5" max="5" step="0.1" value="1" onchange="updateQuant()"></label>
         </div>
     </div>
 
@@ -33,22 +35,186 @@
         <h2>Quantumibarial</h2>
         <canvas id="quantumibarialCanvas" style="height: 400px;"></canvas>
         <div class="controls">
-            <label>Nodes: <input type="number" id="nodeCount" value="3" min="1" max="10" onchange="updateQuantumibarial()"></label>
-            <label>Density: <input type="checkbox" id="densityToggle" onchange="updateQuantumibarial()"> <input type="range" id="density" min="0.5" max="2" step="0.1" value="1" onchange="updateQuantumibarial()"></label>
+            <label>Nodes: <input type="number" id="nodeCount" value="3" min="1" max="20" onchange="updateQuantumibarial()"></label>
+            <label>Color: <input type="color" id="quantibColor" value="#ff00ff" onchange="updateQuantumibarial()"></label>
+            <label>Density: <input type="checkbox" id="densityToggle" onchange="updateQuantumibarial()"> <input type="range" id="density" min="0.5" max="5" step="0.1" value="1" onchange="updateQuantumibarial()"></label>
             <label>Energy: <input type="checkbox" id="energyToggle" onchange="updateQuantumibarial()"> <input type="range" id="energy" min="0" max="100" value="10" onchange="updateQuantumibarial()"></label>
             <label>Dark Energy: <input type="checkbox" id="darkEnergyToggle" onchange="updateQuantumibarial()"> <input type="range" id="darkEnergy" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantumibarial()"></label>
         </div>
     </div>
 
     <script>
+        // OrbitControls from your script.js (simplified version)
+        const OrbitControls = (function() {
+            function OrbitControls(object, domElement) {
+                this.object = object;
+                this.domElement = domElement;
+                this.enabled = true;
+                this.target = new THREE.Vector3();
+                this.minDistance = 0;
+                this.maxDistance = Infinity;
+                this.enableDamping = true;
+                this.dampingFactor = 0.05;
+                this.enableZoom = true;
+                this.zoomSpeed = 1.0;
+                this.enableRotate = true;
+                this.rotateSpeed = 1.0;
+                this.enablePan = true;
+                this.panSpeed = 1.0;
+
+                const scope = this;
+                const rotateStart = new THREE.Vector2();
+                const rotateEnd = new THREE.Vector2();
+                const rotateDelta = new THREE.Vector2();
+                const panStart = new THREE.Vector2();
+                const panEnd = new THREE.Vector2();
+                const panDelta = new THREE.Vector2();
+                const dollyStart = new THREE.Vector2();
+                const dollyEnd = new THREE.Vector2();
+                const dollyDelta = new THREE.Vector2();
+                let state = -1;
+                const spherical = new THREE.Spherical();
+                const sphericalDelta = new THREE.Spherical();
+                let scale = 1;
+                const panOffset = new THREE.Vector3();
+
+                function getZoomScale() { return Math.pow(0.95, scope.zoomSpeed); }
+                function rotateLeft(angle) { sphericalDelta.theta -= angle; }
+                function rotateUp(angle) { sphericalDelta.phi -= angle; }
+                function panLeft(distance, objectMatrix) {
+                    const v = new THREE.Vector3().setFromMatrixColumn(objectMatrix, 0);
+                    v.multiplyScalar(-distance);
+                    panOffset.add(v);
+                }
+                function panUp(distance, objectMatrix) {
+                    const v = new THREE.Vector3().setFromMatrixColumn(objectMatrix, 1);
+                    v.multiplyScalar(distance);
+                    panOffset.add(v);
+                }
+                function pan(deltaX, deltaY) {
+                    const element = scope.domElement;
+                    const position = scope.object.position;
+                    const offset = position.clone().sub(scope.target);
+                    let targetDistance = offset.length();
+                    targetDistance *= Math.tan((scope.object.fov / 2) * Math.PI / 180.0);
+                    panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
+                    panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+                }
+                function dollyIn(dollyScale) { scale *= dollyScale; }
+                function dollyOut(dollyScale) { scale /= dollyScale; }
+
+                this.update = function() {
+                    const offset = new THREE.Vector3();
+                    const quat = new THREE.Quaternion().setFromUnitVectors(object.up, new THREE.Vector3(0, 1, 0));
+                    const quatInverse = quat.clone().invert();
+                    offset.copy(scope.object.position).sub(scope.target);
+                    offset.applyQuaternion(quat);
+                    spherical.setFromVector3(offset);
+                    if (scope.enableDamping) {
+                        spherical.theta += sphericalDelta.theta * scope.dampingFactor;
+                        spherical.phi += sphericalDelta.phi * scope.dampingFactor;
+                    } else {
+                        spherical.theta += sphericalDelta.theta;
+                        spherical.phi += sphericalDelta.phi;
+                    }
+                    spherical.phi = Math.max(0, Math.min(Math.PI, spherical.phi));
+                    spherical.radius *= scale;
+                    spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
+                    if (scope.enableDamping) {
+                        scope.target.addScaledVector(panOffset, scope.dampingFactor);
+                    } else {
+                        scope.target.add(panOffset);
+                    }
+                    offset.setFromSpherical(spherical);
+                    offset.applyQuaternion(quatInverse);
+                    scope.object.position.copy(scope.target).add(offset);
+                    scope.object.lookAt(scope.target);
+                    if (scope.enableDamping) {
+                        sphericalDelta.theta *= (1 - scope.dampingFactor);
+                        sphericalDelta.phi *= (1 - scope.dampingFactor);
+                        panOffset.multiplyScalar(1 - scope.dampingFactor);
+                    } else {
+                        sphericalDelta.set(0, 0, 0);
+                        panOffset.set(0, 0, 0);
+                    }
+                    scale = 1;
+                };
+
+                function onMouseDown(event) {
+                    if (!scope.enabled) return;
+                    event.preventDefault();
+                    if (event.button === 0) {
+                        state = 0;
+                        rotateStart.set(event.clientX, event.clientY);
+                    } else if (event.button === 1) {
+                        state = 1;
+                        dollyStart.set(event.clientX, event.clientY);
+                    } else if (event.button === 2) {
+                        state = 2;
+                        panStart.set(event.clientX, event.clientY);
+                    }
+                    if (state !== -1) {
+                        document.addEventListener('mousemove', onMouseMove, false);
+                        document.addEventListener('mouseup', onMouseUp, false);
+                    }
+                }
+
+                function onMouseMove(event) {
+                    if (!scope.enabled) return;
+                    event.preventDefault();
+                    if (state === 0) {
+                        rotateEnd.set(event.clientX, event.clientY);
+                        rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+                        const element = scope.domElement;
+                        rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+                        rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+                        rotateStart.copy(rotateEnd);
+                    } else if (state === 1) {
+                        dollyEnd.set(event.clientX, event.clientY);
+                        dollyDelta.subVectors(dollyEnd, dollyStart);
+                        if (dollyDelta.y > 0) dollyOut(getZoomScale());
+                        else if (dollyDelta.y < 0) dollyIn(getZoomScale());
+                        dollyStart.copy(dollyEnd);
+                    } else if (state === 2) {
+                        panEnd.set(event.clientX, event.clientY);
+                        panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+                        pan(panDelta.x, panDelta.y);
+                        panStart.copy(panEnd);
+                    }
+                    scope.update();
+                }
+
+                function onMouseUp() {
+                    document.removeEventListener('mousemove', onMouseMove, false);
+                    document.removeEventListener('mouseup', onMouseUp, false);
+                    state = -1;
+                }
+
+                function onMouseWheel(event) {
+                    if (!scope.enabled || !scope.enableZoom) return;
+                    event.preventDefault();
+                    if (event.deltaY < 0) dollyIn(getZoomScale());
+                    else if (event.deltaY > 0) dollyOut(getZoomScale());
+                    scope.update();
+                }
+
+                scope.domElement.addEventListener('mousedown', onMouseDown, false);
+                scope.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
+
+                this.update();
+            }
+            return OrbitControls;
+        })();
+
         function initScene(canvasId) {
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0xffffff);
             const camera = new THREE.PerspectiveCamera(75, 1200 / 400, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById(canvasId) });
             renderer.setSize(1200, 400);
-            camera.position.z = 10;
-            return { scene, camera, renderer };
+            camera.position.z = 20;
+            const controls = new OrbitControls(camera, renderer.domElement);
+            return { scene, camera, renderer, controls };
         }
 
         const binary = initScene('binaryCanvas');
@@ -58,11 +224,13 @@
 
         function updateBinary() {
             binary.scene.clear();
+            binaryCubes = [];
             const size = parseInt(document.getElementById('binarySize').value) || 5;
+            const color = document.getElementById('binaryColor').value || '#00ff00';
             const densityToggle = document.getElementById('binaryDensityToggle').checked;
             const density = densityToggle ? parseFloat(document.getElementById('binaryDensity').value) || 1 : 1;
             const geo = new THREE.BoxGeometry(density, density, density);
-            const mat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const mat = new THREE.MeshBasicMaterial({ color: color });
             for (let i = 0; i < size; i++) {
                 const cube = new THREE.Mesh(geo, mat);
                 cube.position.set(i * 2 - (size - 1), 0, 0);
@@ -75,10 +243,11 @@
             quant.scene.clear();
             const energyToggle = document.getElementById('quantEnergyToggle').checked;
             const energy = energyToggle ? parseFloat(document.getElementById('quantEnergy').value) || 10 : 10;
+            const color = document.getElementById('quantColor').value || '#007bff';
             const densityToggle = document.getElementById('quantDensityToggle').checked;
             const density = densityToggle ? parseFloat(document.getElementById('quantDensity').value) || 1 : 1;
             const geo = new THREE.SphereGeometry(density, 32, 32);
-            const mat = new THREE.MeshBasicMaterial({ color: 0x007bff, wireframe: true });
+            const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
             quantSphere = new THREE.Mesh(geo, mat);
             quantSphere.energy = energy;
             quant.scene.add(quantSphere);
@@ -86,7 +255,9 @@
 
         function updateQuantumibarial() {
             quantib.scene.clear();
+            quantibNetwork = [];
             const nodeCount = parseInt(document.getElementById('nodeCount').value) || 3;
+            const color = document.getElementById('quantibColor').value || '#ff00ff';
             const densityToggle = document.getElementById('densityToggle').checked;
             const density = densityToggle ? parseFloat(document.getElementById('density').value) || 1 : 1;
             const energyToggle = document.getElementById('energyToggle').checked;
@@ -94,7 +265,7 @@
             const darkEnergyToggle = document.getElementById('darkEnergyToggle').checked;
             const darkEnergy = darkEnergyToggle ? parseFloat(document.getElementById('darkEnergy').value) || 0.5 : 0.5;
             const geo = new THREE.SphereGeometry(0.5 * density, 16, 16);
-            const mat = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+            const mat = new THREE.MeshBasicMaterial({ color: color });
             for (let i = 0; i < nodeCount; i++) {
                 const sphere = new THREE.Mesh(geo, mat);
                 sphere.position.set(i * 2 - (nodeCount - 1), 0, 0);
@@ -120,6 +291,9 @@
             quantibNetwork.forEach(s => {
                 s.position.y += Math.sin(Date.now() * 0.001) * 0.1 * (s.energy / 10);
             });
+            binary.controls.update();
+            quant.controls.update();
+            quantib.controls.update();
             binary.renderer.render(binary.scene, binary.camera);
             quant.renderer.render(quant.scene, quant.camera);
             quantib.renderer.render(quantib.scene, quantib.camera);
