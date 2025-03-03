@@ -36,7 +36,7 @@ label {
     margin-right: 10px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
     color: #007BFF;
 }
 
@@ -55,6 +55,22 @@ button:hover {
 
 input[type="range"], input[type="color"], select {
     vertical-align: middle;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #333;
 }
 
 /* Responsive design */
