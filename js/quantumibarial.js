@@ -43,13 +43,17 @@ function animate() {
     let soundLevel = 0;
     if (analyser) {
         analyser.getByteFrequencyData(dataArray);
-        soundLevel = dataArray.reduce((sum, val) => sum + val, 0) / (bufferLength * 128); // Normalize
+        soundLevel = dataArray.reduce((sum, val) => sum + val, 0) / (bufferLength * 128);
     }
 
     // Scale cube and sphere based on sound
     const scale = 1 + soundLevel * 0.5;
     cube.scale.set(scale, scale, scale);
     sphere.scale.set(scale, scale, scale);
+
+    // Update colors
+    cube.material.color.set(document.getElementById('cubeColor').value);
+    sphere.material.color.set(document.getElementById('sphereColor').value);
 
     renderer.render(scene, camera);
 }
