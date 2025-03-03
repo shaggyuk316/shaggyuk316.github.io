@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Q-Calcs Demo</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Grokox Theory - Q-Calcs</title>
+    <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
-    <header><h1>Grokox Q-Calcs Demo</h1></header>
-    <main>
-        <p>Simulating 10 chaotic Q-calcs pulses in 3D space at 10⁻¹⁰⁰ m:</p>
-        <table id="qcalcsTable">
-            <tr>
-                <th>Step</th>
-                <th>Time (s)</th>
-                <th>Energy (J)</th>
-                <th>Position (m)</th>
-            </tr>
-        </table>
-        <a href="index.html">Back to Home</a>
-    </main>
-    <script src="js/qcalcs.js"></script>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h3>Q-Calcs Page</h3>
+            <table id="qcalcsTable" border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Time (s)</th>
+                        <th>Energy (eV)</th>
+                        <th>Position (m)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="/js/qcalcs.js"></script>
 </body>
 </html>
