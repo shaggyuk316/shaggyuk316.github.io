@@ -2,30 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Theory - Visuals (QuantSpark Flare)</title>
+    <title>Grokox Theory - Visuals (QuantSpark Flare - Particle)</title>
     <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
     <header>
-        <h1>Grokox Theory - Visuals (QuantSpark Flare)</h1>
+        <h1>Grokox Theory - Visuals (QuantSpark Flare - Particle)</h1>
     </header>
     <div class="container">
         <div class="container-left">
             <canvas id="canvas"></canvas>
         </div>
         <div class="container-right">
-            <div class="controller-panel">
-                <h3>Controller Panel</h3>
-                <p>Control the QuantSpark Flare’s dynamics and appearance with a static control setup.</p>
-                <label>Animations: <input type="checkbox" id="animationToggle" checked> On/Off</label><br>
-                <label>Static Control: <input type="checkbox" id="staticControl"> On/Off</label><br>
-                <label>Color: <input type="color" id="flareColor" value="#00ff00"></label><br>
-                <label>Vibration Intensity: <input type="range" id="vibrationIntensity" min="0" max="1" value="0" step="0.1"></label>
+            <div class="settings-display">
+                <h3>Settings Display</h3>
+                <p>Current settings for the QuantSpark Flare animation (Particle). Adjust them in the <a href="/mixer.html">Mixer</a>.</p>
+                <p>Size: 0.3, Color: #00FF00, Static: Off, Vibration Intensity: 0, Hz: 1, Electricity: Off, Microwave: Off, Sound Waves: Off, Light: 0.5, Density: 1, Magnetic: 0, O2: Off, Element: None, Shape: Sphere, Wavelength: 1</p>
             </div>
             <div class="animation-description">
                 <h4>QuantSpark Flare Vibrating</h4>
-                <p>A QuantSpark Flare vibrates subtly, representing dynamic energy influenced by external forces in Grokox Theory’s Chaotic System Phases (Theory 1). Use the static control to fix its position, adjust its color, and control its vibration intensity to explore energy dynamics.</p>
-                <p><strong>Learning Outcome:</strong> Learn how dynamic energy can be subtly influenced by external forces, maintaining a fixed position while vibrating.</p>
+                <p>A QuantSpark Flare vibrates subtly as a particle, representing dynamic energy influenced by external forces in Grokox Theory’s Chaotic System Phases (Theory 1). Use the Mixer to adjust its settings and explore its behavior with solids, gases, or other particles, including color mixing effects.</p>
+                <p><strong>Learning Outcome:</strong> Learn how dynamic energy can be influenced by external forces, behaving as a particle in chaotic systems.</p>
             </div>
         </div>
     </div>
@@ -34,6 +31,6 @@
         <p>Updated by Grok 3 on March 03, 2025</p>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <!-- Removed <script src="/js/visuals.js"></script> to prevent error until script is implemented -->
+    <script src="/js/visuals.js"></script>
 </body>
 </html>
