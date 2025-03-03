@@ -45,6 +45,7 @@ function animate() {
         const pulse = pulses[index];
         const scale = 1 + Math.sin(elapsedTime * parseFloat(pulse.energy)) * 0.2;
         sphere.scale.set(scale, scale, scale);
+        sphere.material.color.set(document.getElementById('pulseColor').value);
     });
 
     renderer.render(scene, camera);
