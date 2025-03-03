@@ -61,66 +61,75 @@
 
             function update() {
                 console.log('Updating...');
-                // Clear scene but keep references intact
-                scene.children.forEach(obj => {
-                    scene.remove(obj);
-                    disposeObject(obj);
-                });
+                const newSize = parseInt(document.getElementById('binarySize').value) || 5;
+                const newColor = document.getElementById('binaryColor').value || '#0000FF';
+                const newCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
+                const newSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
+                const newPointsCount = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
+                const newPointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
 
-                // Binary Cubes
-                const size = parseInt(document.getElementById('binarySize').value) || 5;
-                const color = document.getElementById('binaryColor').value || '#0000FF';
-                cubes = []; // Reset array but repopulate
-                for (let i = 0; i < size; i++) {
-                    const geo = new THREE.BoxGeometry(1, 1, 1);
-                    const mat = new THREE.MeshBasicMaterial({ color: color });
-                    const cube = new THREE.Mesh(geo, mat);
-                    cube.position.set(i * 2 - (size - 1), -5, 0);
-                    cubes.push(cube);
-                    scene.add(cube);
+                // Update Binary Cubes
+                if (cubes.length !== newSize || cubes[0]?.material.color.getHexString() !== newColor.slice(1)) {
+                    scene.children.filter(obj => cubes.includes(obj)).forEach(obj => {
+                        scene.remove(obj);
+                        disposeObject(obj);
+                    });
+                    cubes = [];
+                    for (let i = 0; i < newSize; i++) {
+                        const geo = new THREE.BoxGeometry(1, 1, 1);
+                        const mat = new THREE.MeshBasicMaterial({ color: newColor });
+                        const cube = new THREE.Mesh(geo, mat);
+                        cube.position.set(i * 2 - (newSize - 1), -5, 0);
+                        cubes.push(cube);
+                        scene.add(cube);
+                    }
+                    console.log('Cubes updated:', cubes.length);
                 }
-                console.log('Cubes updated:', cubes.length);
 
-                // QuantSpark Flares
-                const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
-                const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
-                flares = [];
-                for (let i = 0; i < count; i++) {
-                    const geo = new THREE.SphereGeometry(0.5, 16, 16);
-                    const mat = new THREE.MeshBasicMaterial({ color: solidColor });
-                    const flare = new THREE.Mesh(geo, mat);
-                    flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
-                    flares.push(flare);
-                    scene.add(flare);
+                // Update QuantSpark Flares
+                if (flares.length !== newCount || flares[0]?.material.color.getHexString() !== newSolidColor.slice(1)) {
+                    scene.children.filter(obj => flares.includes(obj)).forEach(obj => {
+                        scene.remove(obj);
+                        disposeObject(obj);
+                    });
+                    flares = [];
+                    for (let i = 0; i < newCount; i++) {
+                        const geo = new THREE.SphereGeometry(0.5, 16, 16);
+                        const mat = new THREE.MeshBasicMaterial({ color: newSolidColor });
+                        const flare = new THREE.Mesh(geo, mat);
+                        flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                        flares.push(flare);
+                        scene.add(flare);
+                    }
+                    console.log('Flares updated:', flares.length);
                 }
-                console.log('Flares updated:', flares.length);
 
-                // ChaosBloom Points
-                const pointsCount = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
-                const pointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
-                if (points) {
-                    scene.remove(points);
-                    disposeObject(points);
+                // Update ChaosBloom Points
+                if (!points || points.geometry.attributes.position.count !== newPointsCount || points.material.color?.getHexString() !== newPointColor.slice(1)) {
+                    if (points) {
+                        scene.remove(points);
+                        disposeObject(points);
+                    }
+                    const geo = new THREE.BufferGeometry();
+                    const vertices = new Float32Array(newPointsCount * 3);
+                    const colors = new Float32Array(newPointsCount * 3);
+                    for (let i = 0; i < newPointsCount; i++) {
+                        const idx = i * 3;
+                        vertices[idx] = Math.random() * 10 - 5;
+                        vertices[idx + 1] = Math.random() * 10 + 5;
+                        vertices[idx + 2] = Math.random() * 10 - 5;
+                        const color = new THREE.Color(newPointColor);
+                        colors[idx] = color.r;
+                        colors[idx + 1] = color.g;
+                        colors[idx + 2] = color.b;
+                    }
+                    geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                    const mat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
+                    points = new THREE.Points(geo, mat);
+                    scene.add(points);
+                    console.log('Points updated:', newPointsCount);
                 }
-                const geo = new THREE.BufferGeometry();
-                const vertices = new Float32Array(pointsCount * 3);
-                const colors = new Float32Array(pointsCount * 3);
-                for (let i = 0; i < pointsCount; i++) {
-                    const idx = i * 3;
-                    vertices[idx] = Math.random() * 10 - 5;
-                    vertices[idx + 1] = Math.random() * 10 + 5;
-                    vertices[idx + 2] = Math.random() * 10 - 5;
-                    const color = new THREE.Color(pointColor);
-                    colors[idx] = color.r;
-                    colors[idx + 1] = color.g;
-                    colors[idx + 2] = color.b;
-                }
-                geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-                geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                const mat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
-                points = new THREE.Points(geo, mat);
-                scene.add(points);
-                console.log('Points updated:', pointsCount);
             }
 
             function animate() {
