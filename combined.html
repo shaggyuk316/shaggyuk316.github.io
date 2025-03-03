@@ -39,10 +39,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded');
             const canvas = document.getElementById('combinedCanvas');
-            if (!canvas) {
-                console.error('Canvas not found');
-                throw new Error('Canvas element missing');
-            }
+            if (!canvas) throw new Error('Canvas not found');
 
             const width = canvas.parentElement.clientWidth * 0.7;
             canvas.style.width = `${width}px`;
@@ -60,72 +57,70 @@
             function disposeObject(obj) {
                 if (obj.geometry) obj.geometry.dispose();
                 if (obj.material) obj.material.dispose();
-                if (obj.children) obj.children.forEach(child => disposeObject(child));
             }
 
             function update() {
                 console.log('Updating...');
-                // Dispose and remove existing objects
+                // Clear scene but keep references intact
                 scene.children.forEach(obj => {
                     scene.remove(obj);
                     disposeObject(obj);
                 });
-                cubes = [];
-                flares = [];
-                points = null;
 
-                try {
-                    // Binary Cubes
-                    const size = parseInt(document.getElementById('binarySize').value) || 5;
-                    const color = document.getElementById('binaryColor').value || '#0000FF';
-                    for (let i = 0; i < size; i++) {
-                        const geo = new THREE.BoxGeometry(1, 1, 1);
-                        const mat = new THREE.MeshBasicMaterial({ color: color });
-                        const cube = new THREE.Mesh(geo, mat);
-                        cube.position.set(i * 2 - (size - 1), -5, 0);
-                        cubes.push(cube);
-                        scene.add(cube);
-                    }
-                    console.log('Cubes:', cubes.length);
-
-                    // QuantSpark Flares
-                    const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
-                    const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
-                    for (let i = 0; i < count; i++) {
-                        const geo = new THREE.SphereGeometry(0.5, 16, 16);
-                        const mat = new THREE.MeshBasicMaterial({ color: solidColor });
-                        const flare = new THREE.Mesh(geo, mat);
-                        flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
-                        flares.push(flare);
-                        scene.add(flare);
-                    }
-                    console.log('Flares:', flares.length);
-
-                    // ChaosBloom Points
-                    const pointsCount = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
-                    const pointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
-                    const geo = new THREE.BufferGeometry();
-                    const vertices = new Float32Array(pointsCount * 3);
-                    const colors = new Float32Array(pointsCount * 3);
-                    for (let i = 0; i < pointsCount; i++) {
-                        const idx = i * 3;
-                        vertices[idx] = Math.random() * 10 - 5;
-                        vertices[idx + 1] = Math.random() * 10 + 5;
-                        vertices[idx + 2] = Math.random() * 10 - 5;
-                        const color = new THREE.Color(pointColor);
-                        colors[idx] = color.r;
-                        colors[idx + 1] = color.g;
-                        colors[idx + 2] = color.b;
-                    }
-                    geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-                    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                    const mat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
-                    points = new THREE.Points(geo, mat);
-                    scene.add(points);
-                    console.log('Points initialized:', pointsCount);
-                } catch (e) {
-                    console.error('Update failed:', e);
+                // Binary Cubes
+                const size = parseInt(document.getElementById('binarySize').value) || 5;
+                const color = document.getElementById('binaryColor').value || '#0000FF';
+                cubes = []; // Reset array but repopulate
+                for (let i = 0; i < size; i++) {
+                    const geo = new THREE.BoxGeometry(1, 1, 1);
+                    const mat = new THREE.MeshBasicMaterial({ color: color });
+                    const cube = new THREE.Mesh(geo, mat);
+                    cube.position.set(i * 2 - (size - 1), -5, 0);
+                    cubes.push(cube);
+                    scene.add(cube);
                 }
+                console.log('Cubes updated:', cubes.length);
+
+                // QuantSpark Flares
+                const count = parseInt(document.getElementById('quantsparkCount').value) || 10;
+                const solidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
+                flares = [];
+                for (let i = 0; i < count; i++) {
+                    const geo = new THREE.SphereGeometry(0.5, 16, 16);
+                    const mat = new THREE.MeshBasicMaterial({ color: solidColor });
+                    const flare = new THREE.Mesh(geo, mat);
+                    flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                    flares.push(flare);
+                    scene.add(flare);
+                }
+                console.log('Flares updated:', flares.length);
+
+                // ChaosBloom Points
+                const pointsCount = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
+                const pointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
+                if (points) {
+                    scene.remove(points);
+                    disposeObject(points);
+                }
+                const geo = new THREE.BufferGeometry();
+                const vertices = new Float32Array(pointsCount * 3);
+                const colors = new Float32Array(pointsCount * 3);
+                for (let i = 0; i < pointsCount; i++) {
+                    const idx = i * 3;
+                    vertices[idx] = Math.random() * 10 - 5;
+                    vertices[idx + 1] = Math.random() * 10 + 5;
+                    vertices[idx + 2] = Math.random() * 10 - 5;
+                    const color = new THREE.Color(pointColor);
+                    colors[idx] = color.r;
+                    colors[idx + 1] = color.g;
+                    colors[idx + 2] = color.b;
+                }
+                geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                const mat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
+                points = new THREE.Points(geo, mat);
+                scene.add(points);
+                console.log('Points updated:', pointsCount);
             }
 
             function animate() {
@@ -142,13 +137,13 @@
                     if (points) {
                         const positions = points.geometry.attributes.position.array;
                         for (let i = 1; i < positions.length; i += 3) {
-                            positions[i] -= 0.01; // Fall
-                            if (positions[i] < 2) positions[i] = 12; // Reset to top
+                            positions[i] -= 0.01;
+                            if (positions[i] < 2) positions[i] = 12;
                         }
                         points.geometry.attributes.position.needsUpdate = true;
                     }
                     renderer.render(scene, camera);
-                    console.log('Animating - Points updated');
+                    console.log('Animating');
                 } catch (e) {
                     console.error('Animation failed:', e);
                 }
