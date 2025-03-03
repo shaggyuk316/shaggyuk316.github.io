@@ -1,74 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Grokox Theory - Combined</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body { margin: 0; overflow: hidden; background: #000; color: #ccc; font-family: Arial, sans-serif; }
-        .container { display: flex; width: 100%; height: 100vh; }
-        .container-left { width: 45%; height: 100%; }
-        .container-right { width: 45%; padding: 20px; overflow-y: auto; }
-        canvas { display: block; }
-        .controls { margin-bottom: 20px; }
-        label { margin-right: 10px; }
-        h3 { color: #007BFF; }
-        button { padding: 5px 10px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="container-left">
-            <canvas id="canvas"></canvas>
-        </div>
-        <div class="container-right">
-            <div class="controls">
-                <h3>Sound Settings</h3>
-                <label>Sound Mode: 
-                    <select id="soundMode">
-                        <option value="live">Live Sound (Microphone)</option>
-                        <option value="wavelength">Normal Wavelength</option>
-                        <option value="none">No Sound</option>
-                    </select>
-                </label><br>
-                <label>Wavelength Frequency (Hz): <input type="range" id="waveFrequency" min="0.1" max="2" value="1" step="0.1"></label><br>
-                <button id="startAudio">Start Audio</button>
-            </div>
-            <div class="controls">
-                <h3>Binary Cubes (Solids)</h3>
-                <label>Size: <input type="range" id="cubeSize" min="0.5" max="2" value="1" step="0.1"></label><br>
-                <label>Color: <input type="color" id="cubeColor" value="#ff0000"></label><br>
-                <label>Vibration Intensity: <input type="range" id="cubeVibration" min="0" max="1" value="0.5" step="0.1"></label>
-            </div>
-            <div class="controls">
-                <h3>QuantSpark Flares (Gases)</h3>
-                <label>Count: <input type="range" id="flareCount" min="10" max="100" value="50"></label><br>
-                <label>Color: <input type="color" id="flareColor" value="#00ff00"></label><br>
-                <label>Spread Speed: <input type="range" id="flareSpread" min="0.01" max="0.1" value="0.05" step="0.01"></label>
-            </div>
-            <div class="controls">
-                <h3>ChaosBloom Points (Particles)</h3>
-                <label>Count: <input type="range" id="pointCount" min="100" max="1000" value="500"></label><br>
-                <label>Color: <input type="color" id="pointColor" value="#0000ff"></label><br>
-                <label>Fall Speed: <input type="range" id="pointFallSpeed" min="0.01" max="0.1" value="0.05" step="0.01"></label>
-            </div>
-            <div class="controls">
-                <h3>Laser Lane</h3>
-                <label>Enable Laser: <input type="checkbox" id="laserEnabled"></label><br>
-                <label>Laser Color: <input type="color" id="laserColor" value="#ff00ff"></label>
-            </div>
-            <div class="controls">
-                <h3>CERN Collider Simulation</h3>
-                <label>Enable Collider: <input type="checkbox" id="colliderEnabled"></label><br>
-                <label>Particle Speed: <input type="range" id="particleSpeed" min="0.1" max="1" value="0.5" step="0.1"></label><br>
-                <label>Collision Frequency (s): <input type="range" id="collisionFrequency" min="1" max="10" value="5" step="1"></label><br>
-                <label>Magnetic Field Strength: <input type="range" id="magneticField" min="0" max="2" value="1" step="0.1"></label><br>
-                <label>Collider Particle Color: <input type="color" id="colliderParticleColor" value="#ffff00"></label><br>
-                <label>Energy Burst Color: <input type="color" id="energyBurstColor" value="#ffaa00"></label>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="/js/combined.js"></script>
-</body>
-</html>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth * 0.45 / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+renderer.setSize(window.innerWidth * 0.45, window.innerHeight);
+camera.position.z = 5;
+
+// Arrays to persist objects
+let cubes = [];
+let flares = [];
+let points = null;
+
+// Control elements
+const soundModeSelect = document.getElementById('soundMode');
+const waveFrequencyInput = document.getElementById('waveFrequency');
+const startAudioButton = document.getElementById('startAudio');
+const cubeSizeInput = document.getElementById('cubeSize');
+const cubeColorInput = document.getElementById('cubeColor');
+const cubeVibrationInput = document.getElementById('cubeVibration');
+const flareCountInput = document.getElementById('flareCount');
+const flareColorInput = document.getElementById('flareColor');
+const flareSpreadInput = document.getElementById('flareSpread');
+const pointCountInput = document.getElementById('pointCount');
+const pointColorInput = document.getElementById('pointColor');
+const pointFallSpeedInput = document.getElementById('pointFallSpeed');
+
+// Web Audio API setup
+let audioContext, analyser, dataArray;
+const bufferLength = 256;
+let soundLevel = 0;
+
+function initAudio() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = bufferLength * 2;
+    dataArray = new Uint8Array(bufferLength);
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+    }).catch(err => console.error('Audio permission denied:', err));
+}
+
+startAudioButton.addEventListener('click', initAudio);
+
+// Initialize shapes
+function initShapes() {
+    // Clear existing shapes
+    cubes.forEach(cube => scene.remove(cube));
+    flares.forEach(flare => scene.remove(flare));
+    if (points) scene.remove(points);
+    cubes = [];
+    flares = [];
+
+    // Binary Cubes
+    const cubeSize = parseFloat(cubeSizeInput.value);
+    const cubeColor = new THREE.Color(cubeColorInput.value);
+    for (let i = 0; i < 5; i++) {
+        const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+        const material = new THREE.MeshBasicMaterial({ color: cubeColor });
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.set((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5);
+        cubes.push(cube);
+        scene.add(cube);
+    }
+
+    // QuantSpark Flares
+    const flareCount = parseInt(flareCountInput.value);
+    const flareColor = new THREE.Color(flareColorInput.value);
+    for (let i = 0; i < flareCount; i++) {
+        const geometry = new THREE.SphereGeometry(0.1, 16, 16);
+        const material = new THREE.MeshBasicMaterial({ color: flareColor });
+        const flare = new THREE.Mesh(geometry, material);
+        flare.position.set((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5);
+        flares.push(flare);
+        scene.add(flare);
+    }
+
+    // ChaosBloom Points
+    const pointCount = parseInt(pointCountInput.value);
+    const pointColor = new THREE.Color(pointColorInput.value);
+    const positions = new Float32Array(pointCount * 3);
+    for (let i = 0; i < pointCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 5;
+        positions[i * 3 + 1] = Math.random() * 5 + 2;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 5;
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({ color: pointColor, size: 0.05 });
+    points = new THREE.Points(geometry, material);
+    scene.add(points);
+}
+
+// Animate shapes with sound interaction
+let elapsedTime = 0;
+function animate() {
+    requestAnimationFrame(animate);
+    elapsedTime += 0.016;
+
+    // Determine sound level
+    soundLevel = 0;
+    const soundMode = soundModeSelect.value;
+    if (soundMode === 'live' && analyser) {
+        analyser.getByteFrequencyData(dataArray);
+        soundLevel = dataArray.reduce((sum, val) => sum + val, 0) / (bufferLength * 128);
+    } else if (soundMode === 'wavelength') {
+        const frequency = parseFloat(waveFrequencyInput.value);
+        soundLevel = Math.sin(elapsedTime * frequency * 2 * Math.PI) * 0.5 + 0.5;
+    }
+
+    // Animate cubes
+    const vibration = parseFloat(cubeVibrationInput.value);
+    cubes.forEach(cube => {
+        cube.rotation.y += 0.01;
+        const offset = Math.sin(elapsedTime * 5) * soundLevel * vibration * 0.1;
+        cube.position.y += offset;
+        cube.material.color.set(cubeColorInput.value);
+    });
+
+    // Animate flares
+    const spreadSpeed = parseFloat(flareSpreadInput.value);
+    flares.forEach(flare => {
+        flare.position.x += (Math.random() - 0.5) * spreadSpeed * (1 + soundLevel);
+        flare.position.y += (Math.random() - 0.5) * spreadSpeed * (1 + soundLevel);
+        flare.position.z += (Math.random() - 0.5) * spreadSpeed * (1 + soundLevel);
+        if (Math.abs(flare.position.x) > 5) flare.position.x *= -0.9;
+        if (Math.abs(flare.position.y) > 5) flare.position.y *= -0.9;
+        if (Math.abs(flare.position.z) > 5) flare.position.z *= -0.9;
+        flare.material.color.set(flareColorInput.value);
+    });
+
+    // Animate points
+    const fallSpeed = parseFloat(pointFallSpeedInput.value);
+    const positions = points.geometry.attributes.position.array;
+    for (let i = 0; i < positions.length / 3; i++) {
+        positions[i * 3 + 1] -= fallSpeed * (1 + soundLevel);
+        if (positions[i * 3 + 1] < -5) positions[i * 3 + 1] = 5 + Math.random() * 2;
+    }
+    points.geometry.attributes.position.needsUpdate = true;
+    points.material.color.set(pointColorInput.value);
+
+    renderer.render(scene, camera);
+}
+
+// Event listeners for controls
+soundModeSelect.addEventListener('input', () => {});
+waveFrequencyInput.addEventListener('input', () => {});
+cubeSizeInput.addEventListener('input', initShapes);
+cubeColorInput.addEventListener('input', () => {});
+cubeVibrationInput.addEventListener('input', () => {});
+flareCountInput.addEventListener('input', initShapes);
+flareColorInput.addEventListener('input', () => {});
+flareSpreadInput.addEventListener('input', () => {});
+pointCountInput.addEventListener('input', initShapes);
+pointColorInput.addEventListener('input', () => {});
+pointFallSpeedInput.addEventListener('input', () => {});
+
+// Initial setup
+initShapes();
+animate();
