@@ -2,60 +2,61 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #f4f4f9;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
 }
 header {
     background: #2c3e50;
     color: white;
-    padding: 10px 20px;
+    padding: 10px;
     text-align: center;
 }
-h1 { margin: 0; font-size: 2em; }
-nav a { color: white; margin: 0 15px; text-decoration: none; }
+h1 { margin: 0; font-size: 1.5em; }
+nav a { color: white; margin: 0 10px; text-decoration: none; }
 nav a:hover { text-decoration: underline; }
 main {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
     gap: 10px;
-    padding: 20px;
-    text-align: center;
 }
-.button-container { margin: 10px 0; }
-button { padding: 5px 10px; font-size: 1em; }
-canvas { height: 600px; width: 100%; border: 1px solid #ccc; }
-.controls { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    gap: 10px; 
-    max-width: 960px; 
-    margin: 0 auto; 
+#combinedCanvas {
+    flex: 2;
+    height: 600px;
+    border: 1px solid #ccc;
 }
-.module { 
-    border: 1px solid #ddd; 
-    padding: 10px; 
-    background: #fff; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+.controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
 }
-.module h3 { text-align: center; margin-bottom: 10px; font-size: 1.2em; }
-.module p { font-size: 0.8em; margin: 5px 0; color: #555; }
+.module {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #fff;
+}
+.module h3 { text-align: center; margin: 0 0 10px; font-size: 1.2em; }
+.module p { font-size: 0.8em; margin: 0 0 5px; color: #555; }
 .module label { display: block; margin: 5px 0; font-size: 0.9em; }
+button { padding: 5px 10px; font-size: 1em; margin: 10px auto; display: block; }
 #fail-log { 
-    margin: 10px auto; 
     padding: 10px; 
     background: #ffe6e6; 
     border: 1px solid #ff9999; 
-    max-width: 960px; 
     font-size: 0.9em; 
     color: #d33; 
     display: none; 
+    max-width: 300px; 
 }
-footer { 
-    background: #2c3e50; 
-    color: white; 
-    padding: 10px; 
-    text-align: center; 
-    font-size: 0.9em; 
+footer {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9em;
 }
