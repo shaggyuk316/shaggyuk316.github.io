@@ -2,48 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grokox Theory</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <title>Grokox Theory - Index</title>
+    <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
-    <header>
-        <h1>Grokox Theory</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="visuals.html">Visuals</a>
-            <a href="quantumibarial.html">Quantumibarial</a>
-            <a href="combined.html">Combined</a>
-        </nav>
-    </header>
-    <main>
-        <canvas id="indexCanvas"></canvas>
-        <div id="fail-log"></div>
-    </main>
-    <footer>
-        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
-    </footer>
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('indexCanvas') });
-        renderer.setSize(window.innerWidth, 600);
-        scene.background = new THREE.Color(0xffffff);
-        camera.position.z = 10;
-
-        const geo = new THREE.BoxGeometry(1, 1, 1);
-        const mat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const cube = new THREE.Mesh(geo, mat);
-        scene.add(cube);
-
-        function animate() {
-            requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h3>Index Page</h3>
+            <p>A simple spinning cube animation.</p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 </html>
