@@ -2,47 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visuals - Grokox Theory</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <title>Grokox Theory - Visuals</title>
+    <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
-    <header>
-        <h1>Visuals</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="visuals.html">Visuals</a>
-            <a href="quantumibarial.html">Quantumibarial</a>
-            <a href="combined.html">Combined</a>
-        </nav>
-    </header>
-    <main>
-        <canvas id="visualsCanvas"></canvas>
-        <div id="fail-log"></div>
-    </main>
-    <footer>
-        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
-    </footer>
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('visualsCanvas') });
-        renderer.setSize(window.innerWidth, 600);
-        scene.background = new THREE.Color(0xffffff);
-        camera.position.z = 10;
-
-        const geo = new THREE.SphereGeometry(1, 32, 32);
-        const mat = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: true });
-        const sphere = new THREE.Mesh(geo, mat);
-        scene.add(sphere);
-
-        function animate() {
-            requestAnimationFrame(animate);
-            sphere.rotation.x += 0.01;
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h3>Visuals Page</h3>
+            <p>A simple spinning sphere animation.</p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="/js/visuals.js"></script>
 </body>
 </html>
