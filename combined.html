@@ -15,39 +15,49 @@
     <button onclick="updateAll()">Update Variables</button>
 
     <div class="visual-section">
-        <canvas id="combinedCanvas" style="height: 600px; width: 100%;"></canvas>
-        <div class="controls">
-            <h3>Binary</h3>
-            <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
-            <label>Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateAll()"></label>
-            <label style="color: #FF4500;">Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateAll()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-            <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Vibration: <input type="checkbox" id="binaryVibrationToggle" onchange="updateAll()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+        <h2>Binary Phase</h2>
+        <canvas id="binaryCanvas" style="height: 200px; width: 100%;"></canvas>
+    </div>
+    <div class="visual-section">
+        <h2>QuantSpark Phase</h2>
+        <canvas id="quantsparkCanvas" style="height: 200px; width: 100%;"></canvas>
+    </div>
+    <div class="visual-section">
+        <h2>ChaosBloom Phase</h2>
+        <canvas id="chaosbloomCanvas" style="height: 200px; width: 100%;"></canvas>
+    </div>
 
-            <h3>QuantSpark</h3>
-            <label>Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
-            <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateAll()"></label>
-            <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateAll()"></label>
-            <label>Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" onchange="updateAll()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateAll()"></label>
-            <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-            <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" onchange="updateAll()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Vibration: <input type="checkbox" id="quantsparkVibrationToggle" onchange="updateAll()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+    <div class="controls">
+        <h3>Binary</h3>
+        <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateBinary()"></label>
+        <label>Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateBinary()"></label>
+        <label style="color: #FF4500;">Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateBinary()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateBinary()"></label>
+        <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" onchange="updateBinary()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+        <label>Vibration: <input type="checkbox" id="binaryVibrationToggle" onchange="updateBinary()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+        <label>Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateBinary()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
+        <label>Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateBinary()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateBinary()"></label>
 
-            <h3>ChaosBloom</h3>
-            <label>Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateAll()"></label>
-            <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateAll()"></label>
-            <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateAll()"></label>
-            <label>Gravity: <input type="checkbox" id="chaosbloomGravityToggle" onchange="updateAll()"> <input type="range" id="chaosbloomGravity" min="0" max="0.1" step="0.01" value="0.01" onchange="updateAll()"></label>
-            <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-            <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" onchange="updateAll()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" onchange="updateAll()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            <label>Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-        </div>
+        <h3>QuantSpark</h3>
+        <label>Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateQuantspark()"></label>
+        <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateQuantspark()"></label>
+        <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateQuantspark()"></label>
+        <label>Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateQuantspark()"></label>
+        <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateQuantspark()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateQuantspark()"></label>
+        <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+        <label>Vibration: <input type="checkbox" id="quantsparkVibrationToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+        <label>Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+        <label>Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateQuantspark()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateQuantspark()"></label>
+
+        <h3>ChaosBloom</h3>
+        <label>Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateChaosbloom()"></label>
+        <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateChaosbloom()"></label>
+        <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateChaosbloom()"></label>
+        <label>Gravity: <input type="checkbox" id="chaosbloomGravityToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomGravity" min="0" max="0.1" step="0.01" value="0.01" onchange="updateChaosbloom()"></label>
+        <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateChaosbloom()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateChaosbloom()"></label>
+        <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+        <label>Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+        <label>Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
+        <label>Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateChaosbloom()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateChaosbloom()"></label>
     </div>
 
     <footer>
@@ -56,76 +66,12 @@
 
     <script src="js/script.js"></script>
     <script>
-        const binaryScene = initScene('binaryCanvas', 0x000033);
-        const quantsparkScene = initScene('quantsparkCanvas', 0x330000);
-        const chaosbloomScene = initScene('chaosbloomCanvas', 0x000000);
-
-        const combined = {
-            scene: new THREE.Scene(),
-            camera: new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000),
-            renderer: new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') }),
-            controls: null
-        };
-        combined.renderer.setSize(window.innerWidth, 600);
-        combined.camera.position.z = 30;
-        combined.controls = new OrbitControls(combined.camera, combined.renderer.domElement);
-        combined.scene.background = new THREE.Color(0xffffff);
-
         function updateAll() {
             updateBinary();
             updateQuantspark();
             updateChaosbloom();
-
-            // Copy visuals to combined scene
-            combined.scene.clear();
-            if (binaryScene) {
-                binaryScene.scene.children.forEach(child => {
-                    const clone = child.clone();
-                    clone.position.y -= 10; // Lower Binary
-                    combined.scene.add(clone);
-                });
-            }
-            if (quantsparkScene) {
-                quantsparkScene.scene.children.forEach(child => {
-                    const clone = child.clone();
-                    combined.scene.add(clone);
-                });
-            }
-            if (chaosbloomScene) {
-                chaosbloomScene.scene.children.forEach(child => {
-                    const clone = child.clone();
-                    clone.position.y += 10; // Raise ChaosBloom
-                    combined.scene.add(clone);
-                });
-            }
         }
-
-        if (binaryScene && quantsparkScene && chaosbloomScene) {
-            updateAll();
-        } else {
-            console.error('One or more scenes failed to initialize');
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            if (binaryScene) {
-                binaryScene.controls.update();
-                binaryScene.renderer.render(binaryScene.scene, binaryScene.camera);
-            }
-            if (quantsparkScene) {
-                quantsparkScene.controls.update();
-                quantsparkScene.renderer.render(quantsparkScene.scene, quantsparkScene.camera);
-            }
-            if (chaosbloomScene) {
-                chaosbloomScene.controls.update();
-                chaosbloomScene.renderer.render(chaosbloomScene.scene, chaosbloomScene.camera);
-            }
-            if (combined) {
-                combined.controls.update();
-                combined.renderer.render(combined.scene, combined.camera);
-            }
-        }
-        animate();
+        updateAll(); // Initial call to load visuals
     </script>
 </body>
 </html>
