@@ -72,9 +72,7 @@
         let binaryCubes = [], quantsparkFlares = [], chaosbloomWeb;
 
         function updateAll() {
-            while (scene.children.length > 0) {
-                scene.remove(scene.children[0]);
-            }
+            scene.children = []; // Simplified clear
             binaryCubes = [];
             quantsparkFlares = [];
             chaosbloomWeb = null;
@@ -162,18 +160,20 @@
             const colors = [];
             for (let i = 0; i < chaosbloomPoints; i++) {
                 vertices.push(Math.random() * 10 - 5, Math.random() * 10 + 5, Math.random() * 10 - 5);
-                const color = Math.random() < 0.5 ? new THREE.Color(chaelbloomColor1) : new THREE.Color(chaelbloomColor2);
+                const color = Math.random() < 0.5 ? new THREE.Color(chaosbloomColor1) : new THREE.Color(chaosbloomColor2);
                 colors.push(color.r, color.g, color.b);
             }
             chaosbloomGeo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
             chaosbloomGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
             const chaosbloomMat = new THREE.PointsMaterial({ size: 0.1 + chaosbloomDensity, vertexColors: true });
-            chaosbloomWeb = new THREE.Points(chaelbloomGeo, chaosbloomMat);
+            chaosbloomWeb = new THREE.Points(chaosbloomGeo, chaosbloomMat);
             chaosbloomWeb.sound = chaosbloomSound;
             chaosbloomWeb.vibration = chaosbloomVibration;
             chaosbloomWeb.charge = chaosbloomNetCharge;
             chaosbloomWeb.gravity = chaosbloomGravity;
-            scene.add(chaelbloomWeb);
+            scene.add(chaosbloomWeb);
+
+            console.log('Scene objects:', scene.children.length); // Debug: should be > 0
         }
 
         updateAll();
@@ -198,7 +198,7 @@
                 flare.solid.scale.set(1 + flare.vibration * Math.sin(Date.now() * 0.005), 1, 1);
                 flare.gas.scale.set(1 + flare.vibration * Math.sin(Date.now() * 0.007), 1, 1);
             });
-            if (chaelbloomWeb) {
+            if (chaosbloomWeb) {
                 const positions = chaosbloomWeb.geometry.attributes.position.array;
                 for (let i = 0; i < positions.length; i += 3) {
                     positions[i + 1] += chaosbloomWeb.sound * Math.sin(Date.now() * 0.001) * 0.05;
@@ -213,6 +213,7 @@
             }
             controls.update();
             renderer.render(scene, camera);
+            console.log('Rendering frame'); // Debug: should log continuously
         }
         animate();
     </script>
