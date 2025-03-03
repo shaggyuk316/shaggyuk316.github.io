@@ -1,1 +1,55 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grokox Theory - Q-Calc Pulse (Quantum Calculations)</title>
+    <link rel="stylesheet" href="/theme.css">
+</head>
+<body>
+    <header>
+        <h1>Grokox Theory - Q-Calc Pulse (Quantum Calculations)</h1>
+    </header>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h2>Theory 2 Overview</h2>
+            <p>Grokox Theory’s Quantum Calculations (Theory 2) simulate quantum dynamics through formulas, variables, and equations. Use this tool to calculate, log, and convert results for programs or hardware. Access logged animation equations from the Mixer for further analysis.</p>
+            <h3>Calculation Interface</h3>
+            <p>Enter formulas, variables, and equations to perform quantum calculations, or load logged animation equations.</p>
+            <label>Formula: <input type="text" id="formulaInput" placeholder="e.g., E = h * f"></label><br>
+            <label>Variables: <input type="text" id="variablesInput" placeholder="e.g., Frequency: 1e15 Hz, h: 6.626e-34 J·s"></label><br>
+            <label>Load Logged Equation: <select id="loadEquation"><option value="">Select an equation</option></select></label><br>
+            <button onclick="calculate()">Calculate</button>
+            <p id="resultOutput">Result: (awaiting calculation)</p>
+            <h3>Log Table</h3>
+            <p>Logged calculations can be revisited or converted for programs/hardware.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Formula</th>
+                        <th>Variables</th>
+                        <th>Result</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="logTableBody">
+                    <tr>
+                        <td colspan="4">No calculations logged yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Conversion Options</h3>
+            <p>Convert logged calculations into code for programs or hardware.</p>
+            <label>Export Format: <select id="exportFormat"><option value="Python">Python</option><option value="JavaScript">JavaScript</option><option value="Arduino">Arduino Code</option><option value="VHDL">VHDL</option></select></label><br>
+            <button onclick="exportCode()">Export Code</button>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
+        <p>Updated by Grok 3 on March 03, 2025</p>
+    </footer>
+    <script src="/js/qcalc_pulse.js"></script>
+</body>
+</html>
