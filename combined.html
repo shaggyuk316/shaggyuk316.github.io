@@ -6,7 +6,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        body { margin: 0; font-family: Arial, sans-serif; } /* Fallback font, no style.css */
+        body { margin: 0; font-family: Arial, sans-serif; }
+        h1 { text-align: center; margin: 20px 0 10px; } /* Center title */
+        p { text-align: center; margin: 0 0 20px; } /* Center subtitle */
         .visual-section { width: 100%; text-align: center; }
         .controls-container { 
             display: block; 
@@ -16,10 +18,10 @@
         }
         .controls { 
             display: flex; 
-            flex-direction: row; /* Force horizontal */
+            flex-direction: row; 
             justify-content: center; 
             align-items: flex-start; 
-            gap: 10px; /* Tight spacing */
+            gap: 10px; 
             padding: 0; 
         }
         .control-box { 
