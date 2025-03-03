@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <style>
-        .controls label { display: block; margin: 5px 0; } /* Ensure labels stack neatly */
+        .controls label { display: block; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -63,14 +63,18 @@
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
         renderer.setSize(window.innerWidth, 600);
-        scene.background = new THREE.Color(0xffffff);
-        camera.position.z = 40;
+        scene.background = new THREE.Color(0xffffff); // White background
+        camera.position.set(0, 0, 20); // Closer, centered view
+        camera.lookAt(0, 0, 0);
         const controls = new OrbitControls(camera, renderer.domElement);
 
         let binaryCubes = [], quantsparkFlares = [], chaosbloomWeb;
 
         function updateAll() {
-            scene.clear();
+            // Clear previous objects
+            while (scene.children.length > 0) {
+                scene.remove(scene.children[0]);
+            }
             binaryCubes = [];
             quantsparkFlares = [];
             chaosbloomWeb = null;
@@ -93,7 +97,7 @@
             const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor });
             for (let i = 0; i < binarySize; i++) {
                 const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - (binarySize - 1) * 2, -10, 0);
+                cube.position.set(i * 2 - (binarySize - 1), -5, 0);
                 cube.sound = binarySound;
                 cube.vibration = binaryVibration;
                 cube.charge = binaryNetCharge;
@@ -124,8 +128,8 @@
                 const gas = new THREE.Mesh(quantsparkGeo, new THREE.MeshBasicMaterial({ color: quantsparkGasColor }));
                 solid.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
                 gas.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
-                solid.velocity = new THREE.Vector3(Math.random() * quantsparkMagnetic - 0.05, Math.random() * quantsparkMagnetic - 0.05, Math.random() * quantsparkMagnetic - 0.05);
-                gas.velocity = new THREE.Vector3(Math.random() * quantsparkMagnetic - 0.05, Math.random() * quantsparkMagnetic - 0.05, Math.random() * quantsparkMagnetic - 0.05);
+                solid.velocity = new THREE.Vector3((Math.random() - 0.5) * quantsparkMagnetic, (Math.random() - 0.5) * quantsparkMagnetic, (Math.random() - 0.5) * quantsparkMagnetic);
+                gas.velocity = new THREE.Vector3((Math.random() - 0.5) * quantsparkMagnetic, (Math.random() - 0.5) * quantsparkMagnetic, (Math.random() - 0.5) * quantsparkMagnetic);
                 solid.sound = quantsparkSound;
                 gas.sound = quantsparkSound;
                 solid.vibration = quantsparkVibration;
@@ -157,7 +161,7 @@
             const vertices = [];
             const colors = [];
             for (let i = 0; i < chaosbloomPoints; i++) {
-                vertices.push(Math.random() * 10 - 5, Math.random() * 10 + 10, Math.random() * 10 - 5);
+                vertices.push(Math.random() * 10 - 5, Math.random() * 10 + 5, Math.random() * 10 - 5);
                 const color = Math.random() < 0.5 ? new THREE.Color(chaelbloomColor1) : new THREE.Color(chaelbloomColor2);
                 colors.push(color.r, color.g, color.b);
             }
@@ -182,7 +186,7 @@
                 cube.scale.set(1 + cube.sound * Math.sin(Date.now() * 0.001), 1, 1); // Sound scales
                 cube.position.y += cube.vibration * Math.sin(Date.now() * 0.002) * 0.1; // Vibration pulses
                 cube.rotation.z += cube.charge * 0.01; // Charge rotates
-                if (cube.position.y > -5) cube.position.y = -10; // Reset if too high
+                if (cube.position.y > -2) cube.position.y = -8; // Reset if too high
             });
 
             // QuantSpark animations
@@ -193,8 +197,8 @@
                 flare.gas.rotation.y += flare.sound * 0.05;
                 flare.solid.position.add(flare.solid.velocity);
                 flare.gas.position.add(flare.gas.velocity);
-                flare.solid.position.clamp(new THREE.Vector3(-10, -5, -10), new THREE.Vector3(10, 5, 10));
-                flare.gas.position.clamp(new THREE.Vector3(-10, -5, -10), new THREE.Vector3(10, 5, 10));
+                flare.solid.position.clamp(new THREE.Vector3(-10, -2, -10), new THREE.Vector3(10, 2, 10));
+                flare.gas.position.clamp(new THREE.Vector3(-10, -2, -10), new THREE.Vector3(10, 2, 10));
                 flare.solid.scale.set(1 + flare.vibration * Math.sin(Date.now() * 0.005), 1, 1); // Vibration scales
                 flare.gas.scale.set(1 + flare.vibration * Math.sin(Date.now() * 0.007), 1, 1);
             });
@@ -205,7 +209,7 @@
                 for (let i = 0; i < positions.length; i += 3) {
                     positions[i + 1] += chaosbloomWeb.sound * Math.sin(Date.now() * 0.001) * 0.05; // Sound moves up
                     positions[i + 1] -= chaosbloomWeb.gravity * 0.01; // Gravity pulls down
-                    if (positions[i + 1] < 5) positions[i + 1] = 15; // Reset if too low
+                    if (positions[i + 1] < 2) positions[i + 1] = 8; // Reset if too low
                     positions[i] += chaosbloomWeb.vibration * Math.sin(Date.now() * 0.002) * 0.05; // Vibration wiggles x
                     positions[i + 2] += chaosbloomWeb.charge * Math.cos(Date.now() * 0.003) * 0.05; // Charge wiggles z
                 }
