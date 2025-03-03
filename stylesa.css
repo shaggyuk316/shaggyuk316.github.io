@@ -1,0 +1,57 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: lightgrey;
+    background-color: black;
+    text-align: center;
+}
+
+h1, h2 {
+    color: grey;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: green;
+}
+
+/* Container Styles */
+.container {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid lightgrey;
+    background-color: black;
+}
+
+/* Specific Containers */
+.container.left {
+    float: left;
+    width: 45%;
+}
+
+.container.right {
+    float: right;
+    width: 45%;
+}
+
+.container.blank {
+    display: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container.left,
+    .container.right {
+        float: none;
+        width: 100%;
+    }
+
+    .container {
+        margin: 5px;
+    }
+}
