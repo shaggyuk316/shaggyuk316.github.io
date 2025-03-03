@@ -1,62 +1,10 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-header {
-    background: #2c3e50;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-h1 { margin: 0; font-size: 1.5em; }
-nav a { color: white; margin: 0 10px; text-decoration: none; }
-nav a:hover { text-decoration: underline; }
-main {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    gap: 10px;
-}
-#combinedCanvas {
-    flex: 2;
-    height: 600px;
-    border: 1px solid #ccc;
-}
-.controls {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 300px;
-}
-.module {
-    border: 1px solid #ddd;
-    padding: 10px;
-    background: #fff;
-}
-.module h3 { text-align: center; margin: 0 0 10px; font-size: 1.2em; }
-.module p { font-size: 0.8em; margin: 0 0 5px; color: #555; }
-.module label { display: block; margin: 5px 0; font-size: 0.9em; }
-button { padding: 5px 10px; font-size: 1em; margin: 10px auto; display: block; }
-#fail-log { 
-    padding: 10px; 
-    background: #ffe6e6; 
-    border: 1px solid #ff9999; 
-    font-size: 0.9em; 
-    color: #d33; 
-    display: none; 
-    max-width: 300px; 
-}
-footer {
-    background: #2c3e50;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 0.9em;
-}
+body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: #fff; }
+header { background: #333; color: #fff; padding: 15px; text-align: center; }
+main { display: flex; padding: 20px; gap: 20px; }
+canvas { width: 70%; height: 600px; border: 1px solid #000; }
+.controls { width: 30%; padding: 10px; display: flex; flex-direction: column; gap: 15px; }
+.module { border: 1px solid #000; padding: 15px; }
+.module h3 { margin: 0 0 15px; text-align: center; }
+.module label { display: block; margin: 10px 0; }
+button { padding: 8px 15px; margin: 15px auto; display: block; }
+footer { background: #333; color: #fff; padding: 15px; text-align: center; }
