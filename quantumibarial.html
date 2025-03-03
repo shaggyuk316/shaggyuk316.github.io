@@ -35,6 +35,11 @@
             margin-bottom: 10px; 
             font-size: 1.2em; 
         }
+        .control-box p { 
+            font-size: 0.8em; 
+            margin: 5px 0; 
+            color: #555; 
+        }
         .control-box label { 
             display: block; 
             margin: 5px 0; 
@@ -59,17 +64,20 @@
             <div class="controls">
                 <div class="control-box">
                     <h3>Binary</h3>
+                    <p>Cubes at the base, scaling with sound vibrations.</p>
                     <label style="color: #FFD700;">Count (1-10): <input type="number" id="binaryCount" value="5" min="1" max="10" onchange="updateAll()"></label>
                     <label style="color: #00CED1;">Color: <input type="color" id="binaryColor" value="#00FF00" onchange="updateAll()"></label>
                     <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" checked onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 </div>
                 <div class="control-box">
                     <h3>QuantSpark</h3>
+                    <p>Sphere in the middle, thrashing with sound energy.</p>
                     <label style="color: #00CED1;">Color: <input type="color" id="quantsparkColor" value="#0000FF" onchange="updateAll()"></label>
                     <label style="color: #FFA500;">Thrash: <input type="checkbox" id="quantsparkThrashToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkThrash" min="0" max="0.1" step="0.01" value="0.05" onchange="updateAll()"></label>
                 </div>
                 <div class="control-box">
                     <h3>ChaosBloom</h3>
+                    <p>Spheres at the top, pulsing with chaotic motion.</p>
                     <label style="color: #FFD700;">Count (1-5): <input type="number" id="chaosbloomCount" value="3" min="1" max="5" onchange="updateAll()"></label>
                     <label style="color: #00CED1;">Color: <input type="color" id="chaosbloomColor" value="#FF00FF" onchange="updateAll()"></label>
                     <label style="color: #32CD32;">Pulse: <input type="checkbox" id="chaosbloomPulseToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomPulse" min="0" max="0.5" step="0.05" value="0.1" onchange="updateAll()"></label>
@@ -83,7 +91,6 @@
     </footer>
 
     <script>
-        // Core Setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('quantumCanvas') });
@@ -92,12 +99,10 @@
         camera.position.set(0, 0, 10);
         camera.lookAt(0, 0, 0);
 
-        // Animation Objects
         let binaryCubes = [];
         let quantSparkSphere = null;
         let chaosBloomNetwork = [];
 
-        // Audio Setup
         let audioContext, analyser, dataArray, audioStream;
         let audioActive = false;
 
@@ -137,14 +142,12 @@
             return { low, mid, high };
         }
 
-        // Scene Initialization
         function updateAll() {
             scene.children = [];
             binaryCubes = [];
             quantSparkSphere = null;
             chaosBloomNetwork = [];
 
-            // Binary: Cubes
             const binaryCount = parseInt(document.getElementById('binaryCount').value) || 5;
             const binaryColor = document.getElementById('binaryColor').value || '#00FF00';
             const binarySound = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
@@ -158,7 +161,6 @@
                 scene.add(cube);
             }
 
-            // QuantSpark: Sphere
             const quantsparkColor = document.getElementById('quantsparkColor').value || '#0000FF';
             const quantsparkThrash = document.getElementById('quantsparkThrashToggle').checked ? parseFloat(document.getElementById('quantsparkThrash').value) || 0.05 : 0;
             const quantGeo = new THREE.SphereGeometry(1, 32, 32);
@@ -168,7 +170,6 @@
             quantSparkSphere.thrash = quantsparkThrash;
             scene.add(quantSparkSphere);
 
-            // ChaosBloom: Networked Spheres
             const chaosbloomCount = parseInt(document.getElementById('chaosbloomCount').value) || 3;
             const chaosbloomColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
             const chaosbloomPulse = document.getElementById('chaosbloomPulseToggle').checked ? parseFloat(document.getElementById('chaosbloomPulse').value) || 0.1 : 0;
@@ -182,10 +183,9 @@
                 scene.add(sphere);
             }
 
-            console.log('Scene objects:', scene.children.length); // Debug: Should be ~9
+            console.log('Scene objects:', scene.children.length);
         }
 
-        // Animation Loop
         function animate() {
             requestAnimationFrame(animate);
             const freq = getFrequencyData();
@@ -206,10 +206,9 @@
             });
 
             renderer.render(scene, camera);
-            console.log('Animating'); // Debug: Should log continuously
+            console.log('Animating');
         }
 
-        // Start
         updateAll();
         animate();
     </script>
