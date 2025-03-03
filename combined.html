@@ -3,38 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Combined Visuals - Grokox Theory</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        .controls-container {
-            text-align: center;
-            max-width: 960px; /* Fits 3 boxes at 320px each */
-            margin: 10px auto; /* Extra top margin for spacing */
+        body { margin: 0; font-family: Arial, sans-serif; } /* Fallback font, no style.css */
+        .visual-section { width: 100%; text-align: center; }
+        .controls-container { 
+            display: block; 
+            width: 100%; 
+            max-width: 1000px; 
+            margin: 10px auto; 
         }
         .controls { 
             display: flex; 
-            justify-content: center; /* Center the row */
+            flex-direction: row; /* Force horizontal */
+            justify-content: center; 
             align-items: flex-start; 
-            gap: 10px; /* Tight spacing between boxes */
-        }
-        .controls h3 { 
-            text-align: center; 
-            margin-bottom: 10px; 
-            font-size: 1.2em; 
+            gap: 10px; /* Tight spacing */
+            padding: 0; 
         }
         .control-box { 
             border: 1px solid #ccc; 
             padding: 10px; 
-            width: 300px; /* Consistent width */
+            width: 300px; 
             box-sizing: border-box; 
             background: #f9f9f9; 
+        }
+        .control-box h3 { 
+            text-align: center; 
+            margin-bottom: 10px; 
+            font-size: 1.2em; 
         }
         .control-box label { 
             display: block; 
             margin: 5px 0; 
             font-size: 0.9em; 
         }
+        nav { text-align: center; margin: 10px 0; }
+        nav a { margin: 0 10px; }
+        button { display: block; margin: 10px auto; }
+        footer { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -116,7 +124,6 @@
             quantsparkFlares = [];
             chaosbloomWeb = null;
 
-            // Binary: Cubes
             const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
             const binaryColor = document.getElementById('binaryColor').value || '#0000FF';
             const binaryDensityToggle = document.getElementById('binaryDensityToggle').checked;
@@ -142,7 +149,6 @@
                 scene.add(cube);
             }
 
-            // QuantSpark: Flares
             const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
             const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
             const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
@@ -178,7 +184,6 @@
                 scene.add(gas);
             }
 
-            // ChaosBloom: Points
             const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
             const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
             const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
