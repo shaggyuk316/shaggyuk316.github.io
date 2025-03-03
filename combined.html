@@ -13,7 +13,7 @@
         nav a { margin: 0 10px; text-decoration: none; color: #007BFF; }
         nav a:hover { text-decoration: underline; }
         .visual-section { width: 100%; text-align: center; }
-        #combinedCanvas { height: 600px; width: 100%; }
+        #combinedCanvas { height: 600px; width: 100%; display: block; }
         .controls { display: flex; justify-content: center; gap: 10px; max-width: 960px; margin: 10px auto; }
         .control-box { border: 1px solid #ccc; padding: 10px; width: 300px; box-sizing: border-box; background: #f9f9f9; }
         .control-box h3 { text-align: center; margin-bottom: 10px; font-size: 1.2em; }
@@ -50,7 +50,7 @@
                 <p>Flares in the middle, spinning and moving with magnetic energy.</p>
                 <label style="color: #FFD700;">Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateAll()"></label>
+                <label style="color: #00CED1;">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF00FF" onchange="updateAll()"></label>
                 <label style="color: #FFA500;">Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateAll()"></label>
                 <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
                 <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
@@ -127,7 +127,7 @@
 
             const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
             const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
-            const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
+            const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF00FF';
             const quantsparkMagneticToggle = document.getElementById('quantsparkMagneticToggle').checked;
             const quantsparkMagnetic = quantsparkMagneticToggle ? parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1 : 0;
             const quantsparkDensityToggle = document.getElementById('quantsparkDensityToggle').checked;
@@ -193,6 +193,8 @@
             chaosbloomWeb.charge = chaosbloomNetCharge;
             chaosbloomWeb.gravity = chaosbloomGravity;
             scene.add(chaosbloomWeb);
+
+            console.log('Scene objects:', scene.children.length); // Debug
         }
 
         function animate() {
@@ -230,6 +232,7 @@
             }
             controls.update();
             renderer.render(scene, camera);
+            console.log('Animating'); // Debug
         }
 
         updateAll();
