@@ -7,13 +7,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
+        .controls-container {
+            text-align: center; /* Center the flex container */
+            max-width: 1000px; /* Tighter max width */
+            margin: 0 auto; /* Center horizontally */
+        }
         .controls { 
             display: flex; 
-            justify-content: center; 
+            justify-content: space-around; /* Even spacing within centered container */
             align-items: flex-start; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            gap: 10px; /* Space between boxes */
+            gap: 5px; /* Tighter gap */
         }
         .controls h3 { 
             text-align: center; 
@@ -23,10 +26,9 @@
         .control-box { 
             border: 1px solid #ccc; 
             padding: 10px; 
-            margin: 5px 0; 
-            width: 320px; /* Fixed width for uniformity */
+            width: 300px; /* Slightly narrower */
             box-sizing: border-box; 
-            background: #f9f9f9; /* Light background for clarity */
+            background: #f9f9f9; 
         }
         .control-box label { 
             display: block; 
@@ -45,42 +47,44 @@
 
     <div class="visual-section">
         <canvas id="combinedCanvas" style="height: 600px; width: 100%;"></canvas>
-        <div class="controls">
-            <div class="control-box">
-                <h3>Binary</h3>
-                <label style="color: #FFD700;">Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateAll()"></label>
-                <label style="color: #FF4500;">Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateAll()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-                <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" checked onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #32CD32;">Vibration: <input type="checkbox" id="binaryVibrationToggle" checked onchange="updateAll()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            </div>
+        <div class="controls-container">
+            <div class="controls">
+                <div class="control-box">
+                    <h3>Binary</h3>
+                    <label style="color: #FFD700;">Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
+                    <label style="color: #00CED1;">Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateAll()"></label>
+                    <label style="color: #FF4500;">Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateAll()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
+                    <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" checked onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #32CD32;">Vibration: <input type="checkbox" id="binaryVibrationToggle" checked onchange="updateAll()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                </div>
 
-            <div class="control-box">
-                <h3>QuantSpark</h3>
-                <label style="color: #FFD700;">Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateAll()"></label>
-                <label style="color: #FFA500;">Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateAll()"></label>
-                <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-                <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #32CD32;">Vibration: <input type="checkbox" id="quantsparkVibrationToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            </div>
+                <div class="control-box">
+                    <h3>QuantSpark</h3>
+                    <label style="color: #FFD700;">Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
+                    <label style="color: #00CED1;">Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateAll()"></label>
+                    <label style="color: #00CED1;">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000" onchange="updateAll()"></label>
+                    <label style="color: #FFA500;">Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkMagnetic" min="0" max="1" step="0.1" value="0.1" onchange="updateAll()"></label>
+                    <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
+                    <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #32CD32;">Vibration: <input type="checkbox" id="quantsparkVibrationToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                </div>
 
-            <div class="control-box">
-                <h3>ChaosBloom</h3>
-                <label style="color: #FFD700;">Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateAll()"></label>
-                <label style="color: #00CED1;">Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateAll()"></label>
-                <label style="color: #FFA500;">Gravity: <input type="checkbox" id="chaosbloomGravityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomGravity" min="0" max="0.1" step="0.01" value="0.01" onchange="updateAll()"></label>
-                <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
-                <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #32CD32;">Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <div class="control-box">
+                    <h3>ChaosBloom</h3>
+                    <label style="color: #FFD700;">Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateAll()"></label>
+                    <label style="color: #00CED1;">Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateAll()"></label>
+                    <label style="color: #00CED1;">Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000" onchange="updateAll()"></label>
+                    <label style="color: #FFA500;">Gravity: <input type="checkbox" id="chaosbloomGravityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomGravity" min="0" max="0.1" step="0.01" value="0.01" onchange="updateAll()"></label>
+                    <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
+                    <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #32CD32;">Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                    <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                </div>
             </div>
         </div>
     </div>
