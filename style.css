@@ -1,62 +1,61 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
 }
-h1 {
-    text-align: center;
-    color: #333;
-}
-p {
-    text-align: center;
-    color: #666;
-}
-.visual-section {
-    margin: 20px 0;
-    padding: 10px;
-    background: #fff;
-    border-radius: 5px;
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 10px 20px;
     text-align: center;
 }
-canvas {
-    max-width: 1200px;
-    display: block;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 5px;
-}
-.controls {
-    max-width: 300px; /* Narrower for vertical stack */
-    margin: 10px auto;
-    padding: 10px;
-    background: #fff;
-    border-radius: 5px;
-    text-align: left; /* Align labels neatly */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between controls */
-}
-button {
-    padding: 5px 15px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px auto;
-    display: block;
-}
-button:hover {
-    background: #0056b3;
-}
-nav {
+h1 { margin: 0; font-size: 2em; }
+nav a { color: white; margin: 0 15px; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+main {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 10px;
+    padding: 20px;
     text-align: center;
 }
-a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #007bff;
+.button-container { margin: 10px 0; }
+button { padding: 5px 10px; font-size: 1em; }
+canvas { height: 600px; width: 100%; border: 1px solid #ccc; }
+.controls { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 10px; 
+    max-width: 960px; 
+    margin: 0 auto; 
 }
-a:hover {
-    text-decoration: underline;
+.module { 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    background: #fff; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+.module h3 { text-align: center; margin-bottom: 10px; font-size: 1.2em; }
+.module p { font-size: 0.8em; margin: 5px 0; color: #555; }
+.module label { display: block; margin: 5px 0; font-size: 0.9em; }
+#fail-log { 
+    margin: 10px auto; 
+    padding: 10px; 
+    background: #ffe6e6; 
+    border: 1px solid #ff9999; 
+    max-width: 960px; 
+    font-size: 0.9em; 
+    color: #d33; 
+    display: none; 
+}
+footer { 
+    background: #2c3e50; 
+    color: white; 
+    padding: 10px; 
+    text-align: center; 
+    font-size: 0.9em; 
 }
