@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Quantumibarial - Grokox Theory</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         body { margin: 0; font-family: Arial, sans-serif; }
         h1 { text-align: center; margin: 20px 0 10px; font-size: 2em; }
@@ -12,21 +10,17 @@
         nav { text-align: center; margin: 10px 0; }
         nav a { margin: 0 10px; text-decoration: none; color: #007BFF; }
         nav a:hover { text-decoration: underline; }
-        .visual-section { width: 100%; text-align: center; }
         #quantumCanvas { height: 600px; width: 100%; display: block; }
         .controls-container { 
-            display: block; 
-            width: 100%; 
             max-width: 960px; 
             margin: 10px auto; 
+            text-align: center; 
         }
         .controls { 
             display: flex; 
             flex-direction: row; 
             justify-content: center; 
-            align-items: flex-start; 
             gap: 10px; 
-            padding: 0; 
         }
         .control-box { 
             border: 1px solid #ccc; 
@@ -48,6 +42,8 @@
         button { display: block; margin: 10px auto; padding: 5px 10px; font-size: 1em; }
         footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <h1>Quantumibarial</h1>
@@ -56,6 +52,7 @@
         <a href="index.html">Home</a> | <a href="visuals.html">Visuals</a> | <a href="quantumibarial.html">Quantumibarial</a> | <a href="combined.html">Combined</a>
     </nav>
     <button onclick="updateAll()">Update Variables</button>
+    <button onclick="toggleAudio()">Toggle Audio Input</button>
 
     <div class="visual-section">
         <canvas id="quantumCanvas"></canvas>
@@ -106,13 +103,50 @@
         let quantsparkFlares = [];
         let chaosbloomWeb = null;
 
+        // Audio setup
+        let audioContext, analyser, dataArray, audioStream;
+        let audioActive = false;
+
+        async function initAudio() {
+            try {
+                audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                const source = audioContext.createMediaStreamSource(audioStream);
+                source.connect(analyser);
+                audioActive = true;
+            } catch (err) {
+                console.error('Audio init failed:', err);
+            }
+        }
+
+        function toggleAudio() {
+            if (!audioActive) {
+                initAudio();
+            } else {
+                audioStream.getTracks().forEach(track => track.stop());
+                audioContext.close();
+                audioActive = false;
+            }
+        }
+
+        function getFrequencyData() {
+            if (!analyser) return { low: 0, mid: 0, high: 0 };
+            analyser.getByteFrequencyData(dataArray);
+            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255; // 0-500 Hz
+            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255; // 500-2000 Hz
+            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255; // 2000+ Hz
+            return { low, mid, high };
+        }
+
         function updateAll() {
             scene.children = [];
             binaryCubes = [];
             quantsparkFlares = [];
             chaosbloomWeb = null;
 
-            // Binary: Cubes
             const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
             const binaryColor = document.getElementById('binaryColor').value || '#0000FF';
             const binaryDensity = document.getElementById('binaryDensityToggle').checked ? parseFloat(document.getElementById('binaryDensity').value) || 0.2 : 0.2;
@@ -127,7 +161,6 @@
                 scene.add(cube);
             }
 
-            // QuantSpark: Flares
             const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
             const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
             const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
@@ -145,7 +178,6 @@
                 scene.add(gas);
             }
 
-            // ChaosBloom: Points
             const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
             const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
             const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
@@ -170,27 +202,35 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            const freq = getFrequencyData();
+
             binaryCubes.forEach(cube => {
-                cube.scale.setScalar(1 + cube.sound * Math.sin(Date.now() * 0.001));
+                cube.scale.setScalar(1 + (cube.sound * (1 + freq.low))); // Low freq scales cubes
+                cube.position.y += cube.sound * Math.sin(Date.now() * 0.002) * 0.1;
             });
+
             quantsparkFlares.forEach(flare => {
-                flare.solid.rotation.x += 0.05;
-                flare.solid.rotation.y += 0.05;
-                flare.gas.rotation.x += 0.05;
-                flare.gas.rotation.y += 0.05;
-                flare.solid.position.add(flare.solid.velocity);
-                flare.gas.position.add(flare.gas.velocity);
+                flare.solid.rotation.x += flare.solid.velocity.x * (1 + freq.mid); // Mid freq speeds rotation
+                flare.solid.rotation.y += flare.solid.velocity.y * (1 + freq.mid);
+                flare.gas.rotation.x += flare.gas.velocity.x * (1 + freq.mid);
+                flare.gas.rotation.y += flare.gas.velocity.y * (1 + freq.mid);
+                flare.solid.position.add(flare.solid.velocity.clone().multiplyScalar(1 + freq.low));
+                flare.gas.position.add(flare.gas.velocity.clone().multiplyScalar(1 + freq.low));
                 flare.solid.position.clamp(new THREE.Vector3(-10, -2, -10), new THREE.Vector3(10, 2, 10));
                 flare.gas.position.clamp(new THREE.Vector3(-10, -2, -10), new THREE.Vector3(10, 2, 10));
             });
+
             if (chaosbloomWeb) {
                 const positions = chaosbloomWeb.geometry.attributes.position.array;
                 for (let i = 0; i < positions.length; i += 3) {
-                    positions[i + 1] -= chaosbloomWeb.gravity * 0.01;
+                    positions[i + 1] -= chaosbloomWeb.gravity * (1 + freq.high); // High freq speeds fall
                     if (positions[i + 1] < 2) positions[i + 1] = 12;
+                    positions[i] += Math.sin(Date.now() * 0.002) * 0.05 * (1 + freq.mid);
                 }
                 chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
+                chaosbloomWeb.rotation.x += 0.01 * (1 + freq.high);
             }
+
             controls.update();
             renderer.render(scene, camera);
         }
