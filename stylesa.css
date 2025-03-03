@@ -3,7 +3,46 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: lightgrey;
-    background-color: black;
+    background-col<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Theme</title>
+    <link rel="stylesheet" href="stylesa.css">
+</head>
+<body>
+    <header class="container">
+        <h1>Welcome to My Web Theme</h1>
+    </header>
+    <nav class="container">
+        <a href="#description">Description</a>
+        <a href="#animations">Animations</a>
+        <a href="#more-info">More Info</a>
+    </nav>
+    <main class="container">
+        <section id="description" class="container left">
+            <h2>Description</h2>
+            <p>This is the description container. It adapts dynamically based on content.</p>
+        </section>
+        <section id="animations" class="container right">
+            <h2>Animations</h2>
+            <p>This is the animations container. Space for dynamic content or visuals.</p>
+        </section>
+        <section id="function-controls" class="container">
+            <h2>Function Controls</h2>
+            <p>This area holds sliders or controls for interactivity.</p>
+        </section>
+    </main>
+    <div class="container blank">
+        <p>This blank container is ready for more input. Show or hide dynamically as needed.</p>
+    </div>
+    <footer class="container">
+        <p>&copy; 2025 My Theme</p>
+    </footer>
+</body>
+</html>
+or: black;
     text-align: center;
 }
 
