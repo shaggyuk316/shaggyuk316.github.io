@@ -1,17 +1,52 @@
-/* Adjust spacing for closer containers */
-.container.description,
-.container.animation {
-    margin-bottom: 10px; /* Reduce space between sections */
+/* General Styles */
+body {
+    background-color: black;
+    color: lightgrey;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-/* Function controls should stay aligned with animations */
-.container.function-controls {
-    margin-top: 5px;
+/* Header and Footer */
+header, footer {
+    padding: 20px;
+    background-color: black;
+    color: grey;
+    border: 1px solid lightgrey;
 }
 
-/* For responsiveness */
+/* Navigation */
+nav {
+    margin: 20px auto;
+}
+
+nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: green;
+}
+
+/* Main Content */
+.container {
+    margin: 10px auto;
+    padding: 20px;
+    width: 80%;
+    border: 1px solid lightgrey;
+    background-color: black;
+}
+
+.description, .animation, .controls {
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        margin-bottom: 15px; /* Slightly increase spacing for readability on smaller screens */
+        width: 95%;
     }
 }
