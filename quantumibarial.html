@@ -12,39 +12,12 @@
         nav a { margin: 0 10px; text-decoration: none; color: #007BFF; }
         nav a:hover { text-decoration: underline; }
         #quantumCanvas { height: 600px; width: 100%; display: block; }
-        .controls-container { 
-            max-width: 960px; 
-            margin: 10px auto; 
-            text-align: center; 
-        }
-        .controls { 
-            display: flex; 
-            flex-direction: row; 
-            justify-content: center; 
-            gap: 10px; 
-        }
-        .control-box { 
-            border: 1px solid #ccc; 
-            padding: 10px; 
-            width: 300px; 
-            box-sizing: border-box; 
-            background: #f9f9f9; 
-        }
-        .control-box h3 { 
-            text-align: center; 
-            margin-bottom: 10px; 
-            font-size: 1.2em; 
-        }
-        .control-box p { 
-            font-size: 0.8em; 
-            margin: 5px 0; 
-            color: #555; 
-        }
-        .control-box label { 
-            display: block; 
-            margin: 5px 0; 
-            font-size: 0.9em; 
-        }
+        .controls-container { max-width: 960px; margin: 10px auto; text-align: center; }
+        .controls { display: flex; flex-direction: row; justify-content: center; gap: 10px; }
+        .control-box { border: 1px solid #ccc; padding: 10px; width: 300px; box-sizing: border-box; background: #f9f9f9; }
+        .control-box h3 { text-align: center; margin-bottom: 10px; font-size: 1.2em; }
+        .control-box p { font-size: 0.8em; margin: 5px 0; color: #555; }
+        .control-box label { display: block; margin: 5px 0; font-size: 0.9em; }
         button { display: inline-block; margin: 10px 10px; padding: 5px 10px; font-size: 1em; }
         footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
     </style>
@@ -74,6 +47,7 @@
                     <p>Sphere in the middle, thrashing with sound energy.</p>
                     <label style="color: #00CED1;">Color: <input type="color" id="quantsparkColor" value="#0000FF" onchange="updateAll()"></label>
                     <label style="color: #FFA500;">Thrash: <input type="checkbox" id="quantsparkThrashToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkThrash" min="0" max="0.1" step="0.01" value="0.05" onchange="updateAll()"></label>
+                    <label style="color: #1E90FF;">Sound Sensitivity: <input type="range" id="quantsparkSoundSensitivity" min="0" max="2" step="0.1" value="1" onchange="updateAll()"></label>
                 </div>
                 <div class="control-box">
                     <h3>ChaosBloom</h3>
@@ -136,9 +110,9 @@
         function getFrequencyData() {
             if (!analyser) return { low: 0, mid: 0, high: 0 };
             analyser.getByteFrequencyData(dataArray);
-            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255;
-            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255;
-            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255;
+            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255; // 0-500 Hz
+            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255; // 500-2000 Hz
+            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255; // 2000+ Hz
             return { low, mid, high };
         }
 
@@ -163,11 +137,13 @@
 
             const quantsparkColor = document.getElementById('quantsparkColor').value || '#0000FF';
             const quantsparkThrash = document.getElementById('quantsparkThrashToggle').checked ? parseFloat(document.getElementById('quantsparkThrash').value) || 0.05 : 0;
+            const quantsparkSoundSensitivity = parseFloat(document.getElementById('quantsparkSoundSensitivity').value) || 1;
             const quantGeo = new THREE.SphereGeometry(1, 32, 32);
             const quantMat = new THREE.MeshBasicMaterial({ color: quantsparkColor, wireframe: true });
             quantSparkSphere = new THREE.Mesh(quantGeo, quantMat);
             quantSparkSphere.position.set(0, 0, 0);
             quantSparkSphere.thrash = quantsparkThrash;
+            quantSparkSphere.soundSensitivity = quantsparkSoundSensitivity;
             scene.add(quantSparkSphere);
 
             const chaosbloomCount = parseInt(document.getElementById('chaosbloomCount').value) || 3;
@@ -196,8 +172,8 @@
             });
 
             if (quantSparkSphere) {
-                quantSparkSphere.rotation.x += quantSparkSphere.thrash * (1 + freq.mid);
-                quantSparkSphere.rotation.y += quantSparkSphere.thrash * (1 + freq.mid);
+                quantSparkSphere.rotation.x += quantSparkSphere.thrash * (1 + freq.mid * quantSparkSphere.soundSensitivity);
+                quantSparkSphere.rotation.y += quantSparkSphere.thrash * (1 + freq.mid * quantSparkSphere.soundSensitivity);
             }
 
             chaosBloomNetwork.forEach(sphere => {
