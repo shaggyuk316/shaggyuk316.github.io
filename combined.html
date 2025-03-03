@@ -10,27 +10,27 @@
     <header>
         <h1>Combined Visuals</h1>
     </header>
-    <main>
+    <div class="container left">
         <canvas id="combinedCanvas"></canvas>
-        <div class="controls">
-            <button onclick="update()">Update</button>
-            <div id="binary-module" class="module">
-                <h3>Binary</h3>
-                <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="update()"></label>
-                <label>Color: <input type="color" id="binaryColor" value="#0000FF" onchange="update()"></label>
-            </div>
-            <div id="quantspark-module" class="module">
-                <h3>QuantSpark</h3>
-                <label>Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="update()"></label>
-                <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="update()"></label>
-            </div>
-            <div id="chaosbloom-module" class="module">
-                <h3>ChaosBloom</h3>
-                <label>Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="update()"></label>
-                <label>Color: <input type="color" id="chaosbloomColor" value="#FF00FF" onchange="update()"></label>
-            </div>
+    </div>
+    <div class="container right">
+        <button onclick="update()">Update</button>
+        <div id="binary-module" class="module">
+            <h2>Binary</h2>
+            <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="update()"></label>
+            <label>Color: <input type="color" id="binaryColor" value="#0000FF" onchange="update()"></label>
         </div>
-    </main>
+        <div id="quantspark-module" class="module">
+            <h2>QuantSpark</h2>
+            <label>Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="update()"></label>
+            <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="update()"></label>
+        </div>
+        <div id="chaosbloom-module" class="module">
+            <h2>ChaosBloom</h2>
+            <label>Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="update()"></label>
+            <label>Color: <input type="color" id="chaosbloomColor" value="#FF00FF" onchange="update()"></label>
+        </div>
+    </div>
     <footer>
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
     </footer>
@@ -41,15 +41,15 @@
             const canvas = document.getElementById('combinedCanvas');
             if (!canvas) throw new Error('Canvas not found');
 
-            const width = canvas.parentElement.clientWidth * 0.7;
-            canvas.style.width = `${width}px`;
-            canvas.style.height = '600px';
+            const width = canvas.parentElement.clientWidth;
+            canvas.width = width;
+            canvas.height = 600;
 
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, width / 600, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: canvas });
             renderer.setSize(width, 600);
-            scene.background = new THREE.Color(0xffffff);
+            scene.background = new THREE.Color(0x000000); // Match black theme
             camera.position.z = 10;
 
             let cubes = [], flares = [], points = null;
@@ -69,7 +69,7 @@
                 const newPointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
 
                 // Update Binary Cubes
-                if (cubes.length !== newSize || cubes[0]?.material.color.getHexString() !== newColor.slice(1)) {
+                if (cubes.length !== newSize || (cubes[0] && cubes[0].material.color.getHexString() !== newColor.slice(1))) {
                     scene.children.filter(obj => cubes.includes(obj)).forEach(obj => {
                         scene.remove(obj);
                         disposeObject(obj);
@@ -87,7 +87,7 @@
                 }
 
                 // Update QuantSpark Flares
-                if (flares.length !== newCount || flares[0]?.material.color.getHexString() !== newSolidColor.slice(1)) {
+                if (flares.length !== newCount || (flares[0] && flares[0].material.color.getHexString() !== newSolidColor.slice(1))) {
                     scene.children.filter(obj => flares.includes(obj)).forEach(obj => {
                         scene.remove(obj);
                         disposeObject(obj);
