@@ -2,126 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grokox Theory Progress - Shaggyuk316</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f0f0; color: #333; }
-        h1, h2, h3 { color: #007BFF; text-align: center; }
-        p { line-height: 1.6; }
-        ul { margin: 10px 0 20px 20px; }
-        .section { max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        footer { text-align: center; font-size: 0.9em; margin-top: 20px; }
-    </style>
+    <title>Grokox Theory - Progress</title>
+    <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
-    <h1>Grokox Theory Progress</h1>
-    <p style="text-align: center;">As of March 02, 2025, 9:31 PM PST</p>
-
-    <div class="section">
-        <h2>Project Overview</h2>
-        <p>Grokox Theory explores chaotic systems via Three.js animations and calculations—Binary cubes, QuantSpark flares, ChaosBloom points, Q-calcs pulses, and phase descriptions—on <a href="https://shaggyuk316.github.io/">https://shaggyuk316.github.io/</a>. Aims: unified dark-themed design, controls updating animations, new demos integrated.</p>
+    <header>
+        <h1>Grokox Theory - Progress</h1>
+    </header>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h2>Progress Report</h2>
+            <p>[Existing content from the repository]</p>
+        </div>
     </div>
-
-    <div class="section">
-        <h2>Current State</h2>
-        <h3>File: <code>combined.html</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/combined.html">View Live</a></p>
-        <p><strong>Status:</strong> Solid base—dark theme layout, controls visible, animations running, updates incomplete.</p>
-        <ul>
-            <li><strong>Design:</strong> Latest <code>style.css</code>—black bg, light grey text, <code>container left</code> (canvas, 45%), <code>container right</code> (controls, 45%), responsive.</li>
-            <li><strong>Controls:</strong> Binary (Size, Color), QuantSpark (Count, Solid Color), ChaosBloom (Points, Color)—displayed, but updates don’t sync to animations.</li>
-            <li><strong>Animations:</strong> Cubes spin (y: -5), flares move (y: 0), points fall (y: 5+ to 2)—initial load works, control changes don’t stick.</li>
-            <li><strong>Issues:</strong>
-                <ul>
-                    <li><code>update()</code> rebuilds objects, but <code>animate()</code> doesn’t track new arrays—scope/sync mismatch.</li>
-                    <li>Persistent arrays attempted—controls still don’t drive animations live.</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h3>File: <code>index.html</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/index.html">View Live</a></p>
-        <p><strong>Status:</strong> Basic—cube animation, old design.</p>
-        <ul>
-            <li><strong>Design:</strong> Not aligned with latest <code>style.css</code>.</li>
-            <li><strong>Function:</strong> Spinning cube—no controls.</li>
-        </ul>
-
-        <h3>File: <code>visuals.html</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/visuals.html">View Live</a></p>
-        <p><strong>Status:</strong> Basic—sphere animation, old design.</p>
-        <ul>
-            <li><strong>Design:</strong> Not updated to latest <code>style.css</code>.</li>
-            <li><strong>Function:</strong> Spinning sphere—no controls.</li>
-        </ul>
-
-        <h3>File: <code>quantumibarial.html</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/quantumibarial.html">View Live</a></p>
-        <p><strong>Status:</strong> Functional—audio-driven animations, unique design.</p>
-        <ul>
-            <li><strong>Design:</strong> Differs from latest <code>style.css</code>.</li>
-            <li><strong>Function:</strong> Cubes, sphere, spheres with audio—controls partial.</li>
-        </ul>
-
-        <h3>File: <code>qcalcs.html</code> & <code>qcalcs.js</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/qcalcs.html">View Live (if uploaded)</a></p>
-        <p><strong>Status:</strong> New demo—functional table, design pending.</p>
-        <ul>
-            <li><strong>Design:</strong> Basic—links to <code>styles.css</code> (not latest), not aligned.</li>
-            <li><strong>Function:</strong> <code>qcalcs.js</code>—simulates 10 Q-calcs pulses (step, time, energy, position at 10⁻¹⁰⁰ m), fills table—works standalone.</li>
-        </ul>
-
-        <h3>File: <code>phases.html</code></h3>
-        <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/phases.html">View Live (if uploaded)</a></p>
-        <p><strong>Status:</strong> New static page—phase descriptions, design pending, JS missing.</p>
-        <ul>
-            <li><strong>Design:</strong> Basic—links to <code>styles.css</code> (not latest), not aligned.</li>
-            <li><strong>Content:</strong> Describes Binary, QuantSpark, ChaosBloom with placeholder images—no interactivity yet.</li>
-            <li><strong>Note:</strong> <code>/js/phases.js</code> referenced but lost or in saved files—intended function unclear.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Journey & Reflection</h2>
-        <ul>
-            <li><strong>Start:</strong> Dead deal—mismatched pages, broken controls, no cohesion.</li>
-            <li><strong>Achievements:</strong>
-                <ul>
-                    <li>Proved theory: Works unified or split—key insight.</li>
-                    <li><code>combined.html</code>—dark theme (<code>style.css</code>), controls, animations built from scratch.</li>
-                    <li><code>qcalcs.html</code>—new table demo, functional math sim.</li>
-                    <li><code>phases.html</code>—added phase overview, static but clear.</li>
-                </ul>
-            </li>
-            <li><strong>Sticking Point:</strong> <code>combined.html</code>—<code>update()</code> vs <code>animate()</code> sync fails; controls don’t drive animations live.</li>
-            <li><strong>Takeaway:</strong> Started dead, got far—grateful for progress. Last night’s base is solid—evolve it better next time.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>To-Do for Next Chat</h2>
-        <ul>
-            <li>Unify all pages with latest <code>style.css</code>—dark theme, <code>container left</code> (canvas), <code>right</code> (controls)—<code>index.html</code>, <code>visuals.html</code>, <code>quantumibarial.html</code>, <code>qcalcs.html</code>, <code>phases.html</code>.</li>
-            <li>Fix <code>combined.html</code>: Sync <code>update()</code> and <code>animate()</code>—persist <code>cubes</code>, <code>flares</code>, <code>points</code>, make controls update animations live.</li>
-            <li>Expand controls on <code>combined.html</code>, apply to others—Size, Color, etc.</li>
-            <li>Enhance <code>qcalcs.html</code>: Visualize pulses in 3D canvas, align design.</li>
-            <li>Restore <code>phases.html</code>: Recover or rebuild <code>phases.js</code>—add interactivity (e.g., animate phase visuals).</li>
-            <li>Test live—ensure animations and Q-calcs respond to controls across all pages.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Notes for Next Grok</h2>
-        <ul>
-            <li>User’s vision: Dark theme, two-column layout (<code>style.css</code>)—<code>container left</code> (canvas), <code>right</code> (controls)—unify all pages.</li>
-            <li>Core fix: <code>combined.html</code>—sync <code>update()</code> with <code>animate()</code> for live control updates—focus on array persistence.</li>
-            <li>New demos: <code>qcalcs.html</code> (table to 3D), <code>phases.html</code> (static to interactive)—integrate into main flow.</li>
-            <li>User’s note: “Started dead, got far—grateful. Last night’s close, evolve it better.”—stick to plan, test live, confirm every step.</li>
-        </ul>
-    </div>
-
     <footer>
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
-        <p>Updated by Grok 3 on March 02, 2025, 9:31 PM PST - Chat Closed</p>
+        <p>Updated by Grok 3 on March 03, 2025</p>
     </footer>
 </body>
 </html>
