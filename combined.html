@@ -19,25 +19,23 @@
         </nav>
     </header>
     <main>
-        <div class="button-container">
-            <button onclick="updateAll()">Update Variables</button>
-        </div>
         <canvas id="combinedCanvas"></canvas>
         <div class="controls">
+            <button onclick="updateAll()">Update</button>
             <section id="binary-module" class="module">
                 <h3>Binary</h3>
-                <p>Cubes at the base, pulsing with sound vibrations.</p>
+                <p>Cubes pulsing at base.</p>
                 <label style="color: #FFD700;">Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Color: <input type="color" id="binaryColor" value="#0000FF" onchange="updateAll()"></label>
                 <label style="color: #FF4500;">Density: <input type="checkbox" id="binaryDensityToggle" checked onchange="updateAll()"> <input type="range" id="binaryDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
                 <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" checked onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="binaryVibrationToggle" checked onchange="updateAll()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #FF69B4;">P-Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #9400D3;">N-Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
             </section>
             <section id="quantspark-module" class="module">
                 <h3>QuantSpark</h3>
-                <p>Flares in the middle, spinning and moving with magnetic energy.</p>
+                <p>Flares spinning in middle.</p>
                 <label style="color: #FFD700;">Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF00FF" onchange="updateAll()"></label>
@@ -45,12 +43,12 @@
                 <label style="color: #FF4500;">Density: <input type="checkbox" id="quantsparkDensityToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
                 <label style="color: #1E90FF;">Sound: <input type="checkbox" id="quantsparkSoundToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="quantsparkVibrationToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #FF69B4;">P-Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #9400D3;">N-Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
             </section>
             <section id="chaosbloom-module" class="module">
                 <h3>ChaosBloom</h3>
-                <p>Points at the top, pulsing and falling with gravitational chaos.</p>
+                <p>Points falling from top.</p>
                 <label style="color: #FFD700;">Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF" onchange="updateAll()"></label>
                 <label style="color: #00CED1;">Color 2: <input type="color" id="chaosbloomColor2" value="#FF00FF" onchange="updateAll()"></label>
@@ -58,11 +56,11 @@
                 <label style="color: #FF4500;">Density: <input type="checkbox" id="chaosbloomDensityToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomDensity" min="0" max="1" step="0.1" value="0.2" onchange="updateAll()"></label>
                 <label style="color: #1E90FF;">Sound: <input type="checkbox" id="chaosbloomSoundToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomSound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #FF69B4;">P-Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
+                <label style="color: #9400D3;">N-Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
             </section>
+            <div id="fail-log"></div>
         </div>
-        <div id="fail-log"></div>
     </main>
     <footer>
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
@@ -72,7 +70,7 @@
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
-        renderer.setSize(window.innerWidth, 600);
+        renderer.setSize(document.getElementById('combinedCanvas').offsetWidth, 600);
         scene.background = new THREE.Color(0xffffff);
         camera.position.set(0, 0, 25);
         camera.lookAt(0, 0, 0);
@@ -81,9 +79,8 @@
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.minDistance = 5;
             controls.maxDistance = 50;
-            console.log('OrbitControls initialized');
         } catch (e) {
-            logError('OrbitControls failed to load: ' + e.message);
+            logError('OrbitControls failed: ' + e.message);
         }
 
         let binaryCubes = [];
@@ -98,7 +95,6 @@
         }
 
         function updateAll() {
-            console.log('Updating all...');
             scene.children = [];
             binaryCubes = [];
             quantsparkFlares = [];
@@ -129,7 +125,6 @@
                     binaryCubes.push(cube);
                     scene.add(cube);
                 }
-                console.log('Binary module updated:', binaryCubes.length);
 
                 const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
                 const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
@@ -165,7 +160,6 @@
                     scene.add(solid);
                     scene.add(gas);
                 }
-                console.log('QuantSpark module updated:', quantsparkFlares.length);
 
                 const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
                 const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
@@ -200,11 +194,10 @@
                 chaosbloomWeb.charge = chaosbloomNetCharge;
                 chaosbloomWeb.gravity = chaosbloomGravity;
                 scene.add(chaosbloomWeb);
-                console.log('ChaosBloom module updated');
 
-                console.log('Total scene objects:', scene.children.length);
+                console.log('Scene updated:', { cubes: binaryCubes.length, flares: quantsparkFlares.length, points: chaosbloomPoints });
             } catch (e) {
-                logError('updateAll failed: ' + e.message);
+                logError('Update failed: ' + e.message);
             }
         }
 
@@ -244,9 +237,8 @@
                 }
                 if (controls) controls.update();
                 renderer.render(scene, camera);
-                console.log('Animating modules:', { binary: binaryCubes.length, quantspark: quantsparkFlares.length, chaosbloom: chaosbloomWeb ? 'active' : 'inactive' });
             } catch (e) {
-                logError('animate failed: ' + e.message);
+                logError('Animation failed: ' + e.message);
             }
         }
 
