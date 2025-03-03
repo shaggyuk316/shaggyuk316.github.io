@@ -28,8 +28,8 @@
         <p><strong>Status:</strong> Fully functional.</p>
         <ul>
             <li><strong>Animations:</strong> Binary (blue cubes), QuantSpark (purple/red flares), ChaosBloom (blue/red points)—all animating with settings.</li>
-            <li><strong>UI:</strong> Centered title, nav, horizontal settings boxes (size, color, density, etc.).</li>
-            <li><strong>Notes:</strong> Inline CSS, no font errors, OrbitControls for zoom.</li>
+            <li><strong>UI:</strong> Centered title (now "Quantumibarial Combined Visuals"), nav, horizontal settings boxes with explanations.</li>
+            <li><strong>Notes:</strong> Inline CSS, OrbitControls, no external dependencies.</li>
         </ul>
     </div>
 
@@ -37,27 +37,36 @@
         <h2>In Progress: Quantumibarial</h2>
         <h3>File: <code>quantumibarial.html</code></h3>
         <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/quantumibarial.html">View Live</a></p>
-        <p><strong>Status:</strong> Animations not showing, under debug.</p>
+        <p><strong>Status:</strong> Animations working, enhanced with sound.</p>
         <ul>
-            <li><strong>Goal:</strong> Separate animations:
+            <li><strong>Done:</strong>
                 <ul>
-                    <li>Binary: Green cubes (y: -5, scaling with sound/low freq).</li>
-                    <li>QuantSpark: Blue sphere (y: 0, thrashing with mid freq).</li>
-                    <li>ChaosBloom: Magenta spheres (y: 5, pulsing with high freq).</li>
+                    <li>Separate animations: Binary (cubes, y: -5), QuantSpark (sphere, y: 0), ChaosBloom (spheres, y: 5).</li>
+                    <li>Live audio via mic driving animations (low/mid/high frequencies).</li>
+                    <li>Settings boxes with count, color, sound/thrash/pulse, plus explanations.</li>
+                    <li>QuantSpark animation fixed—now thrashing with sound sensitivity.</li>
                 </ul>
             </li>
-            <li><strong>Features Added:</strong> Live audio (mic) driving animations, frequency engine (low/mid/high).</li>
-            <li><strong>Functions Restored:</strong> Settings boxes for count, color, sound/thrash/pulse—manual control.</li>
-            <li><strong>Issue:</strong> Typo (<code>chaelbloomCount</code>) fixed; animations still not rendering—debugging rendering loop or scene setup.</li>
+            <li><strong>Fixing:</strong> Ensuring all animations remain stable with audio integration.</li>
+            <li><strong>Needs Updating:</strong> Fine-tune frequency ranges, possibly add more sound options.</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>Next Steps</h2>
+        <h2>Paused Pages</h2>
         <ul>
-            <li>Resolve <code>quantumibarial.html</code> animation issue—verify renderer, scene objects.</li>
-            <li>Enhance audio mappings or settings options if needed.</li>
-            <li>Consider modularizing scripts if more pages require updates.</li>
+            <li><code>index.html</code>: Basic animations, paused for now.</li>
+            <li><code>visuals.html</code>: Not yet updated, paused.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>To-Do List</h2>
+        <ul>
+            <li>Verify <code>quantumibarial.html</code> animations stability with audio.</li>
+            <li>Enhance frequency engine—add more ranges or sound variables?</li>
+            <li>Update <code>index.html</code> and <code>visuals.html</code> with similar features if desired.</li>
+            <li>Review all pages for consistency (e.g., titles, explanations).</li>
         </ul>
     </div>
 
