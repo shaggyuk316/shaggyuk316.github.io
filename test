@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Visuals - Grokox Theory</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> <!-- For 3D -->
+</head>
+<body>
+    <header>
+        <h1>3D Visuals</h1>
+        <p>Built with Grok 3 by xAI to represent binary, quantuminial, and quantumibarial chaos.</p>
+    </header>
+    <main>
+        <div id="visualContainer" style="width: 100%; height: 600px;"></div>
+        <script>
+            // Basic 3D setup with Three.js
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, 600);
+            document.getElementById('visualContainer').appendChild(renderer.domElement);
 
+            // Binary: Static cubes
+            const binaryGeo = new THREE.BoxGeometry(1, 1, 1);
+            const binaryMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            for (let i = 0; i < 5; i++) {
+                const cube = new THREE.Mesh(binaryGeo, binaryMat);
+                cube.position.set(i * 2 - 4, -5, 0);
+                scene.add(cube);
+            }
+
+            // Quantuminial: Thrashing sphere
+            const quantGeo = new THREE.SphereGeometry(1, 32, 32);
+            const quantMat = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
+            const quantSphere = new THREE.Mesh(quantGeo, quantMat);
+            scene.add(quantSphere);
+
+            // Quantumibarial: Networked spheres
+            const quantibGeo = new THREE.SphereGeometry(0.5, 16, 16);
+            const quantibMat = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+            const network = [];
+            for (let i = 0; i < 3; i++) {
+                const sphere = new THREE.Mesh(quantibGeo, quantibMat);
+                sphere.position.set(i * 2, 5, 0);
+                network.push(sphere);
+                scene.add(sphere);
+            }
+
+            camera.position.z = 10;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                quantSphere.rotation.x += 0.05; // Thrashing
+                quantSphere.rotation.y += 0.05;
+                network.forEach(s => {
+                    s.position.y += Math.sin(Date.now() * 0.001) * 0.1; // Pulse
+                });
+                renderer.render(scene, camera);
+            }
+            animate();
+        </script>
+    </main>
+</body>
+</html>
