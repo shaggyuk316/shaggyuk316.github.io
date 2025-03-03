@@ -188,19 +188,16 @@
             requestAnimationFrame(animate);
             const freq = getFrequencyData();
 
-            // Binary: Scale with low freq and sound
             binaryCubes.forEach(cube => {
                 cube.scale.setScalar(1 + (cube.sound * (1 + freq.low)));
                 cube.rotation.y += 0.01 * freq.low;
             });
 
-            // QuantSpark: Thrash with mid freq
             if (quantSparkSphere) {
                 quantSparkSphere.rotation.x += quantSparkSphere.thrash * (1 + freq.mid);
                 quantSparkSphere.rotation.y += quantSparkSphere.thrash * (1 + freq.mid);
             }
 
-            // ChaosBloom: Pulse with high freq
             chaosBloomNetwork.forEach(sphere => {
                 sphere.position.y = 5 + Math.sin(Date.now() * 0.001) * sphere.pulse * (1 + freq.high);
                 sphere.scale.setScalar(1 + freq.high * sphere.pulse);
