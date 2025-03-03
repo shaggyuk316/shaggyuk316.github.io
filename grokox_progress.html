@@ -25,11 +25,40 @@
         <h2>Completed: Combined Visuals</h2>
         <h3>File: <code>combined.html</code></h3>
         <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/combined.html">View Live</a></p>
-        <p><strong>Status:</strong> Fully functional.</p>
+        <p><strong>Status:</strong> Fully functional with restructured layout.</p>
         <ul>
-            <li><strong>Animations:</strong> Binary (blue cubes), QuantSpark (purple/red flares), ChaosBloom (blue/red points)—all animating with settings.</li>
-            <li><strong>UI:</strong> Centered title (now "Quantumibarial Combined Visuals"), nav, horizontal settings boxes with explanations.</li>
-            <li><strong>Notes:</strong> Inline CSS, OrbitControls, no external dependencies.</li>
+            <li><strong>Fixes:</strong>
+                <ul>
+                    <li>Unified stylesheet to <code>style.css</code>—resolved <code>styles.css</code> vs <code>style.css</code> conflict.</li>
+                    <li>Restructured layout: Header (title/nav), main (button, canvas, controls), footer—grid-based for consistency.</li>
+                    <li>Controls restored: Binary (7), QuantSpark (9), ChaosBloom (9)—all visible and functional.</li>
+                    <li>Animations working: Cubes pulsing, flares moving, points falling.</li>
+                    <li>Added fail log for on-page error display.</li>
+                </ul>
+            </li>
+            <li><strong>Notes:</strong> Modular <code>&lt;section&gt;</code> elements with identity markers (e.g., <code>id="binary-module"</code>), uses <code>style.css</code>.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>In Progress: Layout Standardization</h2>
+        <h3>Files: <code>index.html</code>, <code>visuals.html</code></h3>
+        <p><strong>Links:</strong> <a href="https://shaggyuk316.github.io/index.html">Index</a>, <a href="https://shaggyuk316.github.io/visuals.html">Visuals</a></p>
+        <p><strong>Status:</strong> Partially updated—layout aligned, animations basic.</p>
+        <ul>
+            <li><strong>Done:</strong>
+                <ul>
+                    <li>Updated to use <code>style.css</code>—consistent with <code>combined.html</code>.</li>
+                    <li>New layout: Header, main (canvas), footer—grid-based.</li>
+                    <li>Basic animations added: Cube (index), Sphere (visuals).</li>
+                </ul>
+            </li>
+            <li><strong>Needs Updating:</strong>
+                <ul>
+                    <li>Add controls similar to <code>combined.html</code> for full functionality.</li>
+                    <li>Enhance animations to match project scope (e.g., Binary, QuantSpark, ChaosBloom).</li>
+                </ul>
+            </li>
         </ul>
     </div>
 
@@ -37,36 +66,20 @@
         <h2>In Progress: Quantumibarial</h2>
         <h3>File: <code>quantumibarial.html</code></h3>
         <p><strong>Link:</strong> <a href="https://shaggyuk316.github.io/quantumibarial.html">View Live</a></p>
-        <p><strong>Status:</strong> Animations working, enhanced with sound.</p>
+        <p><strong>Status:</strong> Functional with audio enhancements.</p>
         <ul>
-            <li><strong>Done:</strong>
-                <ul>
-                    <li>Separate animations: Binary (cubes, y: -5), QuantSpark (sphere, y: 0), ChaosBloom (spheres, y: 5).</li>
-                    <li>Live audio via mic driving animations (low/mid/high frequencies).</li>
-                    <li>Settings boxes with count, color, sound/thrash/pulse, plus explanations.</li>
-                    <li>QuantSpark animation fixed—now thrashing with sound sensitivity.</li>
-                </ul>
-            </li>
-            <li><strong>Fixing:</strong> Ensuring all animations remain stable with audio integration.</li>
-            <li><strong>Needs Updating:</strong> Fine-tune frequency ranges, possibly add more sound options.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Paused Pages</h2>
-        <ul>
-            <li><code>index.html</code>: Basic animations, paused for now.</li>
-            <li><code>visuals.html</code>: Not yet updated, paused.</li>
+            <li><strong>Done:</strong> Animations, live audio, frequency controls.</li>
+            <li><strong>Needs Updating:</strong> Align layout with new <code>style.css</code> structure.</li>
         </ul>
     </div>
 
     <div class="section">
         <h2>To-Do List</h2>
         <ul>
-            <li>Verify <code>quantumibarial.html</code> animations stability with audio.</li>
-            <li>Enhance frequency engine—add more ranges or sound variables?</li>
-            <li>Update <code>index.html</code> and <code>visuals.html</code> with similar features if desired.</li>
-            <li>Review all pages for consistency (e.g., titles, explanations).</li>
+            <li>Update <code>index.html</code> and <code>visuals.html</code> with full controls and animations.</li>
+            <li>Align <code>quantumibarial.html</code> layout with new standard.</li>
+            <li>Test all pages for consistency (layout, animations, controls).</li>
+            <li>Enhance fail log—add timestamp and clear option?</li>
         </ul>
     </div>
 
