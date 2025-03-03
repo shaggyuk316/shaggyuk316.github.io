@@ -1,1 +1,92 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grokox Theory - Mixer (Settings Hub)</title>
+    <link rel="stylesheet" href="/theme.css">
+</head>
+<body>
+    <header>
+        <h1>Grokox Theory - Mixer (Settings Hub)</h1>
+    </header>
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
+            <h2>Settings Panel</h2>
+            <p>Adjust settings for all animations in the Grokox Theory Project (Theory 1) and GKCERN simulation. Create and log equations based on the current settings.</p>
+            <h3>Mode Selection</h3>
+            <label>Mode: <select id="modeSelector">
+                <option value="Grokox Theory">Grokox Theory</option>
+                <option value="GKCERN">GKCERN</option>
+            </select></label>
+            <h3>Grokox Theory Settings (Theory 1)</h3>
+            <label>Shape Selector: <select id="shapeSelector">
+                <option value="Binary Cube">Binary Cube</option>
+                <option value="QuantSpark Flare">QuantSpark Flare</option>
+                <option value="ChaosBloom Points">ChaosBloom Points</option>
+                <option value="Orbits">Orbits</option>
+                <option value="All">All</option>
+            </select></label>
+            <h4>Global Settings (Apply to All Shapes)</h4>
+            <label>Sound On/Off: <input type="checkbox" id="soundToggle"></label><br>
+            <label>Sound Mode: <select id="soundMode">
+                <option value="Live">Live</option>
+                <option value="Wavelength">Wavelength</option>
+                <option value="None">None</option>
+            </select></label><br>
+            <label>Wavelength Frequency (Hz): <input type="range" id="wavelengthFrequency" min="0.1" max="2" step="0.1" value="1"></label><br>
+            <button onclick="startAudio()">Start Audio</button><br>
+            <label>Zoom On/Off: <input type="checkbox" id="zoomToggle"></label><br>
+            <label>Animation Distance: <input type="range" id="animationDistance" min="0" max="10" step="0.1" value="0"></label><br>
+            <label>Light Intensity: <input type="range" id="lightIntensity" min="0" max="1" step="0.1" value="0.5"></label><br>
+            <label>Sound Waves Visualization: <input type="checkbox" id="soundWavesToggle"></label><br>
+            <h4>Shape-Specific Settings (Apply to Selected Shape)</h4>
+            <label>Size of Object: <input type="range" id="size" min="0.1" max="2" step="0.1" value="1"></label><br>
+            <label>Colour of Object: <input type="color" id="colour" value="#ffffff"></label><br>
+            <label>Speed: <input type="range" id="speed" min="0.01" max="0.1" step="0.01" value="0.01"></label><br>
+            <label>Rotation Speed: <input type="range" id="rotationSpeed" min="0.01" max="0.1" step="0.01" value="0.01"></label><br>
+            <label>Static: <input type="checkbox" id="staticToggle"></label><br>
+            <label>Vibration Intensity: <input type="range" id="vibrationIntensity" min="0" max="1" step="0.1" value="0"></label><br>
+            <label>Electricity Effect: <input type="checkbox" id="electricityToggle"></label><br>
+            <label>Microwave Effect: <input type="checkbox" id="microwaveToggle"></label><br>
+            <label>Density: <input type="range" id="density" min="10" max="200" step="10" value="50"></label><br>
+            <label>Magnetic Field: <input type="range" id="magneticField" min="0" max="2" step="0.1" value="0"></label><br>
+            <label>Add O2: <input type="checkbox" id="o2Toggle"></label><br>
+            <label>Periodic Table Element: <select id="periodicElement">
+                <option value="None">None</option>
+                <option value="Hydrogen">Hydrogen</option>
+                <option value="Carbon">Carbon</option>
+                <option value="Oxygen">Oxygen</option>
+            </select></label><br>
+            <label>Shape Builder: <select id="shapeBuilder">
+                <option value="Cube">Cube</option>
+                <option value="Sphere">Sphere</option>
+                <option value="Custom">Custom</option>
+            </select></label><br>
+            <label>Custom Shape Input: <input type="text" id="customShapeInput" placeholder="x1,y1,z1; x2,y2,z2"></label><br>
+            <label>Wavelength Builder: <input type="range" id="wavelengthBuilder" min="0.1" max="10" step="0.1" value="1"></label><br>
+            <label>Image Convertor: <input type="file" id="imageUpload" accept="image/*"></label><br>
+            <label>Conversion Type: <select id="conversionType">
+                <option value="Wavelength">Wavelength</option>
+                <option value="Shape">Shape</option>
+                <option value="Gas">Gas</option>
+            </select></label><br>
+            <button onclick="convertImage()">Convert Image</button><br>
+            <h3>Equation and Logging</h3>
+            <p>Current Equation: <span id="currentEquation">Awaiting calculation...</span></p>
+            <label>Custom Equation: <input type="text" id="customEquation" placeholder="e.g., Vibration = 0.5 * Hz"></label><br>
+            <button onclick="calculateEquation()">Calculate Equation</button><br>
+            <p>Log Settings: <button onclick="logSettings()">Log Settings</button></p>
+            <p id="logDetails">Awaiting log...</p>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
+        <p>Updated by Grok 3 on March 03, 2025</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="/js/mixer.js"></script>
+</body>
+</html>
