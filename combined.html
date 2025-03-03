@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantumibarial Combined Visuals - Grokox Theory</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
 </head>
@@ -105,7 +105,6 @@
             chaosbloomWeb = null;
 
             try {
-                // Binary Module
                 const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
                 const binaryColor = document.getElementById('binaryColor').value || '#0000FF';
                 const binaryDensityToggle = document.getElementById('binaryDensityToggle').checked;
@@ -132,7 +131,6 @@
                 }
                 console.log('Binary module updated:', binaryCubes.length);
 
-                // QuantSpark Module
                 const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
                 const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
                 const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF00FF';
@@ -169,7 +167,6 @@
                 }
                 console.log('QuantSpark module updated:', quantsparkFlares.length);
 
-                // ChaosBloom Module
                 const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
                 const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
                 const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value || '#FF00FF';
