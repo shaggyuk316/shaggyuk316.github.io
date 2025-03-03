@@ -131,9 +131,9 @@
         function getFrequencyData() {
             if (!analyser) return { low: 0, mid: 0, high: 0 };
             analyser.getByteFrequencyData(dataArray);
-            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255; // 0-500 Hz
-            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255; // 500-2000 Hz
-            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255; // 2000+ Hz
+            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255;
+            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255;
+            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255;
             return { low, mid, high };
         }
 
@@ -144,7 +144,7 @@
             quantSparkSphere = null;
             chaosBloomNetwork = [];
 
-            // Binary: Static cubes with sound scaling
+            // Binary: Cubes
             const binaryCount = parseInt(document.getElementById('binaryCount').value) || 5;
             const binaryColor = document.getElementById('binaryColor').value || '#00FF00';
             const binarySound = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
@@ -158,7 +158,7 @@
                 scene.add(cube);
             }
 
-            // QuantSpark: Thrashing sphere
+            // QuantSpark: Sphere
             const quantsparkColor = document.getElementById('quantsparkColor').value || '#0000FF';
             const quantsparkThrash = document.getElementById('quantsparkThrashToggle').checked ? parseFloat(document.getElementById('quantsparkThrash').value) || 0.05 : 0;
             const quantGeo = new THREE.SphereGeometry(1, 32, 32);
@@ -168,7 +168,7 @@
             quantSparkSphere.thrash = quantsparkThrash;
             scene.add(quantSparkSphere);
 
-            // ChaosBloom: Pulsing networked spheres
+            // ChaosBloom: Networked Spheres
             const chaosbloomCount = parseInt(document.getElementById('chaosbloomCount').value) || 3;
             const chaosbloomColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
             const chaosbloomPulse = document.getElementById('chaosbloomPulseToggle').checked ? parseFloat(document.getElementById('chaosbloomPulse').value) || 0.1 : 0;
@@ -176,11 +176,13 @@
             const chaosMat = new THREE.MeshBasicMaterial({ color: chaosbloomColor });
             for (let i = 0; i < chaosbloomCount; i++) {
                 const sphere = new THREE.Mesh(chaosGeo, chaosMat);
-                sphere.position.set(i * 2 - (chaelbloomCount - 1), 5, 0);
+                sphere.position.set(i * 2 - (chaosbloomCount - 1), 5, 0);
                 sphere.pulse = chaosbloomPulse;
                 chaosBloomNetwork.push(sphere);
                 scene.add(sphere);
             }
+
+            console.log('Scene objects:', scene.children.length); // Debug: Should be ~9
         }
 
         // Animation Loop
@@ -204,6 +206,7 @@
             });
 
             renderer.render(scene, camera);
+            console.log('Animating'); // Debug: Should log continuously
         }
 
         // Start
