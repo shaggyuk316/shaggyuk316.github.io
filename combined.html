@@ -2,96 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantumibarial Combined Visuals - Grokox Theory</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
-    <style>
-        body { 
-            margin: 0; 
-            font-family: Arial, sans-serif; 
-            display: grid; 
-            grid-template-rows: auto 1fr auto; 
-            min-height: 100vh; 
-        }
-        header { 
-            text-align: center; 
-            padding: 20px; 
-            background: #f0f0f0; 
-        }
-        h1 { 
-            margin: 0; 
-            font-size: 2em; 
-        }
-        nav { 
-            margin: 10px 0; 
-        }
-        nav a { 
-            margin: 0 10px; 
-            text-decoration: none; 
-            color: #007BFF; 
-        }
-        nav a:hover { 
-            text-decoration: underline; 
-        }
-        main { 
-            display: grid; 
-            grid-template-rows: auto auto 1fr; 
-            gap: 10px; 
-            padding: 20px; 
-            text-align: center; 
-        }
-        #combinedCanvas { 
-            height: 600px; 
-            width: 100%; 
-            border: 1px solid #ccc; 
-        }
-        .button-container { 
-            margin: 10px 0; 
-        }
-        button { 
-            padding: 5px 10px; 
-            font-size: 1em; 
-        }
-        .controls { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
-            max-width: 960px; 
-            margin: 0 auto; 
-        }
-        .control-box { 
-            border: 1px solid #ccc; 
-            padding: 10px; 
-            background: #f9f9f9; 
-        }
-        .control-box h3 { 
-            text-align: center; 
-            margin-bottom: 10px; 
-            font-size: 1.2em; 
-        }
-        .control-box p { 
-            font-size: 0.8em; 
-            margin: 5px 0; 
-            color: #555; 
-        }
-        .control-box label { 
-            display: block; 
-            margin: 5px 0; 
-            font-size: 0.9em; 
-        }
-        footer { 
-            text-align: center; 
-            padding: 20px; 
-            background: #f0f0f0; 
-            font-size: 0.9em; 
-        }
-    </style>
 </head>
 <body>
     <header>
         <h1>Quantumibarial Combined Visuals</h1>
         <nav>
-            <a href="index.html">Home</a> | <a href="visuals.html">Visuals</a> | <a href="quantumibarial.html">Quantumibarial</a> | <a href="combined.html">Combined</a>
+            <a href="index.html">Home</a>
+            <a href="visuals.html">Visuals</a>
+            <a href="quantumibarial.html">Quantumibarial</a>
+            <a href="combined.html">Combined</a>
         </nav>
     </header>
     <main>
@@ -100,7 +24,7 @@
         </div>
         <canvas id="combinedCanvas"></canvas>
         <div class="controls">
-            <div class="control-box">
+            <section id="binary-module" class="module">
                 <h3>Binary</h3>
                 <p>Cubes at the base, pulsing with sound vibrations.</p>
                 <label style="color: #FFD700;">Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50" onchange="updateAll()"></label>
@@ -110,8 +34,8 @@
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="binaryVibrationToggle" checked onchange="updateAll()"> <input type="range" id="binaryVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="binaryPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="binaryPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="binaryNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="binaryNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            </div>
-            <div class="control-box">
+            </section>
+            <section id="quantspark-module" class="module">
                 <h3>QuantSpark</h3>
                 <p>Flares in the middle, spinning and moving with magnetic energy.</p>
                 <label style="color: #FFD700;">Count (1-50): <input type="number" id="quantsparkCount" value="10" min="1" max="50" onchange="updateAll()"></label>
@@ -123,8 +47,8 @@
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="quantsparkVibrationToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="quantsparkPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="quantsparkNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="quantsparkNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            </div>
-            <div class="control-box">
+            </section>
+            <section id="chaosbloom-module" class="module">
                 <h3>ChaosBloom</h3>
                 <p>Points at the top, pulsing and falling with gravitational chaos.</p>
                 <label style="color: #FFD700;">Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000" onchange="updateAll()"></label>
@@ -136,15 +60,15 @@
                 <label style="color: #32CD32;">Vibration: <input type="checkbox" id="chaosbloomVibrationToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomVibration" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #FF69B4;">Positive Charge: <input type="checkbox" id="chaosbloomPositiveChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomPositiveCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
                 <label style="color: #9400D3;">Negative Charge: <input type="checkbox" id="chaosbloomNegativeChargeToggle" onchange="updateAll()"> <input type="range" id="chaosbloomNegativeCharge" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-            </div>
+            </section>
         </div>
+        <div id="fail-log"></div>
     </main>
     <footer>
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
     </footer>
 
     <script>
-        console.log('Starting Combined Visuals...');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
@@ -157,23 +81,31 @@
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.minDistance = 5;
             controls.maxDistance = 50;
-            console.log('OrbitControls loaded');
+            console.log('OrbitControls initialized');
         } catch (e) {
-            console.error('OrbitControls failed:', e);
+            logError('OrbitControls failed to load: ' + e.message);
         }
 
         let binaryCubes = [];
         let quantsparkFlares = [];
         let chaosbloomWeb = null;
 
+        function logError(message) {
+            console.error(message);
+            const failLog = document.getElementById('fail-log');
+            failLog.style.display = 'block';
+            failLog.innerHTML += `<p>${new Date().toLocaleTimeString()} - ${message}</p>`;
+        }
+
         function updateAll() {
-            console.log('Updating all elements...');
+            console.log('Updating all...');
             scene.children = [];
             binaryCubes = [];
             quantsparkFlares = [];
             chaosbloomWeb = null;
 
             try {
+                // Binary Module
                 const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
                 const binaryColor = document.getElementById('binaryColor').value || '#0000FF';
                 const binaryDensityToggle = document.getElementById('binaryDensityToggle').checked;
@@ -198,8 +130,9 @@
                     binaryCubes.push(cube);
                     scene.add(cube);
                 }
-                console.log('Binary cubes added:', binaryCubes.length);
+                console.log('Binary module updated:', binaryCubes.length);
 
+                // QuantSpark Module
                 const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
                 const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
                 const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF00FF';
@@ -234,8 +167,9 @@
                     scene.add(solid);
                     scene.add(gas);
                 }
-                console.log('QuantSpark flares added:', quantsparkFlares.length);
+                console.log('QuantSpark module updated:', quantsparkFlares.length);
 
+                // ChaosBloom Module
                 const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
                 const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
                 const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value || '#FF00FF';
@@ -269,11 +203,11 @@
                 chaosbloomWeb.charge = chaosbloomNetCharge;
                 chaosbloomWeb.gravity = chaosbloomGravity;
                 scene.add(chaosbloomWeb);
-                console.log('ChaosBloom points added');
+                console.log('ChaosBloom module updated');
 
-                console.log('Scene populated with', scene.children.length, 'objects');
+                console.log('Total scene objects:', scene.children.length);
             } catch (e) {
-                console.error('updateAll error:', e);
+                logError('updateAll failed: ' + e.message);
             }
         }
 
@@ -313,9 +247,9 @@
                 }
                 if (controls) controls.update();
                 renderer.render(scene, camera);
-                console.log('Animating with', binaryCubes.length, 'cubes,', quantsparkFlares.length, 'flares, and points');
+                console.log('Animating modules:', { binary: binaryCubes.length, quantspark: quantsparkFlares.length, chaosbloom: chaosbloomWeb ? 'active' : 'inactive' });
             } catch (e) {
-                console.error('animate error:', e);
+                logError('animate failed: ' + e.message);
             }
         }
 
