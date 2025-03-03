@@ -1,30 +1,35 @@
-/* General Styles */
-body {
-    background-color: black;
-    color: lightgrey;
-    font-family: Arial, sans-serif;
+/* General Reset and Base Styles */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: lightgrey;
     text-align: center;
 }
 
-/* Header and Footer */
-header, footer {
+/* Header */
+header {
     padding: 20px;
     background-color: black;
     color: grey;
-    border: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
 }
 
 /* Navigation */
 nav {
-    margin: 20px auto;
+    margin: 20px 0;
 }
 
 nav a {
-    margin: 0 10px;
+    margin: 0 15px;
     color: white;
     text-decoration: none;
+    font-weight: bold;
 }
 
 nav a:hover {
@@ -32,21 +37,29 @@ nav a:hover {
 }
 
 /* Main Content */
-.container {
-    margin: 10px auto;
+main {
     padding: 20px;
-    width: 80%;
-    border: 1px solid lightgrey;
-    background-color: black;
 }
 
-.description, .animation, .controls {
-    margin-bottom: 10px;
+.content-box {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid lightgrey;
+    background-color: black;
+    width: 80%;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background-color: black;
+    color: grey;
+    border-top: 1px solid lightgrey;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
+    .content-box {
         width: 95%;
     }
 }
