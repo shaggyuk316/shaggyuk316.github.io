@@ -2,191 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quantumibarial - Grokox Theory</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <style>
-        body { margin: 0; font-family: Arial, sans-serif; }
-        h1 { text-align: center; margin: 20px 0 10px; font-size: 2em; }
-        p { text-align: center; margin: 0 0 20px; font-size: 1.1em; }
-        nav { text-align: center; margin: 10px 0; }
-        nav a { margin: 0 10px; text-decoration: none; color: #007BFF; }
-        nav a:hover { text-decoration: underline; }
-        #quantumCanvas { height: 600px; width: 100%; display: block; }
-        .controls-container { max-width: 960px; margin: 10px auto; text-align: center; }
-        .controls { display: flex; flex-direction: row; justify-content: center; gap: 10px; }
-        .control-box { border: 1px solid #ccc; padding: 10px; width: 300px; box-sizing: border-box; background: #f9f9f9; }
-        .control-box h3 { text-align: center; margin-bottom: 10px; font-size: 1.2em; }
-        .control-box p { font-size: 0.8em; margin: 5px 0; color: #555; }
-        .control-box label { display: block; margin: 5px 0; font-size: 0.9em; }
-        button { display: inline-block; margin: 10px 10px; padding: 5px 10px; font-size: 1em; }
-        footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
-    </style>
+    <title>Grokox Theory - Quantumibarial</title>
+    <link rel="stylesheet" href="/theme.css">
 </head>
 <body>
-    <h1>Quantumibarial</h1>
-    <p>Exploring chaos at the quantum scale—Grokox Theory dynamics.</p>
-    <nav>
-        <a href="index.html">Home</a> | <a href="visuals.html">Visuals</a> | <a href="quantumibarial.html">Quantumibarial</a> | <a href="combined.html">Combined</a>
-    </nav>
-    <button onclick="updateAll()">Update Variables</button>
-    <button onclick="toggleAudio()">Toggle Audio Input</button>
-
-    <div class="visual-section">
-        <canvas id="quantumCanvas"></canvas>
-        <div class="controls-container">
+    <div class="container">
+        <div class="container-left">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container-right">
             <div class="controls">
-                <div class="control-box">
-                    <h3>Binary</h3>
-                    <p>Cubes at the base, scaling with sound vibrations.</p>
-                    <label style="color: #FFD700;">Count (1-10): <input type="number" id="binaryCount" value="5" min="1" max="10" onchange="updateAll()"></label>
-                    <label style="color: #00CED1;">Color: <input type="color" id="binaryColor" value="#00FF00" onchange="updateAll()"></label>
-                    <label style="color: #1E90FF;">Sound: <input type="checkbox" id="binarySoundToggle" checked onchange="updateAll()"> <input type="range" id="binarySound" min="0" max="1" step="0.1" value="0.5" onchange="updateAll()"></label>
-                </div>
-                <div class="control-box">
-                    <h3>QuantSpark</h3>
-                    <p>Sphere in the middle, thrashing with sound energy.</p>
-                    <label style="color: #00CED1;">Color: <input type="color" id="quantsparkColor" value="#0000FF" onchange="updateAll()"></label>
-                    <label style="color: #FFA500;">Thrash: <input type="checkbox" id="quantsparkThrashToggle" checked onchange="updateAll()"> <input type="range" id="quantsparkThrash" min="0" max="0.1" step="0.01" value="0.05" onchange="updateAll()"></label>
-                    <label style="color: #1E90FF;">Sound Sensitivity: <input type="range" id="quantsparkSoundSensitivity" min="0" max="2" step="0.1" value="1" onchange="updateAll()"></label>
-                </div>
-                <div class="control-box">
-                    <h3>ChaosBloom</h3>
-                    <p>Spheres at the top, pulsing with chaotic motion.</p>
-                    <label style="color: #FFD700;">Count (1-5): <input type="number" id="chaosbloomCount" value="3" min="1" max="5" onchange="updateAll()"></label>
-                    <label style="color: #00CED1;">Color: <input type="color" id="chaosbloomColor" value="#FF00FF" onchange="updateAll()"></label>
-                    <label style="color: #32CD32;">Pulse: <input type="checkbox" id="chaosbloomPulseToggle" checked onchange="updateAll()"> <input type="range" id="chaosbloomPulse" min="0" max="0.5" step="0.05" value="0.1" onchange="updateAll()"></label>
-                </div>
+                <h3>Quantumibarial Page</h3>
+                <button id="startAudio">Start Audio</button>
             </div>
         </div>
     </div>
-
-    <footer>
-        <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
-    </footer>
-
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('quantumCanvas') });
-        renderer.setSize(window.innerWidth, 600);
-        scene.background = new THREE.Color(0xffffff);
-        camera.position.set(0, 0, 10);
-        camera.lookAt(0, 0, 0);
-
-        let binaryCubes = [];
-        let quantSparkSphere = null;
-        let chaosBloomNetwork = [];
-
-        let audioContext, analyser, dataArray, audioStream;
-        let audioActive = false;
-
-        async function initAudio() {
-            try {
-                audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 256;
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                const source = audioContext.createMediaStreamSource(audioStream);
-                source.connect(analyser);
-                audioActive = true;
-                console.log('Audio initialized');
-            } catch (err) {
-                console.error('Audio init failed:', err);
-            }
-        }
-
-        function toggleAudio() {
-            if (!audioActive) {
-                initAudio();
-            } else {
-                audioStream.getTracks().forEach(track => track.stop());
-                audioContext.close();
-                audioActive = false;
-                console.log('Audio stopped');
-            }
-        }
-
-        function getFrequencyData() {
-            if (!analyser) return { low: 0, mid: 0, high: 0 };
-            analyser.getByteFrequencyData(dataArray);
-            const low = dataArray.slice(0, 32).reduce((a, b) => a + b, 0) / 32 / 255; // 0-500 Hz
-            const mid = dataArray.slice(32, 96).reduce((a, b) => a + b, 0) / 64 / 255; // 500-2000 Hz
-            const high = dataArray.slice(96).reduce((a, b) => a + b, 0) / 32 / 255; // 2000+ Hz
-            return { low, mid, high };
-        }
-
-        function updateAll() {
-            scene.children = [];
-            binaryCubes = [];
-            quantSparkSphere = null;
-            chaosBloomNetwork = [];
-
-            const binaryCount = parseInt(document.getElementById('binaryCount').value) || 5;
-            const binaryColor = document.getElementById('binaryColor').value || '#00FF00';
-            const binarySound = document.getElementById('binarySoundToggle').checked ? parseFloat(document.getElementById('binarySound').value) || 0.5 : 0;
-            const binaryGeo = new THREE.BoxGeometry(1, 1, 1);
-            const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor });
-            for (let i = 0; i < binaryCount; i++) {
-                const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - (binaryCount - 1), -5, 0);
-                cube.sound = binarySound;
-                binaryCubes.push(cube);
-                scene.add(cube);
-            }
-
-            const quantsparkColor = document.getElementById('quantsparkColor').value || '#0000FF';
-            const quantsparkThrash = document.getElementById('quantsparkThrashToggle').checked ? parseFloat(document.getElementById('quantsparkThrash').value) || 0.05 : 0;
-            const quantsparkSoundSensitivity = parseFloat(document.getElementById('quantsparkSoundSensitivity').value) || 1;
-            const quantGeo = new THREE.SphereGeometry(1, 32, 32);
-            const quantMat = new THREE.MeshBasicMaterial({ color: quantsparkColor, wireframe: true });
-            quantSparkSphere = new THREE.Mesh(quantGeo, quantMat);
-            quantSparkSphere.position.set(0, 0, 0);
-            quantSparkSphere.thrash = quantsparkThrash;
-            quantSparkSphere.soundSensitivity = quantsparkSoundSensitivity;
-            scene.add(quantSparkSphere);
-
-            const chaosbloomCount = parseInt(document.getElementById('chaosbloomCount').value) || 3;
-            const chaosbloomColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
-            const chaosbloomPulse = document.getElementById('chaosbloomPulseToggle').checked ? parseFloat(document.getElementById('chaosbloomPulse').value) || 0.1 : 0;
-            const chaosGeo = new THREE.SphereGeometry(0.5, 16, 16);
-            const chaosMat = new THREE.MeshBasicMaterial({ color: chaosbloomColor });
-            for (let i = 0; i < chaosbloomCount; i++) {
-                const sphere = new THREE.Mesh(chaosGeo, chaosMat);
-                sphere.position.set(i * 2 - (chaosbloomCount - 1), 5, 0);
-                sphere.pulse = chaosbloomPulse;
-                chaosBloomNetwork.push(sphere);
-                scene.add(sphere);
-            }
-
-            console.log('Scene objects:', scene.children.length);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const freq = getFrequencyData();
-
-            binaryCubes.forEach(cube => {
-                cube.scale.setScalar(1 + (cube.sound * (1 + freq.low)));
-                cube.rotation.y += 0.01 * freq.low;
-            });
-
-            if (quantSparkSphere) {
-                quantSparkSphere.rotation.x += quantSparkSphere.thrash * (1 + freq.mid * quantSparkSphere.soundSensitivity);
-                quantSparkSphere.rotation.y += quantSparkSphere.thrash * (1 + freq.mid * quantSparkSphere.soundSensitivity);
-            }
-
-            chaosBloomNetwork.forEach(sphere => {
-                sphere.position.y = 5 + Math.sin(Date.now() * 0.001) * sphere.pulse * (1 + freq.high);
-                sphere.scale.setScalar(1 + freq.high * sphere.pulse);
-            });
-
-            renderer.render(scene, camera);
-            console.log('Animating');
-        }
-
-        updateAll();
-        animate();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="/js/quantumibarial.js"></script>
 </body>
 </html>
