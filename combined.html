@@ -42,17 +42,21 @@
             if (!canvas) throw new Error('Canvas not found');
 
             const width = canvas.parentElement.clientWidth;
+            const height = 600;
             canvas.width = width;
-            canvas.height = 600;
+            canvas.height = height;
 
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, width / 600, 0.1, 1000);
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: canvas });
-            renderer.setSize(width, 600);
-            scene.background = new THREE.Color(0x000000); // Match black theme
+            renderer.setSize(width, height);
+            scene.background = new THREE.Color(0x000000);
             camera.position.z = 10;
 
-            let cubes = [], flares = [], points = null;
+            // Persistent objects
+            const cubes = [];
+            const flares = [];
+            let points = null;
 
             function disposeObject(obj) {
                 if (obj.geometry) obj.geometry.dispose();
@@ -68,43 +72,49 @@
                 const newPointsCount = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
                 const newPointColor = document.getElementById('chaosbloomColor').value || '#FF00FF';
 
-                // Update Binary Cubes
-                if (cubes.length !== newSize || (cubes[0] && cubes[0].material.color.getHexString() !== newColor.slice(1))) {
-                    scene.children.filter(obj => cubes.includes(obj)).forEach(obj => {
-                        scene.remove(obj);
-                        disposeObject(obj);
-                    });
-                    cubes = [];
-                    for (let i = 0; i < newSize; i++) {
-                        const geo = new THREE.BoxGeometry(1, 1, 1);
-                        const mat = new THREE.MeshBasicMaterial({ color: newColor });
-                        const cube = new THREE.Mesh(geo, mat);
-                        cube.position.set(i * 2 - (newSize - 1), -5, 0);
-                        cubes.push(cube);
-                        scene.add(cube);
-                    }
-                    console.log('Cubes updated:', cubes.length);
+                // Update Cubes
+                while (cubes.length > newSize) {
+                    const cube = cubes.pop();
+                    scene.remove(cube);
+                    disposeObject(cube);
                 }
-
-                // Update QuantSpark Flares
-                if (flares.length !== newCount || (flares[0] && flares[0].material.color.getHexString() !== newSolidColor.slice(1))) {
-                    scene.children.filter(obj => flares.includes(obj)).forEach(obj => {
-                        scene.remove(obj);
-                        disposeObject(obj);
-                    });
-                    flares = [];
-                    for (let i = 0; i < newCount; i++) {
-                        const geo = new THREE.SphereGeometry(0.5, 16, 16);
-                        const mat = new THREE.MeshBasicMaterial({ color: newSolidColor });
-                        const flare = new THREE.Mesh(geo, mat);
-                        flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
-                        flares.push(flare);
-                        scene.add(flare);
-                    }
-                    console.log('Flares updated:', flares.length);
+                while (cubes.length < newSize) {
+                    const geo = new THREE.BoxGeometry(1, 1, 1);
+                    const mat = new THREE.MeshBasicMaterial({ color: newColor });
+                    const cube = new THREE.Mesh(geo, mat);
+                    cubes.push(cube);
+                    scene.add(cube);
                 }
+                cubes.forEach((cube, i) => {
+                    cube.position.set(i * 2 - (newSize - 1), -5, 0);
+                    if (cube.material.color.getHexString() !== newColor.slice(1)) {
+                        cube.material.color.set(newColor);
+                    }
+                });
+                console.log('Cubes:', cubes.length);
 
-                // Update ChaosBloom Points
+                // Update Flares
+                while (flares.length > newCount) {
+                    const flare = flares.pop();
+                    scene.remove(flare);
+                    disposeObject(flare);
+                }
+                while (flares.length < newCount) {
+                    const geo = new THREE.SphereGeometry(0.5, 16, 16);
+                    const mat = new THREE.MeshBasicMaterial({ color: newSolidColor });
+                    const flare = new THREE.Mesh(geo, mat);
+                    flares.push(flare);
+                    scene.add(flare);
+                }
+                flares.forEach((flare, i) => {
+                    flare.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                    if (flare.material.color.getHexString() !== newSolidColor.slice(1)) {
+                        flare.material.color.set(newSolidColor);
+                    }
+                });
+                console.log('Flares:', flares.length);
+
+                // Update Points
                 if (!points || points.geometry.attributes.position.count !== newPointsCount || points.material.color?.getHexString() !== newPointColor.slice(1)) {
                     if (points) {
                         scene.remove(points);
@@ -125,10 +135,9 @@
                     }
                     geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
                     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                    const mat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true });
-                    points = new THREE.Points(geo, mat);
+                    points = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.1, vertexColors: true }));
                     scene.add(points);
-                    console.log('Points updated:', newPointsCount);
+                    console.log('Points:', newPointsCount);
                 }
             }
 
