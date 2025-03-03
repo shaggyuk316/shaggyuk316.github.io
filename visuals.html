@@ -11,8 +11,12 @@
             <canvas id="canvas"></canvas>
         </div>
         <div class="container-right">
-            <h3>Visuals Page</h3>
-            <p>A simple spinning sphere animation.</p>
+            <div class="controls">
+                <h3>Visuals Page - Spinning Sphere</h3>
+                <label>Size: <input type="range" id="sphereSize" min="0.5" max="2" value="1" step="0.1"></label><br>
+                <label>Color: <input type="color" id="sphereColor" value="#00ff00"></label><br>
+                <label>Rotation Speed: <input type="range" id="sphereSpeed" min="0.01" max="0.1" value="0.01" step="0.01"></label>
+            </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
