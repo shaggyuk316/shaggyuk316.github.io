@@ -5,6 +5,9 @@
     <title>Combined Visuals - Grokox Theory</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        .controls label { display: block; margin: 5px 0; } /* Ensure labels stack neatly */
+    </style>
 </head>
 <body>
     <h1>Combined Visuals</h1>
@@ -54,15 +57,14 @@
         <p>© 2025 Shaggyuk316 - Grokox Theory Project - Powered by xAI</p>
     </footer>
 
-    <script src="js/script.js"></script>
     <script>
-        // Basic 3D setup with Three.js
+        // 3D setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
         renderer.setSize(window.innerWidth, 600);
         scene.background = new THREE.Color(0xffffff);
-        camera.position.z = 40; // Adjusted for full view
+        camera.position.z = 40;
         const controls = new OrbitControls(camera, renderer.domElement);
 
         let binaryCubes = [], quantsparkFlares = [], chaosbloomWeb;
@@ -73,7 +75,7 @@
             quantsparkFlares = [];
             chaosbloomWeb = null;
 
-            // Binary: Static cubes with variables
+            // Binary: Cubes
             const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
             const binaryColor = document.getElementById('binaryColor').value || '#0000FF';
             const binaryDensityToggle = document.getElementById('binaryDensityToggle').checked;
@@ -91,7 +93,7 @@
             const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor });
             for (let i = 0; i < binarySize; i++) {
                 const cube = new THREE.Mesh(binaryGeo, binaryMat);
-                cube.position.set(i * 2 - (binarySize - 1) * 2, -10, 0); // Spread out Binary lower
+                cube.position.set(i * 2 - (binarySize - 1) * 2, -10, 0);
                 cube.sound = binarySound;
                 cube.vibration = binaryVibration;
                 cube.charge = binaryNetCharge;
@@ -99,7 +101,7 @@
                 scene.add(cube);
             }
 
-            // QuantSpark: Flares with variables
+            // QuantSpark: Flares
             const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
             const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value || '#4B0082';
             const quantsparkGasColor = document.getElementById('quantsparkGasColor').value || '#FF0000';
@@ -134,7 +136,7 @@
                 scene.add(solid, gas);
             }
 
-            // ChaosBloom: Networked points with variables
+            // ChaosBloom: Points
             const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
             const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value || '#0000FF';
             const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value || '#FF0000';
@@ -180,6 +182,7 @@
                 cube.scale.set(1 + cube.sound * Math.sin(Date.now() * 0.001), 1, 1); // Sound scales
                 cube.position.y += cube.vibration * Math.sin(Date.now() * 0.002) * 0.1; // Vibration pulses
                 cube.rotation.z += cube.charge * 0.01; // Charge rotates
+                if (cube.position.y > -5) cube.position.y = -10; // Reset if too high
             });
 
             // QuantSpark animations
@@ -200,11 +203,11 @@
             if (chaelbloomWeb) {
                 const positions = chaosbloomWeb.geometry.attributes.position.array;
                 for (let i = 0; i < positions.length; i += 3) {
-                    positions[i + 1] += chaosbloomWeb.sound * Math.sin(Date.now() * 0.001) * 0.05; // Sound moves vertically
+                    positions[i + 1] += chaosbloomWeb.sound * Math.sin(Date.now() * 0.001) * 0.05; // Sound moves up
                     positions[i + 1] -= chaosbloomWeb.gravity * 0.01; // Gravity pulls down
                     if (positions[i + 1] < 5) positions[i + 1] = 15; // Reset if too low
-                    positions[i] += chaosbloomWeb.vibration * Math.sin(Date.now() * 0.002) * 0.05; // Vibration wiggles
-                    positions[i + 2] += chaosbloomWeb.charge * Math.cos(Date.now() * 0.003) * 0.05; // Charge oscillates
+                    positions[i] += chaosbloomWeb.vibration * Math.sin(Date.now() * 0.002) * 0.05; // Vibration wiggles x
+                    positions[i + 2] += chaosbloomWeb.charge * Math.cos(Date.now() * 0.003) * 0.05; // Charge wiggles z
                 }
                 chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
                 chaosbloomWeb.rotation.x += chaosbloomWeb.sound * 0.01; // Sound spins
