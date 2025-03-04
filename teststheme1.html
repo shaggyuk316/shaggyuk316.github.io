@@ -17,13 +17,25 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        .header, .footer, .control-board {
+        .header {
+            display: flex;
+            justify-content: space-between;
             background-color: black;
             padding: 10px;
-            text-align: center;
         }
-        .header {
-            color: blue;
+        .logo {
+            color: white;
+        }
+        .header-links {
+            color: white;
+        }
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .header-links a:hover {
+            color: red;
         }
         .main {
             display: flex;
@@ -39,13 +51,20 @@
             flex-grow: 1;
             background-color: grey;
             padding: 10px;
+            display: flex;
+            justify-content: space-between;
         }
-        a {
+        .content > div {
+            background-color: lightgrey;
+            padding: 10px;
+            flex: 1;
+            margin: 0 5px;
+        }
+        .control-board, .footer {
+            background-color: black;
+            padding: 10px;
             color: white;
-            text-decoration: none;
-        }
-        a:hover {
-            color: red;
+            text-align: center;
         }
     </style>
 </head>
@@ -53,12 +72,19 @@
     <div class="container">
         <div class="header">
             <div class="logo">Logo</div>
-            <div>Header</div>
-            <div class="link-container"><a href="#">Link to Page</a></div>
+            <div class="header-links">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
         </div>
         <div class="main">
             <div class="sidebar-left">Left Menu</div>
-            <div class="content">Visual Experiment</div>
+            <div class="content">
+                <div>Container 1</div>
+                <div>Container 2</div>
+                <div>Container 3</div>
+            </div>
             <div class="sidebar-right">Right Menu</div>
         </div>
         <div class="control-board">Control Board</div>
