@@ -130,8 +130,15 @@
 
     <script src="scicalc.js"></script>
     <script>
-        const calc = new Calculator();
+        // Declare variables at the top to avoid initialization issues
+        let calc;
         let currentInput = '';
+
+        // Initialize calculator after script loads
+        document.addEventListener('DOMContentLoaded', () => {
+            calc = new Calculator();
+            updateDisplay();
+        });
 
         function updateDisplay() {
             document.getElementById('input').value = currentInput;
@@ -252,8 +259,6 @@
             calc.clearHistory();
             updateHistory();
         }
-
-        updateDisplay();
     </script>
 </body>
 </html>
