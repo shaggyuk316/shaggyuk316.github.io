@@ -9,17 +9,18 @@
         body { margin: 0; background: black; color: white; font-family: Arial, sans-serif; box-sizing: border-box; }
         * { box-sizing: inherit; }
         .header { border: 1px solid white; padding: 10px; text-align: center; }
-        .container { display: flex; justify-content: space-around; padding: 10px; padding-bottom: 50px; }
-        .logs-box { border: 1px solid white; width: 20%; padding: 10px; overflow-y: auto; max-height: 700px; }
+        .container { display: flex; justify-content: space-between; padding: 10px; padding-bottom: 40px; }
+        .logs-box { border: 1px solid white; flex: 0 0 20%; padding: 10px; overflow-y: auto; max-height: 700px; }
         .logs-box select { width: 100%; background: black; color: white; border: 1px solid white; }
-        .visual-box { border: 1px solid white; flex: 1; height: 600px; }
-        .controls-box { border: 1px solid white; width: 25%; padding: 10px; max-height: calc(100vh - 100px); overflow-y: auto; }
+        .visual-box { border: 1px solid white; flex: 1; height: 600px; margin: 0 auto; }
+        .spacer-box { flex: 0 0 5%; }
+        .controls-box { border: 1px solid white; flex: 0 0 25%; padding: 10px; max-height: 600px; overflow-y: auto; }
         .control-section { margin-bottom: 15px; }
         .control-section h3 { margin: 0 0 10px; }
         .control-section label { display: block; margin: 5px 0; }
         .control-section input[type="number"] { width: 60px; background: black; color: white; border: 1px solid white; }
         .control-section input[type="color"] { vertical-align: middle; }
-        .orbit-box { border: 1px solid white; width: 20%; padding: 10px; }
+        .orbit-box { border: 1px solid white; flex: 0 0 20%; padding: 10px; }
         .footer { border: 1px solid white; padding: 10px; text-align: center; position: fixed; bottom: 0; width: 100%; }
         canvas { width: 100% !important; height: 100% !important; }
         #variablesDisplay { border: 1px solid white; padding: 5px; font-weight: bold; text-align: center; }
@@ -40,6 +41,7 @@
             <canvas id="combinedCanvas"></canvas>
             <div id="variablesDisplay"></div>
         </div>
+        <div class="spacer-box"></div>
         <div class="controls-box">
             <div class="control-section">
                 <h3>Sound</h3>
@@ -56,4 +58,128 @@
                 <h3>Binary</h3>
                 <label>Size: <input type="number" id="binarySize" value="5" min="1" max="50"><button onclick="changeValue('binarySize', 1)">+</button><button onclick="changeValue('binarySize', -1)">-</button></label>
                 <label>Color: <input type="color" id="binaryColor" value="#0000FF"></label>
-                <label>Opacity: <input type="number" id="binaryOpacity" value
+                <label>Opacity: <input type="number" id="binaryOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="number" id="binaryDensity" value="0.2" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="binarySound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Vibration: <input type="number" id="binaryVibration" value="0" min="0" max="1" step="0.1"></label>
+                <label>Charge: <input type="number" id="binaryCharge" value="0" min="-1" max="1" step="0.1"></label>
+            </div>
+            <div class="control-section">
+                <h3>QuantSpark</h3>
+                <label>Count: <input type="number" id="quantsparkCount" value="10" min="1" max="100"><button onclick="changeValue('quantsparkCount', 1)">+</button><button onclick="changeValue('quantsparkCount', -1)">-</button></label>
+                <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></label>
+                <label>Solid Opacity: <input type="number" id="quantsparkSolidOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></label>
+                <label>Gas Opacity: <input type="number" id="quantsparkGasOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Magnetic: <input type="number" id="quantsparkMagnetic" value="0.1" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="number" id="quantsparkDensity" value="0.2" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="quantsparkSound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Spread: <input type="number" id="flareSpread" value="0.05" min="0.01" max="0.1" step="0.01"></label>
+            </div>
+            <div class="control-section">
+                <h3>ChaosBloom</h3>
+                <label>Points: <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000"><button onclick="changeValue('chaosbloomPoints', 10)">+</button><button onclick="changeValue('chaosbloomPoints', -10)">-</button></label>
+                <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></label>
+                <label>Opacity 1: <input type="number" id="chaosbloomOpacity1" value="1" min="0" max="1" step="0.1"></label>
+                <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></label>
+                <label>Opacity 2: <input type="number" id="chaosbloomOpacity2" value="1" min="0" max="1" step="0.1"></label>
+                <label>Gravity: <input type="number" id="chaosbloomGravity" value="0" min="0" max="0.1" step="0.01"></label>
+                <label>Density: <input type="number" id="chaosbloomDensity" value="0" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="chaosbloomSound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Fall Speed: <input type="number" id="pointFallSpeed" value="0.05" min="0.01" max="0.1" step="0.01"></label>
+            </div>
+            <button onclick="updateAll()">Update</button>
+        </div>
+        <div class="orbit-box">
+            <h3>Orbit Control</h3>
+            <label>Type: <select id="orbitType">
+                <option value="controlled">Controlled</option>
+                <option value="free">Free</option>
+            </select></label>
+            <label>Object: <select id="fireObject">
+                <option value="gold">Gold</option>
+                <option value="methane">Methane</option>
+                <option value="gamma">Gamma Ray</option>
+            </select></label>
+            <label>Direction X: <input type="number" id="fireX" value="0" min="-1" max="1" step="0.1"></label>
+            <label>Direction Y: <input type="number" id="fireY" value="0" min="-1" max="1" step="0.1"></label>
+            <label>Direction Z: <input type="number" id="fireZ" value="1" min="-1" max="1" step="0.1"></label>
+            <button id="freezeButton" onclick="freezeAnimation()">Freeze</button>
+            <button onclick="fireObject()">Fire</button>
+        </div>
+    </div>
+    <div class="footer">© 2025 Grokox Theory - Powered by xAI</div>
+
+    <script>
+        // Initialization
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, document.getElementById('combinedCanvas').parentElement.clientWidth / 600, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
+        renderer.setSize(document.getElementById('combinedCanvas').parentElement.clientWidth, 600);
+        scene.background = new THREE.Color(0x000000);
+        camera.position.set(0, 0, 25);
+        camera.lookAt(0, 0, 0);
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.minDistance = 5;
+        controls.maxDistance = 50;
+
+        const maxSize = 20;
+        let binaryCubes = [], quantsparkFlares = [], chaosbloomWeb = null, firedObject = null;
+        let audioContext, analyser, dataArray, isFrozen = false;
+        const logs = [];
+
+        // Audio Setup
+        document.getElementById('startAudio').addEventListener('click', () => {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                    const source = audioContext.createMediaStreamSource(stream);
+                    source.connect(analyser);
+                    logState('Audio initialized');
+                }).catch(err => logState('Audio error: ' + err));
+            }
+        });
+
+        // Helpers
+        function changeValue(id, delta) {
+            const input = document.getElementById(id);
+            input.value = Math.min(Math.max(parseFloat(input.value) + delta, input.min), input.max);
+            updateAll();
+        }
+
+        // Object Creation
+        function updateAll() {
+            scene.children = [];
+            binaryCubes = [];
+            quantsparkFlares = [];
+            chaosbloomWeb = null;
+
+            // Binary Cubes
+            const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
+            const binaryColor = document.getElementById('binaryColor').value;
+            const binaryOpacity = parseFloat(document.getElementById('binaryOpacity').value) || 1;
+            const binaryDensity = parseFloat(document.getElementById('binaryDensity').value) || 0.2;
+            const binarySound = parseFloat(document.getElementById('binarySound').value) || 0;
+            const binaryVibration = parseFloat(document.getElementById('binaryVibration').value) || 0;
+            const binaryCharge = parseFloat(document.getElementById('binaryCharge').value) || 0;
+            const binaryGeo = new THREE.BoxGeometry(1 + binaryDensity, 1 + binaryDensity, 1 + binaryDensity);
+            const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor, transparent: true, opacity: binaryOpacity });
+            for (let i = 0; i < binarySize; i++) {
+                const cube = new THREE.Mesh(binaryGeo, binaryMat);
+                cube.position.set(i * 2 - (binarySize - 1), 0, 0);
+                cube.sound = binarySound;
+                cube.vibration = binaryVibration;
+                cube.charge = binaryCharge;
+                binaryCubes.push(cube);
+                scene.add(cube);
+            }
+
+            // QuantSpark Flares
+            const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
+            const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value;
+            const quantsparkSolidOpacity = parseFloat(document.getElementById('quantsparkSolidOpacity').value) || 1;
+            const quantsparkGasColor = document.getElementById('quantsparkGasColor').value;
+            const
