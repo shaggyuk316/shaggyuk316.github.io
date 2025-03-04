@@ -179,4 +179,4 @@ class Calculator {
     scientificExtend(methodName, callback) {
         this[methodName] = callback;
     }
-}
+
