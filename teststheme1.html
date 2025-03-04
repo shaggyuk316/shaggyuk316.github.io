@@ -3,37 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Theme</title>
-    <link rel="stylesheet" href="stylesa.css">
+    <title>Index Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: grey;
+        }
+        .logo-container {
+            display: inline-block;
+        }
+        .header-container {
+            display: inline-block;
+            vertical-align: top;
+            color: blue;
+            font-size: smaller;
+        }
+        .link-container a {
+            color: white;
+            text-decoration: none;
+        }
+        .link-container a:hover {
+            color: red;
+        }
+        .body-container {
+            display: flex;
+        }
+        .left-menu-container {
+            width: 20%;
+            background-color: white;
+        }
+        .visual-experiment-container {
+            flex-grow: 1;
+            background-color: grey;
+        }
+        .right-menu-container {
+            width: 20%;
+            background-color: white;
+        }
+        .footer-container {
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header class="container">
-        <h1>Welcome to My Web Theme</h1>
-    </header>
-    <main class="container">
-        <section id="description" class="container left">
-            <h2>Description</h2>
-            <p>This is the description container. It adapts dynamically based on content.</p>
-        </section>
-        <section id="animations" class="container right">
-            <h2>Animations</h2>
-            <p>This is the animations container. Space for dynamic content or visuals.</p>
-        </section>
-        <section id="function-controls" class="container">
-            <h2>Function Controls</h2>
-            <p>This area holds sliders or controls for interactivity.</p>
-        </section>
-    </main>
-     <nav class="container">
-        <a href="#description">Description</a>
-        <a href="#animations">Animations</a>
-        <a href="#more-info">More Info</a>
-    </nav>
-    <div class="container blank">
-        <p>This blank container is ready for more input. Show or hide dynamically as needed.</p>
+    <div class="logo-container">
+        <!-- Logo Here -->
     </div>
-    <footer class="container">
-        <p>&copy; 2025 My Theme</p>
-    </footer>
+    <div class="header-container">
+        <!-- Header Here -->
+    </div>
+    <div class="link-container">
+        <a href="#">Link to Page</a>
+    </div>
+    <div class="body-container">
+        <div class="left-menu-container">
+            <!-- Left Menu Here -->
+        </div>
+        <div class="visual-experiment-container">
+            <!-- Visual Experiments Here -->
+        </div>
+        <div class="right-menu-container">
+            <!-- Right Menu Here -->
+        </div>
+    </div>
+    <div class="footer-container">
+        <!-- Footer Here -->
+    </div>
 </body>
 </html>
