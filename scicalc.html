@@ -1,264 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Visual Scientific Calculator</title>
-    <style>
-        .calculator {
-            width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background: #f5f5f5;
-            font-family: Arial, sans-serif;
-        }
-        .display-area {
-            display: flex;
-            margin-bottom: 15px;
-        }
-        .input, .output {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-right: 10px;
-        }
-        .output { background: #e0e0e0; }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 10px;
-            background: #fff;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-        button:hover { background: #eee; }
-        .sections {
-            display: flex;
-            gap: 15px;
-        }
-        .section {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background: #fff;
-        }
-        .section h3 { margin-top: 0; }
-        .input-field {
-            width: 100%;
-            margin: 5px 0;
-            padding: 5px;
-        }
-        .log {
-            max-height: 150px;
-            overflow-y: auto;
-            border-top: 1px solid #ddd;
-            padding-top: 5px;
-        }
-    </style>
+	<title>
+		Scientific Calculator using HTML, CSS and Js
+	</title>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
+			integrity=
+"sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer">
+	</script>
 </head>
+
 <body>
-    <div class="calculator">
-        <div class="display-area">
-            <input type="text" class="input" id="input" placeholder="Enter expression">
-            <div class="output" id="output">0</div>
-        </div>
-        <div class="buttons">
-            <button onclick="calc.clear()">C</button>
-            <button onclick="calc.memoryStore()">MS</button>
-            <button onclick="calc.memoryRecall()">MR</button>
-            <button onclick="calc.memoryClear()">MC</button>
-            <button onclick="operation('sin')">sin</button>
-            <button onclick="constant('pi')">π</button>
-            
-            <button onclick="appendNumber('7')">7</button>
-            <button onclick="appendNumber('8')">8</button>
-            <button onclick="appendNumber('9')">9</button>
-            <button onclick="operation('divide')">/</button>
-            <button onclick="operation('cos')">cos</button>
-            <button onclick="constant('planck')">h</button>
-            
-            <button onclick="appendNumber('4')">4</button>
-            <button onclick="appendNumber('5')">5</button>
-            <button onclick="appendNumber('6')">6</button>
-            <button onclick="operation('multiply')">*</button>
-            <button onclick="operation('tan')">tan</button>
-            <button onclick="constant('e')">e</button>
-            
-            <button onclick="appendNumber('1')">1</button>
-            <button onclick="appendNumber('2')">2</button>
-            <button onclick="appendNumber('3')">3</button>
-            <button onclick="operation('subtract')">-</button>
-            <button onclick="appendNumber('(')">(</button>
-            <button onclick="toggleMode()">Rad/Deg</button>
-            
-            <button onclick="appendNumber('0')">0</button>
-            <button onclick="appendNumber('.')">.</button>
-            <button onclick="calculate()">=</button>
-            <button onclick="operation('add')">+</button>
-            <button onclick="appendNumber(')')">)</button>
-            <button onclick="appendNumber('x')">x</button>
-        </div>
-        <div class="sections">
-            <div class="section">
-                <h3>Formulas</h3>
-                <input type="text" id="formulaName" class="input-field" placeholder="Formula Name">
-                <input type="text" id="formulaExpr" class="input-field" placeholder="Expression (e.g., x + 5 * sin(x))">
-                <input type="text" id="formulaX" class="input-field" placeholder="x value">
-                <button onclick="createFormula()">Create</button>
-                <button onclick="evaluateFormula()">Evaluate</button>
-                <div id="formulaList"></div>
-            </div>
-            <div class="section">
-                <h3>Algorithms</h3>
-                <input type="text" id="algoName" class="input-field" placeholder="Algorithm Name">
-                <textarea id="algoSteps" class="input-field" placeholder="Steps (JSON format)"></textarea>
-                <button onclick="createAlgorithm()">Create</button>
-                <button onclick="runAlgorithm()">Run</button>
-                <div id="algoList"></div>
-            </div>
-            <div class="section">
-                <h3>Log</h3>
-                <button onclick="clearHistory()">Clear Log</button>
-                <div id="history" class="log"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/scicalc.js"></script>
-    <script>
-        // Declare variables at the top to avoid initialization issues
-        let calc;
-        let currentInput = '';
-
-        // Initialize calculator after script loads
-        document.addEventListener('DOMContentLoaded', () => {
-            calc = new Calculator();
-            updateDisplay();
-        });
-
-        function updateDisplay() {
-            document.getElementById('input').value = currentInput;
-            document.getElementById('output').textContent = calc.getResult();
-            updateHistory();
-        }
-
-        function appendNumber(num) {
-            currentInput += num;
-            updateDisplay();
-        }
-
-        function constant(name) {
-            currentInput += name;
-            updateDisplay();
-        }
-
-        function operation(op) {
-            if (currentInput !== '') {
-                calc.setValue(eval(currentInput.replace(/pi/g, calc.constants.pi)
-                    .replace(/planck/g, calc.constants.planck)
-                    .replace(/e/g, calc.constants.e)));
-                currentInput = '';
-            }
-            calculate(op);
-        }
-
-        function calculate(op) {
-            try {
-                switch(op) {
-                    case 'add': calc.add(currentInput); break;
-                    case 'subtract': calc.subtract(currentInput); break;
-                    case 'multiply': calc.multiply(currentInput); break;
-                    case 'divide': calc.divide(currentInput); break;
-                    case 'sin': calc.sin(); break;
-                    case 'cos': calc.cos(); break;
-                    case 'tan': calc.tan(); break;
-                    default: break;
-                }
-                currentInput = '';
-                updateDisplay();
-            } catch (error) {
-                document.getElementById('output').textContent = 'Error: ' + error.message;
-            }
-        }
-
-        function toggleMode() {
-            const mode = calc.toggleAngleMode();
-            document.getElementById('output').textContent = `Mode: ${mode}`;
-            setTimeout(updateDisplay, 1000);
-        }
-
-        function createFormula() {
-            try {
-                const name = document.getElementById('formulaName').value;
-                const expr = document.getElementById('formulaExpr').value;
-                calc.createFormula(name, expr);
-                updateFormulaList();
-                document.getElementById('formulaName').value = '';
-                document.getElementById('formulaExpr').value = '';
-            } catch (error) {
-                alert('Error creating formula: ' + error.message);
-            }
-        }
-
-        function evaluateFormula() {
-            try {
-                const name = document.getElementById('formulaName').value;
-                const x = document.getElementById('formulaX').value;
-                calc.evaluateFormula(name, x);
-                updateDisplay();
-            } catch (error) {
-                document.getElementById('output').textContent = 'Error: ' + error.message;
-            }
-        }
-
-        function updateFormulaList() {
-            const list = calc.listFormulas();
-            document.getElementById('formulaList').innerHTML = list.map(item => `<div>${item}</div>`).join('');
-        }
-
-        function createAlgorithm() {
-            try {
-                const name = document.getElementById('algoName').value;
-                const steps = JSON.parse(document.getElementById('algoSteps').value);
-                calc.createAlgorithm(name, steps);
-                updateAlgorithmList();
-                document.getElementById('algoName').value = '';
-                document.getElementById('algoSteps').value = '';
-            } catch (error) {
-                alert('Error creating algorithm: ' + error.message);
-            }
-        }
-
-        function runAlgorithm() {
-            try {
-                const name = document.getElementById('algoName').value;
-                calc.runAlgorithm(name);
-                updateDisplay();
-            } catch (error) {
-                document.getElementById('output').textContent = 'Error: ' + error.message;
-            }
-        }
-
-        function updateAlgorithmList() {
-            const list = calc.listAlgorithms();
-            document.getElementById('algoList').innerHTML = list.map(item => `<div>${item}</div>`).join('');
-        }
-
-        function updateHistory() {
-            const history = calc.getHistory();
-            document.getElementById('history').innerHTML = history.map(entry => 
-                `<div>${entry.timestamp}: ${entry.operation}</div>`
-            ).join('');
-        }
-
-        function clearHistory() {
-            calc.clearHistory();
-            updateHistory();
-        }
-    </script>
+	<h1 style="color: green; text-align: center;">
+		Scientific Calculator</h1>
+	<form>
+		<table>
+			<tr>
+				<td colspan="6">
+					<input id="display" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td><input type="button" value="1"
+						onclick="display.value += '1'"></td>
+				<td><input type="button" value="2"
+						onclick="display.value += '2'"></td>
+				<td><input type="button" value="3"
+						onclick="display.value += '3'"></td>
+				<td><input type="button" value="C"
+						onclick="display.value = ''"></td>
+				<td><input type="button" value="⌫"
+						onclick="backspace()"></td>
+				<td><input type="button" value="="
+						onclick="calculate()"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="4"
+						onclick="display.value += '4'"></td>
+				<td><input type="button" value="5"
+						onclick="display.value += '5'"></td>
+				<td><input type="button" value="6"
+						onclick="display.value += '6'"></td>
+				<td><input type="button" value="-"
+						onclick="display.value += '-'"></td>
+				<td><input type="button" value="%"
+						onclick="display.value += '%'"></td>
+				<td><input type="button" value="cos("
+						onclick="display.value += 'cos('"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="7"
+						onclick="display.value += '7'"></td>
+				<td><input type="button" value="8"
+						onclick="display.value += '8'"></td>
+				<td><input type="button" value="9"
+						onclick="display.value += '9'"></td>
+				<td><input type="button" value="x"
+						onclick="display.value += '*'"></td>
+				<td><input type="button" value="!"
+						onclick="display.value += '!'"></td>
+				<td><input type="button" value="sin("
+						onclick="display.value += 'sin('"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="."
+						onclick="display.value += '.'"></td>
+				<td><input type="button" value="0"
+						onclick="display.value += '0'"></td>
+				<td><input type="button" value=","
+						onclick="display.value += ','"></td>
+				<td><input type="button" value="+"
+						onclick="display.value += '+'"></td>
+				<td><input type="button" value="/"
+						onclick="display.value += '/'"></td>
+				<td><input type="button" value="tan("
+						onclick="display.value += 'tan('"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="E"
+						onclick="e()"></td>
+				<td><input type="button" value="pi"
+						onclick="pi()"></td>
+				<td><input type="button" value="^"
+						onclick="power()"></td>
+				<td><input type="button" value="("
+						onclick="display.value += '('"></td>
+				<td><input type="button" value=")"
+						onclick="display.value += ')'"></td>
+				<td><input type="button" value="log("
+						onclick="base10Log()"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="sqrt("
+						onclick="squareRoot()"></td>
+				<td><input type="button" value="ln2"
+						onclick="display.value += Math.LN2"></td>
+				<td><input type="button" value="log10("
+						onclick="base10Log()"></td>
+				<td><input type="button" value="l2e"
+						onclick="display.value += Math.LOG2E"></td>
+				<td><input type="button" value="l10e"
+						onclick="display.value += Math.LOG10E"></td>
+				<td><input type="button" value="exp("
+						onclick="display.value += 'exp('"></td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>
