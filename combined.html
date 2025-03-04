@@ -6,92 +6,84 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        body { margin: 0; background: black; color: white; font-family: Arial, sans-serif; }
-        .main-container { display: flex; flex-direction: column; align-items: center; padding: 10px; }
-        .frame { border: 1px solid white; margin: 5px; padding: 5px; }
-        #experimentCanvas { width: 800px; height: 600px; resize: both; overflow: auto; }
+        body { background: black; margin: 0; color: white; font-family: Arial; }
+        .header, .footer { background: #111; padding: 10px; text-align: center; border: 1px solid white; }
+        .main-container { display: flex; flex-direction: column; align-items: center; }
+        .experiment-container { display: flex; width: 100%; max-width: 1200px; }
+        .logs-box { width: 20%; background: black; border: 1px solid white; padding: 10px; }
+        .logs-box select { width: 100%; background: #222; color: white; }
+        .visual-box { width: 60%; border: 1px solid white; }
+        #experimentCanvas { width: 100%; height: 600px; }
+        .orbit-box { width: 20%; background: black; border: 1px solid white; padding: 10px; }
         .spacer { height: 20px; }
-        .controls-box, .items-box { display: flex; flex-wrap: wrap; gap: 10px; }
-        .control-panel, .item-panel { width: 300px; padding: 10px; background: #333; }
-        .control-panel h3, .item-panel h3 { margin: 0 0 10px; text-align: center; }
-        .control-panel label, .item-panel label { display: block; margin: 5px 0; }
-        input[type="number"] { width: 60px; }
-        button { margin: 5px; }
-        #displayText { text-align: center; margin: 10px 0; }
-        #popup { display: none; position: fixed; top: 20%; left: 20%; width: 60%; height: 60%; background: #444; border: 1px solid white; padding: 10px; overflow: auto; }
+        .controls-container { width: 100%; max-width: 1200px; background: black; border: 1px solid white; padding: 10px; }
+        .controls { display: flex; justify-content: space-around; }
+        .control-box { width: 30%; }
+        .control-box h3 { color: #FFD700; text-align: center; }
+        .control-item { margin: 5px 0; }
+        .control-item input[type="number"] { width: 60px; background: #222; color: white; border: 1px solid white; }
+        .control-item input[type="color"] { width: 40px; }
+        .control-item button { background: #333; color: white; border: 1px solid white; }
+        #variablePopup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; border: 1px solid white; padding: 20px; display: none; color: white; }
+        #variableDisplay { margin: 10px 0; text-align: center; }
     </style>
 </head>
 <body>
+    <div class="header">Grokox Theory Experiment - Animation: Combined</div>
     <div class="main-container">
-        <div class="frame">
-            <canvas id="experimentCanvas"></canvas>
+        <div class="experiment-container">
+            <div class="logs-box">
+                <select id="logSelect"><option>Log Entry 1</option></select>
+            </div>
+            <div class="visual-box">
+                <canvas id="experimentCanvas"></canvas>
+                <div id="variableDisplay"></div>
+            </div>
+            <div class="orbit-box">
+                <h3>Orbit Control</h3>
+                <button id="freezeAnimation">Freeze</button>
+                <button id="fireObject">Fire Object</button>
+                <label>Direction: <input type="text" id="fireDirection" value="1,0,0"></label>
+                <label>Type: <select id="fireType"><option>Gold</option><option>Methane</option><option>Gamma Ray</option></select></label>
+                <label>Mode: <select id="fireMode"><option>Static</option><option>Moving</option></select></label>
+            </div>
         </div>
-        <div id="displayText"></div>
         <div class="spacer"></div>
-        <div class="frame controls-box">
-            <div class="control-panel">
-                <h3>Sound Settings</h3>
-                <label>Mode: 
-                    <select id="soundMode">
-                        <option value="live">Live Sound</option>
-                        <option value="wavelength">Wavelength</option>
-                        <option value="none">No Sound</option>
-                    </select>
-                </label>
-                <label>Frequency (Hz): <input type="number" id="waveFrequency" value="1" min="0.1" max="2" step="0.1"><button onclick="changeValue('waveFrequency', 0.1)">+</button><button onclick="changeValue('waveFrequency', -0.1)">-</button></label>
-                <button id="startAudio">Start Audio</button>
-                <button onclick="freezeAnimation()">Freeze</button>
+        <div class="controls-container">
+            <div class="controls">
+                <div class="control-box">
+                    <h3>Binary</h3>
+                    <div class="control-item">Size: <input type="number" id="binarySize" value="5" min="1" max="50"> <button onclick="adjust('binarySize', 1)">+</button><button onclick="adjust('binarySize', -1)">-</button></div>
+                    <div class="control-item">Color: <input type="color" id="binaryColor" value="#0000FF"></div>
+                    <div class="control-item">Density: <input type="number" id="binaryDensity" value="0.2" step="0.1" min="0" max="1"> <button onclick="adjust('binaryDensity', 0.1)">+</button><button onclick="adjust('binaryDensity', -0.1)">-</button></div>
+                    <div class="control-item">Sound: <input type="number" id="binarySound" value="0.5" step="0.1" min="0" max="1"> <button onclick="adjust('binarySound', 0.1)">+</button><button onclick="adjust('binarySound', -0.1)">-</button></div>
+                    <div class="control-item">Vibration: <input type="number" id="binaryVibration" value="0.5" step="0.1" min="0" max="1"> <button onclick="adjust('binaryVibration', 0.1)">+</button><button onclick="adjust('binaryVibration', -0.1)">-</button></div>
+                </div>
+                <div class="control-box">
+                    <h3>QuantSpark</h3>
+                    <div class="control-item">Count: <input type="number" id="quantsparkCount" value="10" min="1" max="100"> <button onclick="adjust('quantsparkCount', 1)">+</button><button onclick="adjust('quantsparkCount', -1)">-</button></div>
+                    <div class="control-item">Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></div>
+                    <div class="control-item">Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></div>
+                    <div class="control-item">Magnetic: <input type="number" id="quantsparkMagnetic" value="0.1" step="0.1" min="0" max="1"> <button onclick="adjust('quantsparkMagnetic', 0.1)">+</button><button onclick="adjust('quantsparkMagnetic', -0.1)">-</button></div>
+                    <div class="control-item">Spread: <input type="number" id="flareSpread" value="0.05" step="0.01" min="0.01" max="0.1"> <button onclick="adjust('flareSpread', 0.01)">+</button><button onclick="adjust('flareSpread', -0.01)">-</button></div>
+                </div>
+                <div class="control-box">
+                    <h3>ChaosBloom</h3>
+                    <div class="control-item">Points: <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000"> <button onclick="adjust('chaosbloomPoints', 10)">+</button><button onclick="adjust('chaosbloomPoints', -10)">-</button></div>
+                    <div class="control-item">Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></div>
+                    <div class="control-item">Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></div>
+                    <div class="control-item">Gravity: <input type="number" id="chaosbloomGravity" value="0.01" step="0.01" min="0" max="0.1"> <button onclick="adjust('chaosbloomGravity', 0.01)">+</button><button onclick="adjust('chaosbloomGravity', -0.01)">-</button></div>
+                    <div class="control-item">Fall Speed: <input type="number" id="pointFallSpeed" value="0.05" step="0.01" min="0.01" max="0.1"> <button onclick="adjust('pointFallSpeed', 0.01)">+</button><button onclick="adjust('pointFallSpeed', -0.01)">-</button></div>
+                </div>
             </div>
-            <div class="control-panel">
-                <h3>Binary</h3>
-                <label>Size (1-50): <input type="number" id="binarySize" value="5" min="1" max="50"><button onclick="changeValue('binarySize', 1)">+</button><button onclick="changeValue('binarySize', -1)">-</button></label>
-                <label>Color: <input type="color" id="binaryColor" value="#0000FF"></label>
-                <label>Density: <input type="checkbox" id="binaryDensityToggle" checked> <input type="number" id="binaryDensity" value="0.2" min="0" max="1" step="0.1"><button onclick="changeValue('binaryDensity', 0.1)">+</button><button onclick="changeValue('binaryDensity', -0.1)">-</button></label>
-                <label>Sound: <input type="checkbox" id="binarySoundToggle" checked> <input type="number" id="binarySound" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('binarySound', 0.1)">+</button><button onclick="changeValue('binarySound', -0.1)">-</button></label>
-                <label>Vibration: <input type="checkbox" id="binaryVibrationToggle" checked> <input type="number" id="binaryVibration" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('binaryVibration', 0.1)">+</button><button onclick="changeValue('binaryVibration', -0.1)">-</button></label>
-                <label>Charge: <input type="checkbox" id="binaryPositiveChargeToggle"> <input type="number" id="binaryPositiveCharge" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('binaryPositiveCharge', 0.1)">+</button><button onclick="changeValue('binaryPositiveCharge', -0.1)">-</button></label>
-                <label>Neg Charge: <input type="checkbox" id="binaryNegativeChargeToggle"> <input type="number" id="binaryNegativeCharge" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('binaryNegativeCharge', 0.1)">+</button><button onclick="changeValue('binaryNegativeCharge', -0.1)">-</button></label>
-            </div>
-            <div class="control-panel">
-                <h3>QuantSpark</h3>
-                <label>Count (1-100): <input type="number" id="quantsparkCount" value="10" min="1" max="100"><button onclick="changeValue('quantsparkCount', 1)">+</button><button onclick="changeValue('quantsparkCount', -1)">-</button></label>
-                <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></label>
-                <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></label>
-                <label>Magnetic: <input type="checkbox" id="quantsparkMagneticToggle" checked> <input type="number" id="quantsparkMagnetic" value="0.1" min="0" max="1" step="0.1"><button onclick="changeValue('quantsparkMagnetic', 0.1)">+</button><button onclick="changeValue('quantsparkMagnetic', -0.1)">-</button></label>
-                <label>Density: <input type="checkbox" id="quantsparkDensityToggle" checked> <input type="number" id="quantsparkDensity" value="0.2" min="0" max="1" step="0.1"><button onclick="changeValue('quantsparkDensity', 0.1)">+</button><button onclick="changeValue('quantsparkDensity', -0.1)">-</button></label>
-                <label>Sound: <input type="checkbox" id="quantsparkSoundToggle" checked> <input type="number" id="quantsparkSound" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('quantsparkSound', 0.1)">+</button><button onclick="changeValue('quantsparkSound', -0.1)">-</button></label>
-                <label>Spread: <input type="number" id="flareSpread" value="0.05" min="0.01" max="0.1" step="0.01"><button onclick="changeValue('flareSpread', 0.01)">+</button><button onclick="changeValue('flareSpread', -0.01)">-</button></label>
-            </div>
-            <div class="control-panel">
-                <h3>ChaosBloom</h3>
-                <label>Points (1-1000): <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000"><button onclick="changeValue('chaosbloomPoints', 10)">+</button><button onclick="changeValue('chaosbloomPoints', -10)">-</button></label>
-                <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></label>
-                <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></label>
-                <label>Gravity: <input type="checkbox" id="chaosbloomGravityToggle" checked> <input type="number" id="chaosbloomGravity" value="0.01" min="0" max="0.1" step="0.01"><button onclick="changeValue('chaosbloomGravity', 0.01)">+</button><button onclick="changeValue('chaosbloomGravity', -0.01)">-</button></label>
-                <label>Density: <input type="checkbox" id="chaosbloomDensityToggle" checked> <input type="number" id="chaosbloomDensity" value="0.2" min="0" max="1" step="0.1"><button onclick="changeValue('chaosbloomDensity', 0.1)">+</button><button onclick="changeValue('chaosbloomDensity', -0.1)">-</button></label>
-                <label>Sound: <input type="checkbox" id="chaosbloomSoundToggle" checked> <input type="number" id="chaosbloomSound" value="0.5" min="0" max="1" step="0.1"><button onclick="changeValue('chaosbloomSound', 0.1)">+</button><button onclick="changeValue('chaosbloomSound', -0.1)">-</button></label>
-                <label>Fall Speed: <input type="number" id="pointFallSpeed" value="0.05" min="0.01" max="0.1" step="0.01"><button onclick="changeValue('pointFallSpeed', 0.01)">+</button><button onclick="changeValue('pointFallSpeed', -0.01)">-</button></label>
-            </div>
-        </div>
-        <div class="frame items-box">
-            <div class="item-panel">
-                <h3>Firing Object</h3>
-                <label>Type: <select id="fireType"><option value="gold">Gold</option><option value="methane">Methane</option><option value="gamma">Gamma Ray</option></select></label>
-                <label>Direction (x,y,z): <input type="number" id="fireX" value="1" step="0.1"><input type="number" id="fireY" value="0" step="0.1"><input type="number" id="fireZ" value="0" step="0.1"></label>
-                <label>Mode: <select id="fireMode"><option value="static">Static</option><option value="moving">Moving</option></select></label>
-                <button onclick="fireObject()">Fire</button>
-            </div>
-            <div class="item-panel">
-                <h3>Tools</h3>
-                <button onclick="showPopup()">Show Variables</button>
-                <button onclick="logSettings()">Log Settings</button>
-                <label>Orbit: <input type="checkbox" id="controlledOrbit" checked> Controlled</label>
-            </div>
+            <button onclick="showVariables()">Show Variables</button>
         </div>
     </div>
-    <div id="popup">
-        <button onclick="document.getElementById('popup').style.display='none'">Close</button>
-        <div id="popupContent"></div>
+    <div class="footer">Powered by xAI - 2025</div>
+    <div id="variablePopup">
+        <h3>Variables</h3>
+        <div id="variableTable"></div>
+        <button onclick="document.getElementById('variablePopup').style.display='none'">Close</button>
     </div>
     <script src="combined.js"></script>
 </body>
