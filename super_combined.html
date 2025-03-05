@@ -2,7 +2,410 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Combin<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Combined Visuals - Grokox Theory</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { margin: 0; background: black; color: white; font-family: Arial, sans-serif; box-sizing: border-box; }
+        * { box-sizing: inherit; }
+        .header { border: 1px solid white; padding: 10px; text-align: center; }
+        .container { display: flex; justify-content: space-between; padding: 10px; padding-bottom: 40px; gap: 10px; }
+        .logs-box { border: 1px solid white; width: 20%; padding: 10px; overflow-y: auto; max-height: 700px; }
+        .logs-box select { width: 100%; background: black; color: white; border: 1px solid white; }
+        .visual-box { border: 1px solid white; flex: 1; height: 600px; }
+        .controls-box { border: 1px solid white; width: 25%; padding: 10px; max-height: 600px; overflow-y: auto; }
+        .control-section { margin-bottom: 15px; }
+        .control-section h3 { margin: 0 0 10px; }
+        .control-section label { display: block; margin: 5px 0; }
+        .control-section input[type="number"] { width: 60px; background: black; color: white; border: 1px solid white; }
+        .control-section input[type="color"] { vertical-align: middle; }
+        .orbit-box { border: 1px solid white; width: 20%; padding: 10px; }
+        .footer { border: 1px solid white; padding: 10px; text-align: center; position: fixed; bottom: 0; width: 100%; }
+        canvas { width: 100% !important; height: 100% !important; }
+        #variablesDisplay { border: 1px solid white; padding: 5px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">Super Combined</div>
+    <div class="container">
+        <div class="logs-box">
+            <select id="logSelect" onchange="loadLog()">
+                <option value="">Select Log</option>
+            </select>
+            <iframe id="JotFormIFrame-01955e5cc7eb7b26bbacb16b5d1ef1cd2f89" title="Dr Grokox: Creative Thinker" onload="window.parent.scrollTo(0,0)" allowtransparency="true" allow="geolocation; microphone; camera; fullscreen" src="https://eu.jotform.com/agent/01955e5cc7eb7b26bbacb16b5d1ef1cd2f89?embedMode=iframe&background=1&shadow=1" frameborder="0" style="min-width:100%; max-width:100%; height:688px; border:none; width:100%;" scrolling="no"></iframe>
+            <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
+            <script>window.jotformEmbedHandler("iframe[id='JotFormIFrame-01955e5cc7eb7b26bbacb16b5d1ef1cd2f89']", "https://eu.jotform.com")</script>
+        </div>
+        <div class="visual-box">
+            <canvas id="combinedCanvas"></canvas>
+            <div id="variablesDisplay"></div>
+        </div>
+        <div class="controls-box">
+            <div class="control-section">
+                <h3>Sound</h3>
+                <label>Mode: <select id="soundMode">
+                    <option value="live">Live</option>
+                    <option value="wavelength">Wavelength</option>
+                    <option value="none">None</option>
+                </select></label>
+                <label>Frequency: <input type="number" id="waveFrequency" value="1" min="0.1" max="2" step="0.1"></label>
+                <button id="startAudio">Start Audio</button>
+                <button onclick="showVariables()">Show Variables</button>
+            </div>
+            <div class="control-section">
+                <h3>Binary</h3>
+                <label>Size: <input type="number" id="binarySize" value="5" min="1" max="50"><button onclick="changeValue('binarySize', 1)">+</button><button onclick="changeValue('binarySize', -1)">-</button></label>
+                <label>Color: <input type="color" id="binaryColor" value="#0000FF"></label>
+                <label>Opacity: <input type="number" id="binaryOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="number" id="binaryDensity" value="0.2" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="binarySound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Vibration: <input type="number" id="binaryVibration" value="0" min="0" max="1" step="0.1"></label>
+                <label>Charge: <input type="number" id="binaryCharge" value="0" min="-1" max="1" step="0.1"></label>
+            </div>
+            <div class="control-section">
+                <h3>QuantSpark</h3>
+                <label>Count: <input type="number" id="quantsparkCount" value="10" min="1" max="100"><button onclick="changeValue('quantsparkCount', 1)">+</button><button onclick="changeValue('quantsparkCount', -1)">-</button></label>
+                <label>Solid Color: <input type="color" id="quantsparkSolidColor" value="#4B0082"></label>
+                <label>Solid Opacity: <input type="number" id="quantsparkSolidOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Gas Color: <input type="color" id="quantsparkGasColor" value="#FF0000"></label>
+                <label>Gas Opacity: <input type="number" id="quantsparkGasOpacity" value="1" min="0" max="1" step="0.1"></label>
+                <label>Magnetic: <input type="number" id="quantsparkMagnetic" value="0.1" min="0" max="1" step="0.1"></label>
+                <label>Density: <input type="number" id="quantsparkDensity" value="0.2" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="quantsparkSound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Spread: <input type="number" id="flareSpread" value="0.05" min="0.01" max="0.1" step="0.01"></label>
+            </div>
+            <div class="control-section">
+                <h3>ChaosBloom</h3>
+                <label>Points: <input type="number" id="chaosbloomPoints" value="300" min="1" max="1000"><button onclick="changeValue('chaosbloomPoints', 10)">+</button><button onclick="changeValue('chaosbloomPoints', -10)">-</button></label>
+                <label>Color 1: <input type="color" id="chaosbloomColor1" value="#0000FF"></label>
+                <label>Opacity 1: <input type="number" id="chaosbloomOpacity1" value="1" min="0" max="1" step="0.1"></label>
+                <label>Color 2: <input type="color" id="chaosbloomColor2" value="#FF0000"></label>
+                <label>Opacity 2: <input type="number" id="chaosbloomOpacity2" value="1" min="0" max="1" step="0.1"></label>
+                <label>Gravity: <input type="number" id="chaosbloomGravity" value="0" min="0" max="0.1" step="0.01"></label>
+                <label>Density: <input type="number" id="chaosbloomDensity" value="0" min="0" max="1" step="0.1"></label>
+                <label>Sound: <input type="number" id="chaosbloomSound" value="0" min="0" max="1" step="0.1"></label>
+                <label>Fall Speed: <input type="number" id="pointFallSpeed" value="0.05" min="0.01" max="0.1" step="0.01"></label>
+            </div>
+            <button onclick="updateAll()">Update</button>
+        </div>
+        <div class="orbit-box">
+            <h3>Orbit Control</h3>
+            <label>Type: <select id="orbitType">
+                <option value="controlled">Controlled</option>
+                <option value="free">Free</option>
+            </select></label>
+            <label>Object: <select id="fireObject">
+                <option value="gold">Gold</option>
+                <option value="methane">Methane</option>
+                <option value="gamma">Gamma Ray</option>
+            </select></label>
+            <label>Direction X: <input type="number" id="fireX" value="0" min="-1" max="1" step="0.1"></label>
+            <label>Direction Y: <input type="number" id="fireY" value="0" min="-1" max="1" step="0.1"></label>
+            <label>Direction Z: <input type="number" id="fireZ" value="1" min="-1" max="1" step="0.1"></label>
+            <button id="freezeButton" onclick="freezeAnimation()">Freeze</button>
+            <button onclick="fireObject()">Fire</button>
+        </div>
+    </div>
+    <div class="footer">© 2025 Grokox Theory - Powered by xAI</div>
+
+    <script>
+        // Initialization
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, document.getElementById('combinedCanvas').parentElement.clientWidth / 600, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('combinedCanvas') });
+        renderer.setSize(document.getElementById('combinedCanvas').parentElement.clientWidth, 600);
+        scene.background = new THREE.Color(0x000000);
+        camera.position.set(0, 0, 25);
+        camera.lookAt(0, 0, 0);
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.minDistance = 5;
+        controls.maxDistance = 50;
+
+        const maxSize = 20;
+        let binaryCubes = [], quantsparkFlares = [], chaosbloomWeb = null, firedObject = null;
+        let audioContext, analyser, dataArray, isFrozen = false;
+        const logs = [];
+
+        // Audio Setup
+        document.getElementById('startAudio').addEventListener('click', () => {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                    const source = audioContext.createMediaStreamSource(stream);
+                    source.connect(analyser);
+                    logState('Audio initialized');
+                }).catch(err => logState('Audio error: ' + err));
+            }
+        });
+
+        // Helpers
+        function changeValue(id, delta) {
+            const input = document.getElementById(id);
+            input.value = Math.min(Math.max(parseFloat(input.value) + delta, input.min), input.max);
+            updateAll();
+        }
+
+        // Object Creation
+        function updateAll() {
+            scene.children = [];
+            binaryCubes = [];
+            quantsparkFlares = [];
+            chaosbloomWeb = null;
+
+            // Binary Cubes
+            const binarySize = parseInt(document.getElementById('binarySize').value) || 5;
+            const binaryColor = document.getElementById('binaryColor').value;
+            const binaryOpacity = parseFloat(document.getElementById('binaryOpacity').value) || 1;
+            const binaryDensity = parseFloat(document.getElementById('binaryDensity').value) || 0.2;
+            const binarySound = parseFloat(document.getElementById('binarySound').value) || 0;
+            const binaryVibration = parseFloat(document.getElementById('binaryVibration').value) || 0;
+            const binaryCharge = parseFloat(document.getElementById('binaryCharge').value) || 0;
+            const binaryGeo = new THREE.BoxGeometry(1 + binaryDensity, 1 + binaryDensity, 1 + binaryDensity);
+            const binaryMat = new THREE.MeshBasicMaterial({ color: binaryColor, transparent: true, opacity: binaryOpacity });
+            for (let i = 0; i < binarySize; i++) {
+                const cube = new THREE.Mesh(binaryGeo, binaryMat);
+                cube.position.set(i * 2 - (binarySize - 1), 0, 0);
+                cube.sound = binarySound;
+                cube.vibration = binaryVibration;
+                cube.charge = binaryCharge;
+                binaryCubes.push(cube);
+                scene.add(cube);
+            }
+
+            // QuantSpark Flares
+            const quantsparkCount = parseInt(document.getElementById('quantsparkCount').value) || 10;
+            const quantsparkSolidColor = document.getElementById('quantsparkSolidColor').value;
+            const quantsparkSolidOpacity = parseFloat(document.getElementById('quantsparkSolidOpacity').value) || 1;
+            const quantsparkGasColor = document.getElementById('quantsparkGasColor').value;
+            const quantsparkGasOpacity = parseFloat(document.getElementById('quantsparkGasOpacity').value) || 1;
+            const quantsparkMagnetic = parseFloat(document.getElementById('quantsparkMagnetic').value) || 0.1;
+            const quantsparkDensity = parseFloat(document.getElementById('quantsparkDensity').value) || 0.2;
+            const quantsparkSound = parseFloat(document.getElementById('quantsparkSound').value) || 0;
+            const flareSpread = parseFloat(document.getElementById('flareSpread').value) || 0.05;
+            const quantsparkGeo = new THREE.SphereGeometry(0.5 + quantsparkDensity, 16, 16);
+            for (let i = 0; i < quantsparkCount; i++) {
+                const solid = new THREE.Mesh(quantsparkGeo, new THREE.MeshBasicMaterial({ color: quantsparkSolidColor, transparent: true, opacity: quantsparkSolidOpacity }));
+                const gas = new THREE.Mesh(quantsparkGeo, new THREE.MeshBasicMaterial({ color: quantsparkGasColor, transparent: true, opacity: quantsparkGasOpacity }));
+                solid.position.set(Math.random() * maxSize - maxSize/2, 0, Math.random() * maxSize - maxSize/2);
+                gas.position.set(Math.random() * maxSize - maxSize/2, 0, Math.random() * maxSize - maxSize/2);
+                solid.velocity = new THREE.Vector3((Math.random() - 0.5) * flareSpread, (Math.random() - 0.5) * flareSpread, (Math.random() - 0.5) * flareSpread);
+                gas.velocity = new THREE.Vector3((Math.random() - 0.5) * flareSpread, (Math.random() - 0.5) * flareSpread, (Math.random() - 0.5) * flareSpread);
+                solid.sound = quantsparkSound;
+                gas.sound = quantsparkSound;
+                quantsparkFlares.push({ solid, gas });
+                scene.add(solid);
+                scene.add(gas);
+            }
+
+            // ChaosBloom Points
+            const chaosbloomPoints = parseInt(document.getElementById('chaosbloomPoints').value) || 300;
+            const chaosbloomColor1 = document.getElementById('chaosbloomColor1').value;
+            const chaosbloomOpacity1 = parseFloat(document.getElementById('chaosbloomOpacity1').value) || 1;
+            const chaosbloomColor2 = document.getElementById('chaosbloomColor2').value;
+            const chaosbloomOpacity2 = parseFloat(document.getElementById('chaosbloomOpacity2').value) || 1;
+            const chaosbloomGravity = parseFloat(document.getElementById('chaosbloomGravity').value) || 0;
+            const chaosbloomDensity = parseFloat(document.getElementById('chaosbloomDensity').value) || 0;
+            const chaosbloomSound = parseFloat(document.getElementById('chaosbloomSound').value) || 0;
+            const pointFallSpeed = parseFloat(document.getElementById('pointFallSpeed').value) || 0.05;
+            const chaosbloomGeo = new THREE.BufferGeometry();
+            const vertices = [];
+            const colors = [];
+            const sizes = [];
+            for (let i = 0; i < chaosbloomPoints; i++) {
+                vertices.push(Math.random() * maxSize - maxSize/2, Math.random() * maxSize - maxSize/2, Math.random() * maxSize - maxSize/2);
+                const color = Math.random() < 0.5 ? new THREE.Color(chaosbloomColor1) : new THREE.Color(chaosbloomColor2);
+                const opacity = Math.random() < 0.5 ? chaosbloomOpacity1 : chaosbloomOpacity2;
+                colors.push(color.r, color.g, color.b);
+                sizes.push(0.1 + chaosbloomDensity);
+            }
+            chaosbloomGeo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            chaosbloomGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            chaosbloomGeo.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+            const chaosbloomMat = new THREE.PointsMaterial({ size: 0.1 + chaosbloomDensity, vertexColors: true, transparent: true, opacity: 1, sizeAttenuation: true });
+            chaosbloomWeb = new THREE.Points(chaosbloomGeo, chaosbloomMat);
+            chaosbloomWeb.sound = chaosbloomSound;
+            chaosbloomWeb.gravity = pointFallSpeed;
+            scene.add(chaosbloomWeb);
+
+            logState();
+        }
+
+        // Firing Logic
+        function fireObject() {
+            if (firedObject) scene.remove(firedObject);
+            const objectType = document.getElementById('fireObject').value;
+            const geo = new THREE.SphereGeometry(0.5, 16, 16);
+            const mat = new THREE.MeshBasicMaterial({ color: objectType === 'gold' ? '#FFD700' : objectType === 'methane' ? '#00FF00' : '#FF00FF', transparent: true, opacity: 1 });
+            firedObject = new THREE.Mesh(geo, mat);
+            firedObject.position.set(0, 0, -maxSize/2);
+            firedObject.velocity = new THREE.Vector3(
+                parseFloat(document.getElementById('fireX').value),
+                parseFloat(document.getElementById('fireY').value),
+                parseFloat(document.getElementById('fireZ').value)
+            ).normalize().multiplyScalar(0.1);
+            firedObject.orbit = document.getElementById('orbitType').value === 'controlled';
+            scene.add(firedObject);
+            logState();
+        }
+
+        // Freeze Toggle
+        function freezeAnimation() {
+            isFrozen = !isFrozen;
+            document.getElementById('freezeButton').innerText = isFrozen ? 'Unfreeze' : 'Freeze';
+            logState(`Animation ${isFrozen ? 'Frozen' : 'Running'}`);
+        }
+
+        // Variable Display
+        function showVariables() {
+            const vars = getCurrentVariables();
+            const win = window.open('', 'Variables', 'width=600,height=400');
+            win.document.write(`
+                <html>
+                    <body style="background: black; color: white;">
+                        <h1>Current Variables</h1>
+                        <table border="1" style="width: 100%; border-collapse: collapse;">
+                            <tr><th>Object</th><th>Settings</th></tr>
+                            <tr><td>Binary</td><td>${JSON.stringify(vars.Binary, null, 2)}</td></tr>
+                            <tr><td>QuantSpark</td><td>${JSON.stringify(vars.QuantSpark, null, 2)}</td></tr>
+                            <tr><td>ChaosBloom</td><td>${JSON.stringify(vars.ChaosBloom, null, 2)}</td></tr>
+                            <tr><td>FiredObject</td><td>${JSON.stringify(vars.FiredObject, null, 2)}</td></tr>
+                        </table>
+                    </body>
+                </html>
+            `);
+        }
+
+        function getCurrentVariables() {
+            return {
+                Binary: { size: binaryCubes.length, color: document.getElementById('binaryColor').value, opacity: parseFloat(document.getElementById('binaryOpacity').value), density: parseFloat(document.getElementById('binaryDensity').value), sound: parseFloat(document.getElementById('binarySound').value), vibration: parseFloat(document.getElementById('binaryVibration').value), charge: parseFloat(document.getElementById('binaryCharge').value) },
+                QuantSpark: { count: quantsparkFlares.length, solidColor: document.getElementById('quantsparkSolidColor').value, solidOpacity: parseFloat(document.getElementById('quantsparkSolidOpacity').value), gasColor: document.getElementById('quantsparkGasColor').value, gasOpacity: parseFloat(document.getElementById('quantsparkGasOpacity').value), magnetic: parseFloat(document.getElementById('quantsparkMagnetic').value), density: parseFloat(document.getElementById('quantsparkDensity').value), sound: parseFloat(document.getElementById('quantsparkSound').value), spread: parseFloat(document.getElementById('flareSpread').value) },
+                ChaosBloom: { points: chaosbloomWeb ? chaosbloomWeb.geometry.attributes.position.count : 0, color1: document.getElementById('chaosbloomColor1').value, opacity1: parseFloat(document.getElementById('chaosbloomOpacity1').value), color2: document.getElementById('chaosbloomColor2').value, opacity2: parseFloat(document.getElementById('chaosbloomOpacity2').value), gravity: parseFloat(document.getElementById('chaosbloomGravity').value), density: parseFloat(document.getElementById('chaosbloomDensity').value), sound: parseFloat(document.getElementById('chaosbloomSound').value), fallSpeed: parseFloat(document.getElementById('pointFallSpeed').value) },
+                FiredObject: firedObject ? { type: document.getElementById('fireObject').value, position: firedObject.position.toArray(), velocity: firedObject.velocity.toArray() } : null
+            };
+        }
+
+        // Logging
+        function logState(message = '') {
+            const log = { timestamp: new Date().toISOString(), state: getCurrentVariables() };
+            logs.push(log);
+            const select = document.getElementById('logSelect');
+            const option = document.createElement('option');
+            option.value = logs.length - 1;
+            option.text = `Log ${logs.length} - ${log.timestamp}${message ? `: ${message}` : ''} | Binary: ${log.state.Binary.size}, QuantSpark: ${log.state.QuantSpark.count}, ChaosBloom: ${log.state.ChaosBloom.points}`;
+            select.add(option);
+        }
+
+        /** BLANK OUT **/ // Placeholder for future log loading
+        function loadLog() {
+            const index = document.getElementById('logSelect').value;
+            if (index) {
+                const log = logs[index];
+                // Add loading logic here if needed
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            if (!isFrozen) {
+                requestAnimationFrame(animate);
+                let soundLevel = 0;
+                if (audioContext && document.getElementById('soundMode').value === 'live' && dataArray) {
+                    analyser.getByteFrequencyData(dataArray);
+                    soundLevel = dataArray.reduce((a, b) => a + b, 0) / dataArray.length / 255;
+                    console.log('Sound Level:', soundLevel); // Debug live sound
+                } else if (document.getElementById('soundMode').value === 'wavelength') {
+                    soundLevel = Math.sin(Date.now() * parseFloat(document.getElementById('waveFrequency').value) * 0.001);
+                }
+
+                binaryCubes.forEach(cube => {
+                    if (cube.sound > 0) cube.scale.setScalar(1 + (cube.sound + soundLevel) * Math.sin(Date.now() * 0.001));
+                    if (cube.vibration > 0) cube.position.y += cube.vibration * Math.sin(Date.now() * 0.002) * 0.1;
+                    if (cube.charge !== 0) {
+                        cube.rotation.x += cube.charge * 0.01;
+                        cube.rotation.y += cube.charge * 0.01;
+                        cube.rotation.z += cube.charge * 0.01;
+                    }
+                    cube.position.clamp(new THREE.Vector3(-maxSize/2, -maxSize/2, -maxSize/2), new THREE.Vector3(maxSize/2, maxSize/2, maxSize/2));
+                    cube.material.color.set(document.getElementById('binaryColor').value);
+                    cube.material.opacity = parseFloat(document.getElementById('binaryOpacity').value);
+                });
+
+                quantsparkFlares.forEach(flare => {
+                    flare.solid.position.add(flare.solid.velocity);
+                    flare.gas.position.add(flare.gas.velocity);
+                    flare.solid.position.clamp(new THREE.Vector3(-maxSize/2, -maxSize/2, -maxSize/2), new THREE.Vector3(maxSize/2, maxSize/2, maxSize/2));
+                    flare.gas.position.clamp(new THREE.Vector3(-maxSize/2, -maxSize/2, -maxSize/2), new THREE.Vector3(maxSize/2, maxSize/2, maxSize/2));
+                    if (flare.solid.sound > 0) {
+                        flare.solid.scale.setScalar(1 + (flare.solid.sound + soundLevel) * Math.sin(Date.now() * 0.005));
+                        flare.gas.scale.setScalar(1 + (flare.gas.sound + soundLevel) * Math.sin(Date.now() * 0.007));
+                        flare.solid.rotation.x += 0.05;
+                        flare.solid.rotation.y += 0.05;
+                        flare.gas.rotation.x += 0.05;
+                        flare.gas.rotation.y += 0.05;
+                    }
+                    flare.solid.material.color.set(document.getElementById('quantsparkSolidColor').value);
+                    flare.solid.material.opacity = parseFloat(document.getElementById('quantsparkSolidOpacity').value);
+                    flare.gas.material.color.set(document.getElementById('quantsparkGasColor').value);
+                    flare.gas.material.opacity = parseFloat(document.getElementById('quantsparkGasOpacity').value);
+                });
+
+                if (chaosbloomWeb) {
+                    const positions = chaosbloomWeb.geometry.attributes.position.array;
+                    const sizes = chaosbloomWeb.geometry.attributes.size.array;
+                    const colors = chaosbloomWeb.geometry.attributes.color.array;
+                    for (let i = 0; i < positions.length; i += 3) {
+                        if (chaosbloomWeb.gravity > 0) positions[i + 1] -= chaosbloomWeb.gravity * (1 + soundLevel);
+                        const distance = camera.position.distanceTo(new THREE.Vector3(positions[i], positions[i + 1], positions[i + 2]));
+                        const scaleFactor = Math.min(1, maxSize / distance);
+                        if (chaosbloomWeb.sound > 0) sizes[i / 3] = (0.1 + (chaosbloomWeb.sound + soundLevel) * Math.sin(Date.now() * 0.001)) * scaleFactor;
+                        if (sizes[i / 3] < 0.05) sizes[i / 3] = 0;
+                        const density = Math.min(1, sizes[i / 3] / (0.1 + parseFloat(document.getElementById('chaosbloomDensity').value)));
+                        colors[i] *= density;
+                        colors[i + 1] *= density;
+                        colors[i + 2] *= density;
+                        positions[i] = Math.max(-maxSize/2, Math.min(maxSize/2, positions[i]));
+                        positions[i + 1] = Math.max(-maxSize/2, Math.min(maxSize/2, positions[i + 1]));
+                        positions[i + 2] = Math.max(-maxSize/2, Math.min(maxSize/2, positions[i + 2]));
+                    }
+                    chaosbloomWeb.geometry.attributes.position.needsUpdate = true;
+                    chaosbloomWeb.geometry.attributes.size.needsUpdate = true;
+                    chaosbloomWeb.geometry.attributes.color.needsUpdate = true;
+                    if (chaosbloomWeb.sound > 0) {
+                        chaosbloomWeb.rotation.x += chaosbloomWeb.sound * 0.01;
+                        chaosbloomWeb.rotation.y += chaosbloomWeb.sound * 0.01;
+                        chaosbloomWeb.rotation.z += chaosbloomWeb.sound * 0.01;
+                    }
+                });
+
+                if (firedObject) {
+                    if (firedObject.orbit) {
+                        firedObject.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.05);
+                    } else {
+                        firedObject.position.add(firedObject.velocity);
+                        if (firedObject.position.length() > maxSize) scene.remove(firedObject);
+                    }
+                }
+
+                const vars = getCurrentVariables();
+                document.getElementById('variablesDisplay').innerText = `Binary: ${vars.Binary.size}, ${vars.Binary.color}, S:${vars.Binary.sound}, V:${vars.Binary.vibration}, C:${vars.Binary.charge} | QuantSpark: ${vars.QuantSpark.count}, S:${vars.QuantSpark.sound} | ChaosBloom: ${vars.ChaosBloom.points}, G:${vars.ChaosBloom.gravity}, S:${vars.ChaosBloom.sound} | Fired: ${vars.FiredObject ? vars.FiredObject.type : 'None'}`;
+                controls.update();
+                renderer.render(scene, camera);
+            }
+        }
+
+        // Start
+        updateAll();
+        animate();
+    </script>
+</body>
+</html>ed Visuals - Grokox Theory</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
     <style>
